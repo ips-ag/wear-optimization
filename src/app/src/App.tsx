@@ -21,6 +21,10 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+        {/* create a button that will call /api/weatherforcast and retrieve json data. Resulting json shoud be shown in a <div> */}
+        <button onClick={() => fetch('/api/weatherforecast').then(response => response.json()).then(data => console.log(data))}>
+          Get Weather Forecast
+        </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
