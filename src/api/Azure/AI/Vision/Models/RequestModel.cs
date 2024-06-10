@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace Api.Azure.AI.Vision.Models
+namespace Api.Azure.AI.Vision.Models;
+
+public class RequestModel
 {
-    public class RequestModel
-    {
-        [JsonPropertyName("url")]
-        public required string Url { get; set; }
-    }
+    [JsonPropertyName("url")]
+    public required string Url { get; set; }
 }

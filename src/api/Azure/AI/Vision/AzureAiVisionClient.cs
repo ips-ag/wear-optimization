@@ -4,50 +4,45 @@ using Api.Azure.AI.Vision.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Api.Azure.AI.Vision
+namespace Api.Azure.AI.Vision;
+
+public class AzureAiVisionClient
 {
-    public class AzureAiVisionClient
+    private readonly ILogger<AzureAiVisionClient> _logger;
+    private readonly IOptionsMonitor<AzureAiVisionSettings> _options;
+    private readonly HttpClient _client;
+
+    public AzureAiVisionClient(
+        ILogger<AzureAiVisionClient> logger,
+        IOptionsMonitor<AzureAiVisionSettings> options,
+        HttpClient client)
     {
+        _logger = logger;
+        _options = options;
+        _client = client;
+    }
 
-        private readonly ILogger<AzureAiVisionClient> _logger;
-        private readonly IOptionsMonitor<AzureAiVisionSettings> _options;
-        private readonly HttpClient _client;
-
-        public AzureAiVisionClient(
-            ILogger<AzureAiVisionClient> logger,
-            IOptionsMonitor<AzureAiVisionSettings> options,
-            HttpClient client)
+    public async Task<string?> AnalyzeImageAsync(Uri uri, CancellationToken cancel)
+    {
+        try
         {
-            _logger = logger;
-            _options = options;
-            _client = client;
+            var settings = _options.CurrentValue;
+            UriBuilder uriBuilder = new(settings.Endpoint)
+            {
+                Path = "/computervision/imageanalysis:analyze",
+                Query = $"model-name={settings.ModelName}&api-version={settings.ApiVersion}"
+            };
+            RequestModel requestModel = new() { Url = uri.OriginalString };
+            var requestContent = JsonContent.Create(requestModel);
+            await requestContent.LoadIntoBufferAsync();
+            var response = await _client.PostAsync(uriBuilder.Uri, requestContent, cancel);
+            // response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync(cancel);
         }
-
-        public async Task<string?> AnalyzeImageAsync(string url, CancellationToken cancel)
+        catch (Exception ex)
         {
-            try
-            {
-                var settings = _options.CurrentValue;
-                UriBuilder uriBuilder = new(settings.Endpoint)
-                {
-                    Path = "/computervision/imageanalysis:analyze",
-                    Query = $"model-name={settings.ModelName}&api-version={settings.ApiVersion}"
-                };
-                RequestModel requestModel = new()
-                {
-                    Url = url
-                };
-                var requestContent = JsonContent.Create(requestModel);
-                await requestContent.LoadIntoBufferAsync();
-                var response = await _client.PostAsync(uriBuilder.Uri, requestContent, cancel);
-                // response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsStringAsync(cancel);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error analyzing image");
-                return null;
-            }
+            _logger.LogError(ex, "Error analyzing image");
+            return null;
         }
     }
 }

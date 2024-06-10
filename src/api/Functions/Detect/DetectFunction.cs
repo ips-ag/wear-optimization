@@ -1,42 +1,54 @@
 using System.Net;
-using System.Net.Http.Json;
 using Api.Azure.AI.Vision;
-using Api.Azure.AI.Vision.Configuration;
+using Api.Azure.Storage;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
-namespace Api.Functions.Detect
+namespace Api.Functions.Detect;
+
+public class DetectFunction
 {
-    public class DetectFunction
+    private readonly AzureStorageClient _storageClient;
+    private readonly AzureAiVisionClient _visionClient;
+
+    public DetectFunction(AzureStorageClient storageClient, AzureAiVisionClient visionClient)
     {
-        private readonly ILogger _logger;
-        private readonly AzureAiVisionClient _client;
+        _storageClient = storageClient;
+        _visionClient = visionClient;
+    }
 
-        public DetectFunction(ILogger<DetectFunction> logger, AzureAiVisionClient client)
+    [Function("Detect")]
+    public async Task<HttpResponseData> RunAsync(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post")]
+        HttpRequestData req,
+        CancellationToken cancel)
+    {
+        var result = await ReadContentAsync(req, cancel);
+        var uri = await _storageClient.UploadAsync(result.Content, result.Extension, cancel);
+        string? analysisResult = await _visionClient.AnalyzeImageAsync(uri, cancel);
+        if (analysisResult is null)
         {
-            _logger = logger;
-            _client = client;
+            return req.CreateResponse(HttpStatusCode.InternalServerError);
         }
+        var response = req.CreateResponse(HttpStatusCode.OK);
+        await response.WriteStringAsync(analysisResult, cancel);
+        return response;
+    }
 
-        [Function("Detect")]
-        public async Task<HttpResponseData> RunAsync(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
-            CancellationToken cancel)
-        {
-            // TODO: obtain image from body
-            // copy image to azure storage account
-            // get image SAS url
-            const string url = "https://cdn.plansee-group.com/is/image/planseemedia/Verschleissarten-Aufbauschneidenbildung";
-            var result = await _client.AnalyzeImageAsync(url, cancel);
-            if (result is null)
-            {
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
-            }
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteStringAsync(result, cancel);
-            return response;
-        }
+    private async Task<(BinaryData Content, string Extension)> ReadContentAsync(
+        HttpRequestData req,
+        CancellationToken cancel)
+    {
+        string extension = GetExtension(req);
+        var buffer = await BinaryData.FromStreamAsync(req.Body, cancel);
+        return (buffer, extension);
+    }
+
+    private static string GetExtension(HttpRequestData req)
+    {
+        if (!req.Headers.TryGetValues("Content-Type", out var values)) return "jpg";
+        values = values.ToList();
+        if (!values.Any()) return "jpg";
+        return values.First().Split('/').Last();
     }
 }
