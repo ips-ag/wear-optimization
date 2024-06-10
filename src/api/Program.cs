@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Api.Azure.AI.Vision;
 using Api.Azure.AI.Vision.Configuration;
 using Api.Azure.Storage;
@@ -12,6 +14,8 @@ var host = new HostBuilder()
     .ConfigureServices(
         services =>
         {
+            services.Configure<JsonSerializerOptions>(
+                options => options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
             services.AddApplicationInsightsTelemetryWorkerService();
             services.ConfigureFunctionsApplicationInsights();
             services.AddOptions<AzureAiVisionSettings>().BindConfiguration("Azure:Ai:Vision");
