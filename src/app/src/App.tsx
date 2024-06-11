@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [detectResult, setDetectResult] = useState(undefined as string | undefined)
 
   return (
     <>
@@ -18,13 +18,23 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        {/* create a button that will call /api/weatherforcast and retrieve json data. Resulting json shoud be shown in a <div> */}
-        <button onClick={() => fetch('/api/weatherforecast').then(response => response.json()).then(data => console.log(data))}>
-          Get Weather Forecast
-        </button>
+        <input type="file" accept=".jpg,.png" onChange={(event) => {
+          const file = event.target.files?.[0]
+          if (file) {
+            const reader = new FileReader()
+            reader.onload = async (event) => {
+              await fetch('/api/detect', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': file.type
+                },
+                body: event.target?.result
+              }).then(response => response.json()).then(data => setDetectResult(data))
+            }
+            reader.readAsArrayBuffer(file)
+          }
+        }} />
+        {detectResult && <div><pre>{JSON.stringify(detectResult, null, 2)}</pre></div>}
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
