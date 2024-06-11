@@ -21,8 +21,9 @@ function App() {
         <input type="file" accept=".jpg,.png" onChange={(event) => {
           const file = event.target.files?.[0]
           if (file) {
+            setDetectResult(undefined)
             const reader = new FileReader()
-            reader.onload = async (event) => {
+            reader.onload = async (event) => {              
               await fetch('/api/detect', {
                 method: 'POST',
                 headers: {
