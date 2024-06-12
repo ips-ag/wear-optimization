@@ -5,6 +5,7 @@ import './App.css'
 
 function App() {
   const [detectResult, setDetectResult] = useState(undefined as string | undefined)
+  const [imageUri, setImageUri] = useState(undefined as string | undefined)
 
   return (
     <>
@@ -18,12 +19,14 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
+        {imageUri && <div><img src={imageUri} alt="selected" /></div>}
         <input type="file" accept=".jpg,.png" onChange={(event) => {
           const file = event.target.files?.[0]
           if (file) {
             setDetectResult(undefined)
+            setImageUri(URL.createObjectURL(file))
             const reader = new FileReader()
-            reader.onload = async (event) => {              
+            reader.onload = async (event) => {
               await fetch('/api/detect', {
                 method: 'POST',
                 headers: {
