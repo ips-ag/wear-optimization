@@ -1,6 +1,6 @@
 ﻿namespace Api.Functions.Detect.Models;
 
-public enum DetectedWearCodeModel
+public enum WearCodeModel
 {
     None,
     BuildupOnCuttingEdge,
