@@ -1,7 +1,7 @@
 using System.Net;
 using Api.Azure.AI.Vision;
-using Api.Azure.AI.Vision.Models;
 using Api.Azure.Storage;
+using Api.Functions.Detect.Models;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -39,7 +39,7 @@ public class DetectFunction
             if (analysisResult is null)
             {
                 response = req.CreateResponse(HttpStatusCode.InternalServerError);
-                var errorResult = new ResponseModel
+                var errorResult = new DetectResponseModel
                 {
                     Error = new ErrorModel { Code = "500", Message = "Missing image analysis result" }
                 };
@@ -53,7 +53,7 @@ public class DetectFunction
         {
             _logger.LogError(e, "Error processing request");
             response = req.CreateResponse(HttpStatusCode.InternalServerError);
-            var errorResult = new ResponseModel { Error = new ErrorModel { Code = "500", Message = e.Message } };
+            var errorResult = new DetectResponseModel { Error = new ErrorModel { Code = "500", Message = e.Message } };
             await response.WriteAsJsonAsync(errorResult, cancel);
             return response;
         }
