@@ -31,11 +31,13 @@ public class DetectFunction
         CancellationToken cancel)
     {
         HttpResponseData? response;
+        string? imageName = null;
         try
         {
             var result = await ReadContentAsync(req, cancel);
-            var uri = await _storageClient.UploadAsync(result.Content, result.Extension, cancel);
-            var analysisResult = await _visionClient.AnalyzeImageAsync(uri, cancel);
+            imageName = await _storageClient.UploadAsync(result.Content, result.Extension, cancel);
+            var uri = _storageClient.GetBlobUri(imageName);
+            var analysisResult = await _visionClient.AnalyzeImageAsync(imageName, uri, cancel);
             if (analysisResult is null)
             {
                 response = req.CreateResponse(HttpStatusCode.InternalServerError);
@@ -48,6 +50,7 @@ public class DetectFunction
             }
             response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(analysisResult, cancel);
+            await _storageClient.MarkAsProcessedAsync(imageName, cancel);
         }
         catch (Exception e)
         {
@@ -55,6 +58,7 @@ public class DetectFunction
             response = req.CreateResponse(HttpStatusCode.InternalServerError);
             var errorResult = new DetectResponseModel { Error = new ErrorModel { Code = "500", Message = e.Message } };
             await response.WriteAsJsonAsync(errorResult, cancel);
+            if (imageName is not null) await _storageClient.MarkAsInvalidAsync(imageName, cancel);
             return response;
         }
         return response;

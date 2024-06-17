@@ -5,6 +5,7 @@ using Api.Azure.AI.Vision.Configuration;
 using Api.Azure.AI.Vision.Converters;
 using Api.Azure.Storage;
 using Api.Azure.Storage.Configuration;
+using Api.Azure.Storage.Converters;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,6 +37,7 @@ var host = new HostBuilder()
             // Azure Storage
             services.AddOptions<AzureStorageSettings>().BindConfiguration("Azure:Storage");
             services.AddSingleton<AzureStorageClient>();
+            services.AddSingleton<FeedbackConverter>();
         })
     .Build();
 

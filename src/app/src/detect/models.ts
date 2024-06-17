@@ -9,6 +9,7 @@ export interface ErrorModel {
 }
 
 export interface ResultModel {
+  imageName: string;
   wearCode: WearCode;
   wearConfidence: number;
   wearCause: string;

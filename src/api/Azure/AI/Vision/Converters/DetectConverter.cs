@@ -8,7 +8,7 @@ namespace Api.Azure.AI.Vision.Converters;
 public class DetectConverter
 {
     [return: NotNullIfNotNull(nameof(model))]
-    public DetectResponseModel? Convert(ResponseModel? model)
+    public DetectResponseModel? Convert(string imageName, ResponseModel? model)
     {
         if (model is null) return null;
         var response = new DetectResponseModel();
@@ -19,119 +19,120 @@ public class DetectConverter
         if (model.CustomModelResult?.TagsResult?.Values.Count > 0)
         {
             var tagModel = model.CustomModelResult.TagsResult.Values.OrderByDescending(v => v.Confidence).First();
-            response.Result =
-                Convert(tagModel);
+            response.Result = Convert(imageName, tagModel);
         }
         return response;
     }
 
-    private ResultModel Convert(TagModel model)
+    private ResultModel Convert(string imageName, TagModel model)
     {
         var wearCode = Convert(model.Name);
         string cause = GetCause(wearCode);
         var actions = GetSuggestedActions(wearCode);
         return new ResultModel
         {
-            WearCode = wearCode, WearConfidence = model.Confidence, WearCause = cause, SuggestedActions = actions
+            ImageName = imageName,
+            WearCode = wearCode,
+            WearConfidence = model.Confidence,
+            WearCause = cause,
+            SuggestedActions = actions
         };
     }
 
-    private WearCodeModel Convert(string model)
+    private WearCode Convert(string model)
     {
         return model.ToLowerInvariant() switch
         {
-            "plastic deformation" => WearCodeModel.PlasticDeformation,
-            "thermal cracking" => WearCodeModel.ThermalCracking,
-            "notch wear" => WearCodeModel.NotchWear,
-            "crater wear" => WearCodeModel.CraterWear,
-            "build-up on the cutting edge" => WearCodeModel.BuildupOnCuttingEdge,
-            "fractures" => WearCodeModel.Fractures,
-            "mould edge wear" => WearCodeModel.MouldEdgeWear,
-            "flank face wear" => WearCodeModel.FlankFaceWear,
-            "galling" => WearCodeModel.Galling,
+            "plastic deformation" => WearCode.PlasticDeformation,
+            "thermal cracking" => WearCode.ThermalCracking,
+            "notch wear" => WearCode.NotchWear,
+            "crater wear" => WearCode.CraterWear,
+            "build-up on the cutting edge" => WearCode.BuildupOnCuttingEdge,
+            "fractures" => WearCode.Fractures,
+            "mould edge wear" => WearCode.MouldEdgeWear,
+            "flank face wear" => WearCode.FlankFaceWear,
+            "galling" => WearCode.Galling,
             _ => throw new ArgumentOutOfRangeException(nameof(model), model, $"Unknown wear code {model}")
         };
     }
 
-    private string GetCause(WearCodeModel code)
+    private string GetCause(WearCode code)
     {
         return code switch
         {
-            WearCodeModel.None => string.Empty,
-            WearCodeModel.BuildupOnCuttingEdge =>
+            WearCode.None => string.Empty,
+            WearCode.BuildupOnCuttingEdge =>
                 "Micro galling causes parts of the workpiece material to stick to the cutting edge, resulting in a build-up on the cutting edge",
-            WearCodeModel.FlankFaceWear =>
+            WearCode.FlankFaceWear =>
                 "Flank face wear is caused by abrasion between the workpiece and the tool at the flank face of the indexable insert",
-            WearCodeModel.CraterWear => "Crater wear is caused by erosion and abrasion on the rake face",
-            WearCodeModel.Fractures =>
+            WearCode.CraterWear => "Crater wear is caused by erosion and abrasion on the rake face",
+            WearCode.Fractures =>
                 "Fractures are caused by vibration, interrupted cuts, chip impacts and thermal shocks in combination with cutting tool material substrates that are too hard",
-            WearCodeModel.PlasticDeformation =>
+            WearCode.PlasticDeformation =>
                 "Plastic deformation is caused by excessive heat development combined with excessive mechanical stress",
-            WearCodeModel.NotchWear =>
+            WearCode.NotchWear =>
                 "Notch wear often occurs during the machining of workpieces with a hard surface (forged or cast)",
-            WearCodeModel.ThermalCracking =>
-                "Thermal cracks are caused by fluctuations in temperature (thermal shock)",
-            WearCodeModel.Galling =>
+            WearCode.ThermalCracking => "Thermal cracks are caused by fluctuations in temperature (thermal shock)",
+            WearCode.Galling =>
                 "Galling occurs due to unsuitable combinations of: tool surface types, workpiece material properties and coolant properties",
-            WearCodeModel.MouldEdgeWear =>
-                "Mold edge wear is caused by abrasion between the workpiece and the mold edges",
+            WearCode.MouldEdgeWear => "Mold edge wear is caused by abrasion between the workpiece and the mold edges",
             _ => throw new ArgumentOutOfRangeException(nameof(code), code, $"No cause defined for wear code {code}")
         };
     }
 
-    private List<string> GetSuggestedActions(WearCodeModel code)
+    private List<string> GetSuggestedActions(WearCode code)
     {
         return code switch
         {
-            WearCodeModel.None => [],
-            WearCodeModel.BuildupOnCuttingEdge =>
+            WearCode.None => [],
+            WearCode.BuildupOnCuttingEdge =>
             [
                 "Increase cutting speed", "Use sharper indexable insert",
                 "Use cutting tool material with a treated (smoother) surface",
                 "Increase coolant pressure/check alignment"
             ],
-            WearCodeModel.FlankFaceWear =>
+            WearCode.FlankFaceWear =>
             [
                 "Use more wear-resistant cutting tool material", "Increase feed rate", "Reduce cutting speed",
                 "Increase coolant pressure/check alignment"
             ],
-            WearCodeModel.CraterWear =>
+            WearCode.CraterWear =>
             [
                 "Reduce cutting speed", "Use geometry with a greater rake angle",
                 "Use more wear-resistant cutting tool material", "Reduce feed rate",
                 "Increase coolant pressure/check alignment"
             ],
-            WearCodeModel.Fractures =>
+            WearCode.Fractures =>
             [
                 "Reduce cutting speed", "Use a tougher cutting tool material", "Use a stronger cutting edge",
                 "Check the tool stability if vibration occurs", "Reduce feed rate",
                 "Turn off coolant supply when machining interrupted cuts"
             ],
-            WearCodeModel.PlasticDeformation =>
+            WearCode.PlasticDeformation =>
             [
                 "Select a more wear-resistant cutting material", "Reduce the feed rate", "Reduce the cutting speed",
                 "Reduce the cutting depth", "Increase the coolant pressure/check the alignment"
             ],
-            WearCodeModel.NotchWear =>
+            WearCode.NotchWear =>
             [
                 "Vary the cutting depth", "Reduce the cutting speed",
                 "Use a tougher cutting tool material (PVD coated)",
                 "Use a tool with a leading cutting edge (smaller approach angle)", "Select a smaller corner radius",
                 "Increase the coolant pressure/check the alignment"
             ],
-            WearCodeModel.ThermalCracking =>
+            WearCode.ThermalCracking =>
             [
                 "Reduce cutting speed", "Reduce feed rate", "Use tougher cutting tool material",
                 "Turn off coolant supply when machining interrupted cuts", "Use more stable geometry"
             ],
-            WearCodeModel.Galling =>
+            WearCode.Galling =>
             [
                 "Select a tool type with a higher clearance angle", "Select a suitable coating or surface treatment",
                 "Improve the coolant supply and lubrication (e.g. increase the oil content or use tools with internal coolant)",
                 "Reduce the cutting speed in order to reduce the temperature and thereby reduce the tendency to form build-up",
                 "Ensure that the tool is free-cutting (high rake angle and helix angle, sharp cutting edges)"
             ],
-            WearCodeModel.MouldEdgeWear =>
+            WearCode.MouldEdgeWear =>
             [
                 "Improve the coolant supply and lubrication (e.g. increase the oil content or use tools with internal coolant)",
                 "Vary the forming speed", "Modify the polygon geometry"

@@ -4,9 +4,13 @@ namespace Api.Functions.Detect.Models;
 
 public class ResultModel
 {
+    [JsonPropertyName("imageName")]
+    [JsonRequired]
+    public required string ImageName { get; set; }
+
     [JsonPropertyName("wearCode")]
     [JsonRequired]
-    public required WearCodeModel? WearCode { get; set; }
+    public required WearCode? WearCode { get; set; }
 
     [JsonPropertyName("wearConfidence")]
     [JsonRequired]
