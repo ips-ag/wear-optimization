@@ -36,7 +36,7 @@ public class FeedbackFunction
                 await response.WriteAsJsonAsync(responseModel, cancel);
                 return response;
             }
-            if (!await _storageClient.ExistsProcessedAsync(requestModel.ImageName, cancel))
+            if (!await _storageClient.ExistsAsync(requestModel.ImageName, cancel))
             {
                 response = req.CreateResponse(HttpStatusCode.NotFound);
                 responseModel.Error = new ErrorModel { Code = "404", Message = "Image not found" };

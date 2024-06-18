@@ -23,7 +23,7 @@ public class AzureAiVisionClient
         _converter = converter;
     }
 
-    public async Task<DetectResponseModel?> AnalyzeImageAsync(string imageName, Uri uri, CancellationToken cancel)
+    public async Task<DetectResponseModel> AnalyzeImageAsync(string imageName, Uri uri, CancellationToken cancel)
     {
         var settings = _options.CurrentValue;
         UriBuilder uriBuilder = new(settings.Endpoint)
@@ -36,6 +36,10 @@ public class AzureAiVisionClient
         await requestContent.LoadIntoBufferAsync();
         var response = await _client.PostAsync(uriBuilder.Uri, requestContent, cancel);
         var responseModel = await response.Content.ReadFromJsonAsync<ResponseModel>(cancel);
+        if (responseModel is null)
+        {
+            throw new InvalidOperationException("Unable to deserialize response from Azure AI Vision");
+        }
         return _converter.Convert(imageName, responseModel);
     }
 }

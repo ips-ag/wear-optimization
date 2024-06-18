@@ -74,10 +74,10 @@ public class AzureStorageClient
     /// <param name="blobName">Blob identifier</param>
     /// <param name="cancel">Cancellation token</param>
     /// <returns></returns>
-    public async Task<bool> ExistsProcessedAsync(string blobName, CancellationToken cancel)
+    public async Task<bool> ExistsAsync(string blobName, CancellationToken cancel)
     {
         var settings = _options.CurrentValue;
-        var blobClient = new BlobClient(settings.ConnectionString, settings.ContainerName, $"Processed/{blobName}");
+        var blobClient = new BlobClient(settings.ConnectionString, settings.ContainerName, blobName);
         return await blobClient.ExistsAsync(cancel);
     }
 
@@ -91,21 +91,6 @@ public class AzureStorageClient
         var settings = _options.CurrentValue;
         var sourceBlob = new BlobClient(settings.ConnectionString, settings.ContainerName, blobName);
         var targetBlob = new BlobClient(settings.ConnectionString, settings.ContainerName, $"Invalid/{blobName}");
-        var sourceBlobUri = GetBlobUri(blobName);
-        await targetBlob.SyncCopyFromUriAsync(sourceBlobUri, cancellationToken: cancel);
-        await sourceBlob.DeleteIfExistsAsync(cancellationToken: cancel);
-    }
-
-    /// <summary>
-    ///     Moves blob to Processed directory
-    /// </summary>
-    /// <param name="blobName">Blob name</param>
-    /// <param name="cancel">Cancellation token</param>
-    public async Task MarkAsProcessedAsync(string blobName, CancellationToken cancel)
-    {
-        var settings = _options.CurrentValue;
-        var sourceBlob = new BlobClient(settings.ConnectionString, settings.ContainerName, blobName);
-        var targetBlob = new BlobClient(settings.ConnectionString, settings.ContainerName, $"Processed/{blobName}");
         var sourceBlobUri = GetBlobUri(blobName);
         await targetBlob.SyncCopyFromUriAsync(sourceBlobUri, cancellationToken: cancel);
         await sourceBlob.DeleteIfExistsAsync(cancellationToken: cancel);

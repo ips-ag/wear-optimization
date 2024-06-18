@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Api.Azure.AI.Vision.Models;
+﻿using Api.Azure.AI.Vision.Models;
 using Api.Functions.Detect.Models;
 using ErrorModel = Api.Functions.Detect.Models.ErrorModel;
 
@@ -7,10 +6,8 @@ namespace Api.Azure.AI.Vision.Converters;
 
 public class DetectConverter
 {
-    [return: NotNullIfNotNull(nameof(model))]
-    public DetectResponseModel? Convert(string imageName, ResponseModel? model)
+    public DetectResponseModel Convert(string imageName, ResponseModel model)
     {
-        if (model is null) return null;
         var response = new DetectResponseModel();
         if (model.Error is not null)
         {
