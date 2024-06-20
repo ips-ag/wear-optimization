@@ -4,16 +4,11 @@ using Azure.Data.Tables;
 
 namespace Api.Azure.Storage.Models;
 
-public class FeedbackModel : ITableEntity
+public class FeedbackUpdateModel : ITableEntity
 {
-    [JsonPropertyName("ResultAccepted")]
+    [JsonPropertyName("DetectedWearAccepted")]
     [JsonRequired]
-    public required bool ResultAccepted { get; set; }
-
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    [JsonPropertyName("ResultWearCode")]
-    [JsonRequired]
-    public required WearCodeModel ResultWearCode { get; set; }
+    public required bool DetectedWearAccepted { get; set; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     [JsonPropertyName("UserWearCode")]
@@ -24,7 +19,6 @@ public class FeedbackModel : ITableEntity
 
     public required string PartitionKey { get; set; }
     public required string RowKey { get; set; }
-
     public DateTimeOffset? Timestamp { get; set; }
     public ETag ETag { get; set; }
 }

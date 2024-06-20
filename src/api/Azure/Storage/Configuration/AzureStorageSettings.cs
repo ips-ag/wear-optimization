@@ -4,5 +4,5 @@ public class AzureStorageSettings
 {
     public required string ConnectionString { get; set; }
     public string ContainerName { get; set; } = "wear-optimization";
-    public string FeedbackTableName { get; set; } = "WearOptimizationFeedback";
+    public string ImageAnalysisTableName { get; set; } = "WearOptimizationImageAnalysis";
 }

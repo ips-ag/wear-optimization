@@ -4,6 +4,10 @@ namespace Api.Functions.Detect.Models;
 
 public class DetectResponseModel
 {
+    [JsonPropertyName("imageName")]
+    [JsonIgnore]
+    public string? ImageName { get; set; }
+
     [JsonPropertyName("error")]
     public ErrorModel? Error { get; set; }
 

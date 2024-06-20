@@ -8,7 +8,7 @@ public class DetectConverter
 {
     public DetectResponseModel Convert(string imageName, ResponseModel model)
     {
-        var response = new DetectResponseModel();
+        var response = new DetectResponseModel { ImageName = imageName };
         if (model.Error is not null)
         {
             response.Error = new ErrorModel { Code = model.Error.Code, Message = model.Error.Message };

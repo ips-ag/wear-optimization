@@ -2,8 +2,7 @@ import { ErrorModel, WearCode } from '../detect/models';
 
 export interface RequestModel {
   imageName: string;
-  resultAccepted: boolean;
-  resultWearCode: WearCode;
+  detectedWearAccepted: boolean;
   userWearCode?: WearCode;
   userComment?: string;
 }

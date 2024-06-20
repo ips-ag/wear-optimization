@@ -12,19 +12,12 @@ public class FeedbackRequestModel
     /// <summary>
     ///     Indicator whether wear code detected by the optimization app was accepted by the user
     /// </summary>
-    [JsonPropertyName("resultAccepted")]
+    [JsonPropertyName("detectedWearAccepted")]
     [JsonRequired]
-    public required bool ResultAccepted { get; set; }
+    public required bool DetectedWearAccepted { get; set; }
 
     /// <summary>
-    ///     Wear code detected by the optimization app
-    /// </summary>
-    [JsonPropertyName("resultWearCode")]
-    [JsonRequired]
-    public required WearCode ResultWearCode { get; set; }
-
-    /// <summary>
-    ///     Wear code reported by user. Required if <see cref="ResultAccepted" /> is false
+    ///     Wear code reported by user. Required if <see cref="DetectedWearAccepted" /> is false
     /// </summary>
     [JsonPropertyName("userWearCode")]
     public WearCode? UserWearCode { get; set; }

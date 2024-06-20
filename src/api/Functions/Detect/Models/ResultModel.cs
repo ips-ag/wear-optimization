@@ -10,11 +10,11 @@ public class ResultModel
 
     [JsonPropertyName("wearCode")]
     [JsonRequired]
-    public required WearCode? WearCode { get; set; }
+    public required WearCode WearCode { get; set; }
 
     [JsonPropertyName("wearConfidence")]
     [JsonRequired]
-    public required double? WearConfidence { get; set; }
+    public required double WearConfidence { get; set; }
 
     [JsonPropertyName("wearCause")]
     [JsonRequired]

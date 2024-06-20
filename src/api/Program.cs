@@ -37,7 +37,9 @@ var host = new HostBuilder()
             // Azure Storage
             services.AddOptions<AzureStorageSettings>().BindConfiguration("Azure:Storage");
             services.AddSingleton<AzureStorageClient>();
+            services.AddSingleton<ImageAnalysisConverter>();
             services.AddSingleton<FeedbackConverter>();
+            services.AddSingleton<WearCodeConverter>();
         })
     .Build();
 

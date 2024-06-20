@@ -1,6 +1,8 @@
 ﻿using Api.Azure.Storage.Configuration;
 using Api.Azure.Storage.Converters;
+using Api.Functions.Detect.Models;
 using Api.Functions.Feedback.Models;
+using Azure;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
@@ -13,11 +15,16 @@ public class AzureStorageClient
 {
     private readonly IOptionsMonitor<AzureStorageSettings> _options;
     private readonly FeedbackConverter _feedbackConverter;
+    private readonly ImageAnalysisConverter _imageAnalysisConverter;
 
-    public AzureStorageClient(IOptionsMonitor<AzureStorageSettings> options, FeedbackConverter feedbackConverter)
+    public AzureStorageClient(
+        IOptionsMonitor<AzureStorageSettings> options,
+        FeedbackConverter feedbackConverter,
+        ImageAnalysisConverter imageAnalysisConverter)
     {
         _options = options;
         _feedbackConverter = feedbackConverter;
+        _imageAnalysisConverter = imageAnalysisConverter;
     }
 
     /// <summary>
@@ -97,20 +104,34 @@ public class AzureStorageClient
     }
 
     /// <summary>
-    ///     Creates feedback entity in Azure Table Storage
+    ///     Creates image analysis entity in Azure Table Storage
+    /// </summary>
+    /// <param name="analysisResult">Image analysis result</param>
+    /// <param name="cancel">Cancellation token</param>
+    public async ValueTask CreateAnalysisResultAsync(DetectResponseModel analysisResult, CancellationToken cancel)
+    {
+        var settings = _options.CurrentValue;
+        var model = _imageAnalysisConverter.Convert(analysisResult);
+        if (model is null) return;
+        var tableClient = new TableClient(settings.ConnectionString, settings.ImageAnalysisTableName);
+        await tableClient.CreateIfNotExistsAsync(cancel);
+        await tableClient.AddEntityAsync(model, cancel);
+    }
+
+    /// <summary>
+    ///     Adds user feedback to image analysis entity in Azure Table Storage
     /// </summary>
     /// <param name="feedback">Feedback request</param>
     /// <param name="cancel">Cancellation token</param>
     public async Task CreateFeedbackAsync(FeedbackRequestModel feedback, CancellationToken cancel)
     {
         var settings = _options.CurrentValue;
-        var feedbackModel = _feedbackConverter.Convert(feedback);
-        var tableClient = new TableClient(settings.ConnectionString, settings.FeedbackTableName);
-        await tableClient.CreateIfNotExistsAsync(cancel);
-        await tableClient.DeleteEntityAsync(
-            feedbackModel.PartitionKey,
-            feedbackModel.RowKey,
+        var model = _feedbackConverter.Convert(feedback);
+        var tableClient = new TableClient(settings.ConnectionString, settings.ImageAnalysisTableName);
+        await tableClient.UpdateEntityAsync(
+            entity: model,
+            ifMatch: ETag.All,
+            mode: TableUpdateMode.Merge,
             cancellationToken: cancel);
-        await tableClient.AddEntityAsync(feedbackModel, cancel);
     }
 }

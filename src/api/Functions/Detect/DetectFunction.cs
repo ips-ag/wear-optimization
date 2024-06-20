@@ -38,6 +38,11 @@ public class DetectFunction
             imageName = await _storageClient.UploadAsync(result.Content, result.Extension, cancel);
             var uri = _storageClient.GetBlobUri(imageName);
             var analysisResult = await _visionClient.AnalyzeImageAsync(imageName, uri, cancel);
+            await _storageClient.CreateAnalysisResultAsync(analysisResult, cancel);
+            if (analysisResult.Result is null && analysisResult.Error is not null)
+            {
+                await _storageClient.MarkAsInvalidAsync(imageName, cancel);
+            }
             response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(analysisResult, cancel);
         }
