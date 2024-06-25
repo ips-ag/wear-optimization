@@ -1,4 +1,4 @@
-export interface ResponseModel {
+export interface DetectResponseModel {
   error?: ErrorModel;
   result?: ResultModel;
 }

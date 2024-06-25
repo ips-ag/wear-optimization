@@ -1,4 +1,4 @@
-import { ErrorModel, WearCode } from '../detect/models';
+import { ErrorModel, WearCode } from './detect';
 
 export interface RequestModel {
   imageName: string;
@@ -7,6 +7,6 @@ export interface RequestModel {
   userComment?: string;
 }
 
-export interface ResponseModel {
+export interface FeedbackResponseModel {
   error?: ErrorModel;
 }
