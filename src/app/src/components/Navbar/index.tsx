@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, IconButton, Link } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Link } from '@chakra-ui/react';
 import { FaHome } from 'react-icons/fa';
 
 export default function Navbar() {
