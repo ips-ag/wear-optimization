@@ -1,12 +1,12 @@
 import detectApi from '@/api/detect';
 import CameraCapture from '@/components/CameraCapture';
-import { DetectResponseModel, Maybe } from '@/types';
-import { Box, Button, Center, HStack, Image, Input, Progress, Text, VStack, useDisclosure } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
-import DetectResult from './components/DetectResult';
 import UploadButton from '@/components/UploadButton';
+import { DetectResponseModel, Maybe } from '@/types';
+import { Button, Center, HStack, Image, Progress, Text, VStack, useDisclosure } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
 import { MdOutlinePhotoCamera } from 'react-icons/md';
+import DetectResult from './components/DetectResult';
 
 const dataUrlToFile = (dataUrl: string, filename: string): Maybe<File> => {
   const arr = dataUrl?.split?.(',');
