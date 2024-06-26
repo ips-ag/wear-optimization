@@ -1,5 +1,5 @@
 import { Maybe } from '@/types';
-import { Box, Button, Image, VStack } from '@chakra-ui/react';
+import { Box, Button, Image, Text, VStack } from '@chakra-ui/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 
@@ -34,6 +34,7 @@ export default function CaptureImage({ onCapture }: CaptureImageProps) {
 
   return (
     <VStack>
+      <Text>{imageSrc}</Text>
       <Box maxW={'640'} border={1} borderStyle={'dashed'} borderColor={'grey.100'} rounded={'sm'}>
         {imageSrc ? (
           <Image w={'full'} src={imageSrc || ''} />
