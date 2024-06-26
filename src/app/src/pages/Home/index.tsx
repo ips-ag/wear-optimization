@@ -5,24 +5,39 @@ import { Box, Progress, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 
-// base 64 to blob with imgSrc have format "data:image/png;base64,..."
-function b64toBlob(imgSrc: string) {
-  const byteString = atob(imgSrc.split(',')[1]);
-  const ab = new ArrayBuffer(byteString.length);
-  const ia = new Uint8Array(ab);
-  const mimeString = imgSrc.split(',')[0].split(':')[1].split(';')[0];
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
+// function dataURLtoFile(dataUrl: string, filename: string) {
+//   var arr = dataUrl.split(',');
+
+//     mime = arr[0].match(/:(.*?);/)[1],
+//     bstr = atob(arr[arr.length - 1]),
+//     n = bstr.length,
+//     u8arr = new Uint8Array(n);
+//   while (n--) {
+//     u8arr[n] = bstr.charCodeAt(n);
+//   }
+//   return new File([u8arr], filename, { type: mime });
+// }
+
+const dataUrlToFile = (dataUrl: string, filename: string): Maybe<File> => {
+  const arr = dataUrl?.split?.(',');
+  if (!arr) return null;
+
+  const mime = arr[0]?.match(/:(.*?);/)?.[1];
+  const bstr = atob(arr[arr.length - 1] ?? '');
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
   }
-  return new Blob([ab], { type: mimeString });
-}
+  return new File([u8arr], filename, { type: mime });
+};
 
 export default function Home() {
   const [detectResult, setDetectResult] = useState(undefined as DetectResponseModel | undefined);
   const [imageUri, setImageUri] = useState(undefined as string | undefined);
   console.log('imageUri', imageUri);
 
-  const { mutate, isIdle } = useMutation<DetectResponseModel, Error, Blob>({
+  const { mutate, isPending } = useMutation<DetectResponseModel, Error, File>({
     mutationFn: detectApi,
     onSuccess: data => {
       setDetectResult(data);
@@ -31,14 +46,17 @@ export default function Home() {
 
   const handleCapture = (imageSrc: Maybe<string>) => {
     if (!imageSrc) return;
-    const blob = b64toBlob(imageSrc);
-    mutate(blob);
+    const file = dataUrlToFile(imageSrc, 'capture.png');
+    console.log('file', file);
+    if (file) {
+      mutate(file);
+    }
   };
 
   return (
     <Box w={'full'}>
       <Text fontSize={'xl'}>Welcome home</Text>
-      {isIdle && <Progress size="xs" isIndeterminate />}
+      {isPending && <Progress size="xs" isIndeterminate />}
       <CameraCapture onCapture={handleCapture} />
       <div className="card">
         {imageUri && (
