@@ -39,9 +39,7 @@ export default function Home() {
 
   const handleCapture = (imageSrc: Maybe<string>) => {
     if (!imageSrc) return;
-
     const blob = b64toBlob(imageSrc);
-
     mutation.mutate(blob);
   };
 
