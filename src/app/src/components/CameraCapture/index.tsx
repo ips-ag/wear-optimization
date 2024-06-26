@@ -1,5 +1,17 @@
 import { Maybe } from '@/types';
-import { Box, Button, Image, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  HStack,
+  Image,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  VStack,
+} from '@chakra-ui/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 
@@ -9,10 +21,13 @@ const videoConstraints = {
 
 interface CaptureImageProps {
   onCapture: (imageSrc: Maybe<string>) => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
-export default function CaptureImage({ onCapture }: CaptureImageProps) {
+export default function CaptureImage({ onCapture, isOpen, onClose }: CaptureImageProps) {
   const [currentDeviceId, setCurrentDeviceId] = useState<string>();
   const [imageSrc, setImageSrc] = useState<Maybe<string>>(null);
+  const webcamRef = useRef<Webcam>(null);
 
   useEffect(() => {
     navigator.mediaDevices.enumerateDevices().then(mediaDevices => {
@@ -24,35 +39,42 @@ export default function CaptureImage({ onCapture }: CaptureImageProps) {
     });
   }, []);
 
-  const webcamRef = useRef<Webcam>(null);
   const capture = useCallback(() => {
-    console.log(webcamRef);
     const imageSrc = webcamRef.current?.getScreenshot?.();
     setImageSrc(imageSrc);
-    onCapture(imageSrc || '');
   }, [webcamRef]);
 
   return (
-    <VStack>
-      <Text>{imageSrc}</Text>
-      <Box maxW={'640'} border={1} borderStyle={'dashed'} borderColor={'grey.100'} rounded={'sm'}>
-        {imageSrc ? (
-          <Image w={'full'} src={imageSrc || ''} />
-        ) : (
-          <Webcam
-            width={'100%'}
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/png"
-            videoConstraints={{ ...videoConstraints, deviceId: currentDeviceId }}
-          />
-        )}
-      </Box>
-      {imageSrc ? (
-        <Button onClick={() => setImageSrc(null)}>Retake</Button>
-      ) : (
-        <Button onClick={capture}>Capture</Button>
-      )}
-    </VStack>
+    <Modal isOpen={isOpen} onClose={onClose} size={'5xl'}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Capture Image</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <VStack>
+            <Box maxW={'720'} border={1} borderStyle={'dashed'} borderColor={'grey.100'} rounded={'sm'}>
+              {imageSrc && <Image src={imageSrc} />}
+              {!imageSrc && (
+                <Webcam
+                  width={'100%'}
+                  audio={false}
+                  ref={webcamRef}
+                  screenshotFormat="image/png"
+                  videoConstraints={{ ...videoConstraints, deviceId: currentDeviceId }}
+                />
+              )}
+            </Box>
+            {imageSrc ? (
+              <HStack>
+                <Button onClick={() => onCapture(imageSrc)}>Done</Button>
+                <Button onClick={() => setImageSrc(null)}>Retake</Button>
+              </HStack>
+            ) : (
+              <Button onClick={capture}>Capture</Button>
+            )}
+          </VStack>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 }

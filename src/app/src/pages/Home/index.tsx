@@ -1,22 +1,12 @@
 import detectApi from '@/api/detect';
 import CameraCapture from '@/components/CameraCapture';
 import { DetectResponseModel, Maybe } from '@/types';
-import { Box, Progress, Text } from '@chakra-ui/react';
+import { Box, Button, Center, HStack, Image, Input, Progress, Text, VStack, useDisclosure } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
-
-// function dataURLtoFile(dataUrl: string, filename: string) {
-//   var arr = dataUrl.split(',');
-
-//     mime = arr[0].match(/:(.*?);/)[1],
-//     bstr = atob(arr[arr.length - 1]),
-//     n = bstr.length,
-//     u8arr = new Uint8Array(n);
-//   while (n--) {
-//     u8arr[n] = bstr.charCodeAt(n);
-//   }
-//   return new File([u8arr], filename, { type: mime });
-// }
+import { useRef, useState } from 'react';
+import DetectResult from './components/DetectResult';
+import UploadButton from '@/components/UploadButton';
+import { MdOutlinePhotoCamera } from 'react-icons/md';
 
 const dataUrlToFile = (dataUrl: string, filename: string): Maybe<File> => {
   const arr = dataUrl?.split?.(',');
@@ -33,8 +23,9 @@ const dataUrlToFile = (dataUrl: string, filename: string): Maybe<File> => {
 };
 
 export default function Home() {
-  const [detectResult, setDetectResult] = useState(undefined as DetectResponseModel | undefined);
+  const [detectResult, setDetectResult] = useState<Maybe<DetectResponseModel>>(null);
   const [imageUri, setImageUri] = useState(undefined as string | undefined);
+  const { isOpen: isOpenCamera, onClose: onCloseCamera, onOpen: onOpenCamera } = useDisclosure();
   console.log('imageUri', imageUri);
 
   const { mutate, isPending } = useMutation<DetectResponseModel, Error, File>({
@@ -46,6 +37,7 @@ export default function Home() {
 
   const handleCapture = (imageSrc: Maybe<string>) => {
     if (!imageSrc) return;
+    setImageUri(imageSrc);
     const file = dataUrlToFile(imageSrc, 'capture.png');
     console.log('file', file);
     if (file) {
@@ -53,51 +45,30 @@ export default function Home() {
     }
   };
 
+  const handleUpload = (file: Maybe<File>) => {
+    if (!file) return;
+
+    setDetectResult(null);
+    setImageUri(URL.createObjectURL(file));
+    mutate(file);
+  };
+
   return (
-    <Box w={'full'}>
-      <Text fontSize={'xl'}>Welcome home</Text>
-      {isPending && <Progress size="xs" isIndeterminate />}
-      <CameraCapture onCapture={handleCapture} />
-      <div className="card">
-        {imageUri && (
-          <div>
-            <img src={imageUri} alt="selected" />
-          </div>
-        )}
-        <input
-          type="file"
-          accept=".jpg,.png"
-          onChange={event => {
-            const file = event.target.files?.[0];
-            console.log('file', file);
-            if (file) {
-              setDetectResult(undefined);
-              setImageUri(URL.createObjectURL(file));
-              const reader = new FileReader();
-              reader.onload = async event => {
-                await fetch('/api/detect', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': file.type,
-                  },
-                  body: event.target?.result,
-                })
-                  .then(response => response.json())
-                  .then(data => {
-                    const responseModel: DetectResponseModel = data;
-                    setDetectResult(responseModel);
-                  });
-              };
-              reader.readAsArrayBuffer(file);
-            }
-          }}
-        />
-        {detectResult && (
-          <div>
-            <pre>{JSON.stringify(detectResult, null, 2)}</pre>
-          </div>
-        )}
-      </div>
-    </Box>
+    <Center w={'full'} p={4}>
+      <VStack w={'full'} spacing={3}>
+        <Text fontSize={'xl'}>Wear Optimization</Text>
+        {imageUri && <Image src={imageUri} maxW={'720px'} />}
+        {isPending && <Progress size="xs" isIndeterminate />}
+        <HStack>
+          <Button leftIcon={<MdOutlinePhotoCamera />} isLoading={isPending} onClick={onOpenCamera}>
+            Open Camera
+          </Button>
+          <UploadButton accept=".jpg,.png" onUpload={handleUpload} />
+        </HStack>
+
+        {detectResult?.result && <DetectResult result={detectResult.result} />}
+      </VStack>
+      <CameraCapture isOpen={isOpenCamera} onClose={onCloseCamera} onCapture={handleCapture} />
+    </Center>
   );
 }
