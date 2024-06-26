@@ -1,36 +1,28 @@
 import detectApi from '@/api/detect';
 import CameraCapture from '@/components/CameraCapture';
 import { DetectResponseModel, Maybe } from '@/types';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Progress, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 
-const b64toBlob = (b64Data: string, contentType = '', sliceSize = 512) => {
-  const byteCharacters = atob(b64Data);
-  const byteArrays = [];
-
-  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-    const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-    const byteNumbers = new Array(slice.length);
-    for (let i = 0; i < slice.length; i++) {
-      byteNumbers[i] = slice.charCodeAt(i);
-    }
-
-    const byteArray = new Uint8Array(byteNumbers);
-    byteArrays.push(byteArray);
+// base 64 to blob with imgSrc have format "data:image/png;base64,..."
+function b64toBlob(imgSrc: string) {
+  const byteString = atob(imgSrc.split(',')[1]);
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  const mimeString = imgSrc.split(',')[0].split(':')[1].split(';')[0];
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
   }
-
-  const blob = new Blob(byteArrays, { type: contentType });
-  return blob;
-};
+  return new Blob([ab], { type: mimeString });
+}
 
 export default function Home() {
   const [detectResult, setDetectResult] = useState(undefined as DetectResponseModel | undefined);
   const [imageUri, setImageUri] = useState(undefined as string | undefined);
   console.log('imageUri', imageUri);
 
-  const mutation = useMutation<DetectResponseModel, Error, Blob>({
+  const { mutate, isIdle } = useMutation<DetectResponseModel, Error, Blob>({
     mutationFn: detectApi,
     onSuccess: data => {
       setDetectResult(data);
@@ -40,12 +32,13 @@ export default function Home() {
   const handleCapture = (imageSrc: Maybe<string>) => {
     if (!imageSrc) return;
     const blob = b64toBlob(imageSrc);
-    mutation.mutate(blob);
+    mutate(blob);
   };
 
   return (
     <Box w={'full'}>
       <Text fontSize={'xl'}>Welcome home</Text>
+      {isIdle && <Progress size="xs" isIndeterminate />}
       <CameraCapture onCapture={handleCapture} />
       <div className="card">
         {imageUri && (
