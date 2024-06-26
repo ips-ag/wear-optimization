@@ -36,6 +36,7 @@ export default function Home() {
   });
 
   const handleCapture = (imageSrc: Maybe<string>) => {
+    onCloseCamera();
     if (!imageSrc) return;
     setImageUri(imageSrc);
     const file = dataUrlToFile(imageSrc, 'capture.png');
