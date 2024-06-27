@@ -39,6 +39,25 @@ export default function CaptureImage({ onCapture, isOpen, onClose }: CaptureImag
     });
   }, []);
 
+  useEffect(() => {
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: false,
+        video: {
+          facingMode: { exact: 'environment' },
+          deviceId: currentDeviceId,
+          width: 1280,
+          height: 720,
+        },
+      })
+      .then(stream => {
+        console.log(stream);
+        stream.getTracks().forEach(track => {
+          track.stop();
+        });
+      });
+  }, [currentDeviceId]);
+
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot?.();
     setImageSrc(imageSrc);
@@ -52,7 +71,7 @@ export default function CaptureImage({ onCapture, isOpen, onClose }: CaptureImag
         <ModalCloseButton />
         <ModalBody>
           <VStack>
-            <Box maxW={'720'} border={1} borderStyle={'dashed'} borderColor={'grey.100'} rounded={'sm'}>
+            <Box border={1} borderStyle={'dashed'} borderColor={'grey.100'} rounded={'sm'}>
               {imageSrc && <Image src={imageSrc} />}
               {!imageSrc && (
                 <Webcam

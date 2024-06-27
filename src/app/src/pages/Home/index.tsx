@@ -7,20 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { MdOutlinePhotoCamera } from 'react-icons/md';
 import DetectResult from './components/DetectResult';
-
-const dataUrlToFile = (dataUrl: string, filename: string): Maybe<File> => {
-  const arr = dataUrl?.split?.(',');
-  if (!arr) return null;
-
-  const mime = arr[0]?.match(/:(.*?);/)?.[1];
-  const bstr = atob(arr[arr.length - 1] ?? '');
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new File([u8arr], filename, { type: mime });
-};
+import { dataUrlToFile } from '@/utils';
 
 export default function Home() {
   const [detectResult, setDetectResult] = useState<Maybe<DetectResponseModel>>(null);
@@ -58,13 +45,13 @@ export default function Home() {
     <Center w={'full'} p={4}>
       <VStack w={'full'} spacing={3}>
         <Text fontSize={'xl'}>Wear Optimization</Text>
-        {imageUri && <Image src={imageUri} maxW={'720px'} />}
+        {imageUri && <Image src={imageUri} w={'auto'} rounded={'md'} />}
         {isPending && <Progress size="xs" isIndeterminate />}
         <HStack>
           <Button leftIcon={<MdOutlinePhotoCamera />} isLoading={isPending} onClick={onOpenCamera}>
             Open Camera
           </Button>
-          <UploadButton accept=".jpg,.png" onUpload={handleUpload} />
+          <UploadButton accept=".jpg,.png" onUpload={handleUpload} isLoading={isPending} />
         </HStack>
 
         {detectResult?.result && <DetectResult result={detectResult.result} />}
