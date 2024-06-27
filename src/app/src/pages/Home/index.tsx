@@ -2,7 +2,7 @@ import detectApi from '@/api/detect';
 import CameraCapture from '@/components/CameraCapture';
 import UploadButton from '@/components/UploadButton';
 import { DetectResponseModel, Maybe } from '@/types';
-import { Button, Center, HStack, Image, Progress, Text, VStack, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Center, HStack, Image, Progress, Text, VStack, useDisclosure } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { MdOutlinePhotoCamera } from 'react-icons/md';
@@ -45,10 +45,20 @@ export default function Home() {
     <Center w={'full'} p={4}>
       <VStack w={'full'} spacing={3}>
         <Text fontSize={'xl'}>Wear Optimization</Text>
-        {imageUri && <Image src={imageUri} w={'auto'} rounded={'md'} />}
+
+        {imageUri && (
+          <Box maxW={'md'}>
+            <Image w={'auto'} src={imageUri} rounded={'md'} boxShadow="base" />
+          </Box>
+        )}
         {isPending && <Progress size="xs" isIndeterminate />}
         <HStack>
-          <Button leftIcon={<MdOutlinePhotoCamera />} isLoading={isPending} onClick={onOpenCamera}>
+          <Button
+            leftIcon={<MdOutlinePhotoCamera />}
+            isLoading={isPending}
+            onClick={onOpenCamera}
+            loadingText="Uploading"
+          >
             Open Camera
           </Button>
           <UploadButton accept=".jpg,.png" onUpload={handleUpload} isLoading={isPending} />

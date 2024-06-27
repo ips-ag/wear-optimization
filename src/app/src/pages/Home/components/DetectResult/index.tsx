@@ -9,12 +9,21 @@ export default function DetectResult({ result }: DetectResultProps) {
 
   return (
     <VStack align={'start'} boxShadow="base" p="6" rounded="md" bg="white">
-      <Text>Wear Code: {wearCode}</Text>
-      <Text>Wear Confidence: {wearConfidence?.toFixed?.(2)}</Text>
-      <Text>Wear Cause: {wearCause}</Text>
-
       <HStack>
-        <Text>Suggested Actions:</Text>
+        <Text fontStyle={'bold'}>Wear code: </Text>
+        <Text>{wearCode}</Text>
+      </HStack>
+      <HStack>
+        <Text>Confidence: </Text>
+        <Text>{((wearConfidence || 0) * 100).toFixed?.(2)}</Text>
+      </HStack>
+      <HStack>
+        <Text fontStyle={'bold'}>Cause: </Text>
+        <Text>Cause: {wearCause}</Text>
+      </HStack>
+
+      <HStack align={'start'}>
+        <Text fontStyle={'bold'}>Suggested Actions:</Text>
         <UnorderedList>
           {suggestedActions?.map((action, index) => <ListItem key={index}>{action}</ListItem>)}
         </UnorderedList>

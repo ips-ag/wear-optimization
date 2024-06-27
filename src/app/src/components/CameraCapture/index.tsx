@@ -65,7 +65,7 @@ export default function CaptureImage({ onCapture, isOpen, onClose }: CaptureImag
   }, [webcamRef]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={'5xl'}>
+    <Modal isOpen={isOpen} onClose={onClose} size={'4xl'}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Capture Image</ModalHeader>
