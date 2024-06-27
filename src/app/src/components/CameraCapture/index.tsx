@@ -79,7 +79,15 @@ export default function CaptureImage({ onCapture, isOpen, onClose }: CaptureImag
                   audio={false}
                   ref={webcamRef}
                   screenshotFormat="image/png"
-                  videoConstraints={{ ...videoConstraints, deviceId: currentDeviceId }}
+                  videoConstraints={{
+                    facingMode: { exact: 'environment' },
+                    deviceId: currentDeviceId,
+                    width: 1280,
+                    height: 720,
+                  }}
+                  onUserMedia={() => {
+                    console.log('onUserMedia');
+                  }}
                 />
               )}
             </Box>
