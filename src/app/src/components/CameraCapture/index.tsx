@@ -15,10 +15,6 @@ import {
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 
-const videoConstraints = {
-  facingMode: { exact: 'environment' },
-};
-
 interface CaptureImageProps {
   onCapture: (imageSrc: Maybe<string>) => void;
   isOpen: boolean;
