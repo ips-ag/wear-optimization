@@ -12,8 +12,13 @@ import {
   ModalOverlay,
   VStack,
 } from '@chakra-ui/react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
+
+const videoConstraints = {
+  facingMode: 'environment',
+  width: 540,
+};
 
 interface CaptureImageProps {
   onCapture: (imageSrc: Maybe<string>) => void;
@@ -21,38 +26,38 @@ interface CaptureImageProps {
   onClose: () => void;
 }
 export default function CaptureImage({ onCapture, isOpen, onClose }: CaptureImageProps) {
-  const [currentDeviceId, setCurrentDeviceId] = useState<string>();
+  // const [currentDeviceId, setCurrentDeviceId] = useState<string>();
   const [imageSrc, setImageSrc] = useState<Maybe<string>>(null);
   const webcamRef = useRef<Webcam>(null);
 
-  useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then(mediaDevices => {
-      const supportDevices = mediaDevices.filter(item => item.kind === 'videoinput');
-      console.log(supportDevices);
-      if (supportDevices.length > 0) {
-        setCurrentDeviceId(supportDevices[0].deviceId);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   navigator.mediaDevices.enumerateDevices().then(mediaDevices => {
+  //     const supportDevices = mediaDevices.filter(item => item.kind === 'videoinput');
+  //     console.log(supportDevices);
+  //     if (supportDevices.length > 0) {
+  //       setCurrentDeviceId(supportDevices[0].deviceId);
+  //     }
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({
-        audio: false,
-        video: {
-          facingMode: { exact: 'environment' },
-          deviceId: currentDeviceId,
-          width: 1280,
-          height: 720,
-        },
-      })
-      .then(stream => {
-        console.log(stream);
-        stream.getTracks().forEach(track => {
-          track.stop();
-        });
-      });
-  }, [currentDeviceId]);
+  // useEffect(() => {
+  //   navigator.mediaDevices
+  //     .getUserMedia({
+  //       audio: false,
+  //       video: {
+  //         facingMode: { exact: 'environment' },
+  //         deviceId: currentDeviceId,
+  //         width: 1280,
+  //         height: 720,
+  //       },
+  //     })
+  //     .then(stream => {
+  //       console.log(stream);
+  //       stream.getTracks().forEach(track => {
+  //         track.stop();
+  //       });
+  //     });
+  // }, [currentDeviceId]);
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot?.();
@@ -75,14 +80,9 @@ export default function CaptureImage({ onCapture, isOpen, onClose }: CaptureImag
                   audio={false}
                   ref={webcamRef}
                   screenshotFormat="image/png"
-                  videoConstraints={{
-                    facingMode: { exact: 'environment' },
-                    deviceId: currentDeviceId,
-                    width: 1280,
-                    height: 720,
-                  }}
-                  onUserMedia={() => {
-                    console.log('onUserMedia');
+                  videoConstraints={videoConstraints}
+                  onUserMedia={e => {
+                    console.log('onUserMedia', e);
                   }}
                 />
               )}
