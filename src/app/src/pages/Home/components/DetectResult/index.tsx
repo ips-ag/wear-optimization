@@ -17,9 +17,9 @@ export default function DetectResult({ result }: DetectResultProps) {
         <Text>Confidence: </Text>
         <Text>{((wearConfidence || 0) * 100).toFixed?.(2)}</Text>
       </HStack>
-      <HStack>
+      <HStack align={'start'}>
         <Text fontStyle={'bold'}>Cause: </Text>
-        <Text>Cause: {wearCause}</Text>
+        <Text>{wearCause}</Text>
       </HStack>
 
       <HStack align={'start'}>
