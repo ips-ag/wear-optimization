@@ -29,3 +29,16 @@ export enum WearCode {
   galling,
   mouldEdgeWear,
 }
+
+export const wearCodeNameMap: Record<WearCode, string> = {
+  [WearCode.none]: 'None',
+  [WearCode.buildupOnCuttingEdge]: 'Buildup on cutting edge',
+  [WearCode.flankFaceWear]: 'Flank face wear',
+  [WearCode.craterWear]: 'Crater wear',
+  [WearCode.fractures]: 'Fractures',
+  [WearCode.plasticDeformation]: 'Plastic deformation',
+  [WearCode.notchWear]: 'Notch wear',
+  [WearCode.thermalCracking]: 'Thermal cracking',
+  [WearCode.galling]: 'Galling',
+  [WearCode.mouldEdgeWear]: 'Mould edge wear',
+};

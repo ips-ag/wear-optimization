@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { MdOutlinePhotoCamera } from 'react-icons/md';
 import DetectResult from './components/DetectResult';
 import { dataUrlToFile } from '@/utils';
+import FeedbackForm from './components/FeedbackForm';
 
 export default function Home() {
   const [detectResult, setDetectResult] = useState<Maybe<DetectResponseModel>>(null);
@@ -64,7 +65,12 @@ export default function Home() {
           <UploadButton accept=".jpg,.png" onUpload={handleUpload} isLoading={isPending} />
         </HStack>
 
-        {detectResult?.result && <DetectResult result={detectResult.result} />}
+        {detectResult?.result && (
+          <VStack>
+            <DetectResult result={detectResult.result} />
+            <FeedbackForm imageName={detectResult.result.imageName} />
+          </VStack>
+        )}
       </VStack>
       <CameraCapture isOpen={isOpenCamera} onClose={onCloseCamera} onCapture={handleCapture} />
     </Center>

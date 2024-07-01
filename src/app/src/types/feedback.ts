@@ -1,10 +1,11 @@
+import { Maybe } from './common';
 import { ErrorModel, WearCode } from './detect';
 
-export interface RequestModel {
+export interface FeedbackRequest {
   imageName: string;
   detectedWearAccepted: boolean;
-  userWearCode?: WearCode;
-  userComment?: string;
+  userWearCode?: Maybe<WearCode>;
+  userComment?: Maybe<string>;
 }
 
 export interface FeedbackResponseModel {
