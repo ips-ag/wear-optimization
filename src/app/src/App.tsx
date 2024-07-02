@@ -1,6 +1,6 @@
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import MainLayout from './laytouts/MainLayout';
 import Home from './pages/Home';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Main from './pages/Main';
 
 function App() {
