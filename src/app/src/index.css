@@ -1,9 +1,17 @@
 #root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   width: 100%;
+  height: 100%;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#fullheight {
+  min-height: 100% !important;
+  height: 100%;
 }
 
 body {
@@ -11,5 +19,4 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
 }

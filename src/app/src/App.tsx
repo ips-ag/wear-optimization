@@ -1,25 +1,25 @@
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import MainLayout from './laytouts/MainLayout';
 import Home from './pages/Home';
 import Main from './pages/Main';
 
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <MainLayout>
+        <Home />
+      </MainLayout>
+    ),
+  },
+  {
+    path: '/detect',
+    element: <Main />,
+  },
+]);
+
 function App() {
-  return (
-    <Router>
-      {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-      <Switch>
-        <Route path="/">
-          <MainLayout>
-            <Home />
-          </MainLayout>
-        </Route>
-        <Route path="/main">
-          <Main />
-        </Route>
-      </Switch>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
