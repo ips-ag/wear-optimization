@@ -68,8 +68,6 @@ export default function FeedbackForm({ imageName }: FeedbackFormProps) {
   });
 
   const onSubmitFeedback = (data: FeedbackFormType) => {
-    console.log('errors', errors);
-    console.log('data', data);
     const feedbackData: FeedbackRequest = {
       imageName,
       detectedWearAccepted: data.detectedWearAccepted,
