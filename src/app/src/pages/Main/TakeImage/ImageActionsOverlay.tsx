@@ -3,11 +3,13 @@ import WalterLogo from '../../../assets/images/walter-logo.png';
 import CameraBorder from './CameraBorder';
 import CaptureButton from './CaptureButton';
 import GalleryButton from './GalleryButton';
+import { Maybe } from '@/types';
 
 interface ImageActionsOverlayProps {
   onCapture: () => void;
+  onUpload: (file: Maybe<File>) => void;
 }
-export default function ImageActionsOverlay({ onCapture }: ImageActionsOverlayProps) {
+export default function ImageActionsOverlay({ onCapture, onUpload }: ImageActionsOverlayProps) {
   return (
     <Box
       position="absolute"
@@ -24,7 +26,7 @@ export default function ImageActionsOverlay({ onCapture }: ImageActionsOverlayPr
         <VStack w="full" h="full" justifyContent="end" position="relative">
           <CameraBorder borderColor="green" borderRadius="32px" borderWidth="2px" edgeSize="70px" />
           <HStack w="full" p="4">
-            <GalleryButton onClick={onCapture} />
+            <GalleryButton onUpload={onUpload} />
             <CaptureButton onClick={onCapture} />
             <Spacer />
           </HStack>
