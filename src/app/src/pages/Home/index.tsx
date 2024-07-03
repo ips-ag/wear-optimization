@@ -1,6 +1,7 @@
 import detectApi from '@/api/detect';
 import CameraCapture from '@/components/CameraCapture';
 import UploadButton from '@/components/UploadButton';
+import MainLayout from '@/laytouts/MainLayout';
 import { DetectResponseModel, Maybe } from '@/types';
 import { dataUrlToFile } from '@/utils';
 import { Box, Button, Center, CircularProgress, HStack, Image, Text, VStack, useDisclosure } from '@chakra-ui/react';
@@ -43,38 +44,40 @@ export default function Home() {
   };
 
   return (
-    <Center w={'full'} p={4}>
-      <VStack w={'full'} spacing={3}>
-        <Text fontSize={'xl'}>Wear Optimization</Text>
+    <MainLayout>
+      <Center w={'full'} p={4}>
+        <VStack w={'full'} spacing={3}>
+          <Text fontSize={'xl'}>Wear Optimization</Text>
 
-        {imageUri && (
-          <Box maxW={'md'}>
-            <Image w={'auto'} src={imageUri} rounded={'md'} boxShadow="base" />
-          </Box>
-        )}
-        {isPending && <CircularProgress isIndeterminate color="green.300" />}
-        {!isPending && (
-          <HStack>
-            <Button
-              leftIcon={<MdOutlinePhotoCamera />}
-              isLoading={isPending}
-              onClick={onOpenCamera}
-              loadingText="Uploading"
-            >
-              Open Camera
-            </Button>
-            <UploadButton accept=".jpg,.png" onUpload={handleUpload} isLoading={isPending} />
-          </HStack>
-        )}
+          {imageUri && (
+            <Box maxW={'md'}>
+              <Image w={'auto'} src={imageUri} rounded={'md'} boxShadow="base" />
+            </Box>
+          )}
+          {isPending && <CircularProgress isIndeterminate color="green.300" />}
+          {!isPending && (
+            <HStack>
+              <Button
+                leftIcon={<MdOutlinePhotoCamera />}
+                isLoading={isPending}
+                onClick={onOpenCamera}
+                loadingText="Uploading"
+              >
+                Open Camera
+              </Button>
+              <UploadButton accept=".jpg,.png" onUpload={handleUpload} isLoading={isPending} />
+            </HStack>
+          )}
 
-        {detectResult?.result && (
-          <VStack>
-            <DetectResult result={detectResult.result} />
-            <FeedbackForm imageName={detectResult.result.imageName} />
-          </VStack>
-        )}
-      </VStack>
-      <CameraCapture isOpen={isOpenCamera} onClose={onCloseCamera} onCapture={handleCapture} />
-    </Center>
+          {detectResult?.result && (
+            <VStack>
+              <DetectResult result={detectResult.result} />
+              <FeedbackForm imageName={detectResult.result.imageName} />
+            </VStack>
+          )}
+        </VStack>
+        <CameraCapture isOpen={isOpenCamera} onClose={onCloseCamera} onCapture={handleCapture} />
+      </Center>
+    </MainLayout>
   );
 }

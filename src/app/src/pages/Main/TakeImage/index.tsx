@@ -6,6 +6,9 @@ import { useCallback, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import ImageActionsOverlay from './ImageActionsOverlay';
 import { dataUrlToFile } from '@/utils';
+import { useAtom } from 'jotai';
+import { detectResultAtom } from '@/store';
+import { useNavigate } from 'react-router-dom';
 
 const videoConstraints = {
   facingMode: 'environment',
@@ -14,10 +17,14 @@ const videoConstraints = {
 export default function TakeImage() {
   const [, setImageSrc] = useState<Maybe<string>>(null);
   const webcamRef = useRef<Webcam>(null);
+  const navigate = useNavigate();
+  const [, setDetectResult] = useAtom(detectResultAtom);
   const { mutate } = useMutation<DetectResponseModel, Error, File>({
     mutationFn: detectApi,
     onSuccess: data => {
+      setDetectResult(data);
       console.log('data', data);
+      navigate('/detect/result');
     },
   });
 

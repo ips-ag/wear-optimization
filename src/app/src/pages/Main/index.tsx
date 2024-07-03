@@ -1,12 +1,10 @@
-import { Box } from '@chakra-ui/react';
-import TakeImage from './TakeImage';
-
-
+import MainLayout from '@/laytouts/MainLayout';
+import { Outlet } from 'react-router-dom';
 
 export default function Main() {
   return (
-    <Box w="full" h="full" position={'relative'}>
-      <TakeImage />
-    </Box>
+    <MainLayout>
+      <Outlet />
+    </MainLayout>
   );
 }
