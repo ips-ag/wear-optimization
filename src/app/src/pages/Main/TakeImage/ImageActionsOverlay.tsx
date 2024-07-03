@@ -1,6 +1,8 @@
-import { Box, Circle, HStack, Image, Spacer, Text, VStack } from '@chakra-ui/react';
+import { Box, HStack, Image, Spacer, Text, VStack } from '@chakra-ui/react';
 import WalterLogo from '../../../assets/images/walter-logo.png';
 import CameraBorder from './CameraBorder';
+import CaptureButton from './CaptureButton';
+import GalleryButton from './GalleryButton';
 
 interface ImageActionsOverlayProps {
   onCapture: () => void;
@@ -22,20 +24,14 @@ export default function ImageActionsOverlay({ onCapture }: ImageActionsOverlayPr
         <VStack w="full" h="full" justifyContent="end" position="relative">
           <CameraBorder borderColor="green" borderRadius="32px" borderWidth="2px" edgeSize="70px" />
           <HStack w="full" p="4">
-            <Box flex="1" display="flex" justifyContent="center">
-              <Circle rounded="full" p={6} bg="green" onClick={onCapture}></Circle>
-            </Box>
-            <Spacer />
-            <Box flex="1" display="flex" justifyContent="center">
-              <Circle rounded="full" p={8} bg="green" onClick={onCapture}></Circle>
-            </Box>
-            <Spacer />
+            <GalleryButton onClick={onCapture} />
+            <CaptureButton onClick={onCapture} />
             <Spacer />
           </HStack>
         </VStack>
         <VStack spacing={4} color="black">
-          <Text fontWeight={800}>Wear Optimization AI</Text>
-          <Text>Take photo of a tool, or load it from the picture library.</Text>
+          <Text fontWeight={700}>Wear Optimization AI</Text>
+          <Text align="center">Take photo of a tool, or load it from the picture library.</Text>
         </VStack>
       </VStack>
     </Box>
