@@ -14,7 +14,7 @@ const videoConstraints = {
   facingMode: 'environment',
 };
 
-export default function TakeImage() {
+export default function TakeImagePage() {
   const [, setImageSrc] = useState<Maybe<string>>(null);
   const webcamRef = useRef<Webcam>(null);
   const navigate = useNavigate();

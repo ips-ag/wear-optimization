@@ -13,10 +13,10 @@ export default function GalleryButton({ onUpload }: GalleryButtonProps) {
 
   return (
     <Box flex="1" display="flex" justifyContent="center">
-      <Circle size="3rem" bg="#66666633" onClick={openGallery} border="1px solid white">
-        <Icon as={IoImageOutline} fontSize="2xl" />
+      <Circle size="3rem" bg="#66666633" border="1px solid white" onClick={openGallery}>
+        <Icon as={IoImageOutline} fontSize="2xl" pointerEvents="none" />
+        <ImageUploader inputRef={inputUploadRef} onUpload={onUpload} />
       </Circle>
-      <ImageUploader inputRef={inputUploadRef} onUpload={onUpload} />
     </Box>
   );
 }

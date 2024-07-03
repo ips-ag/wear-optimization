@@ -18,6 +18,7 @@ export default function CameraBorder({ edgeSize, borderColor, borderRadius, bord
         borderLeft={`${borderWidth} solid ${borderColor}`}
         borderTop={`${borderWidth} solid ${borderColor}`}
         borderRadius={`${borderRadius} 0 0 0`}
+        pointerEvents="none"
       />
       <Box
         position="absolute"
@@ -28,6 +29,7 @@ export default function CameraBorder({ edgeSize, borderColor, borderRadius, bord
         borderRight={`${borderWidth} solid ${borderColor}`}
         borderTop={`${borderWidth} solid ${borderColor}`}
         borderRadius={`0 ${borderRadius} 0 0`}
+        pointerEvents="none"
       />
       <Box
         position="absolute"
@@ -38,6 +40,7 @@ export default function CameraBorder({ edgeSize, borderColor, borderRadius, bord
         borderLeft={`${borderWidth} solid ${borderColor}`}
         borderBottom={`${borderWidth} solid ${borderColor}`}
         borderRadius={`0 0 0 ${borderRadius}`}
+        pointerEvents="none"
       />
       <Box
         position="absolute"
@@ -48,6 +51,7 @@ export default function CameraBorder({ edgeSize, borderColor, borderRadius, bord
         borderRight={`${borderWidth} solid ${borderColor}`}
         borderBottom={`${borderWidth} solid ${borderColor}`}
         borderRadius={`0 0 ${borderRadius} 0`}
+        pointerEvents="none"
       />
     </>
   );

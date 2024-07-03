@@ -1,19 +1,16 @@
-import Navbar from '@/components/Navbar';
-import { Box } from '@chakra-ui/react';
-import { useLocation } from 'react-router-dom';
+import Logo from '@/components/Logo';
+import { VStack } from '@chakra-ui/react';
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
-  const location = useLocation();
-  const isDetectPage = location.pathname === '/detect/';
 
   return (
-    <Box w="full" h="full">
-      {!isDetectPage && <Navbar />}
+    <VStack w="full" h="full" spacing={0}>
+      <Logo />
       {children}
-    </Box>
+    </VStack>
   );
 }

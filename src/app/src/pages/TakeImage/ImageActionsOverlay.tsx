@@ -1,9 +1,9 @@
-import { Box, HStack, Image, Spacer, Text, VStack } from '@chakra-ui/react';
-import WalterLogo from '../../../assets/images/walter-logo.png';
+import Logo from '@/components/Logo';
+import { Maybe } from '@/types';
+import { Box, HStack, Spacer, Text, VStack } from '@chakra-ui/react';
 import CameraBorder from './CameraBorder';
 import CaptureButton from './CaptureButton';
 import GalleryButton from './GalleryButton';
-import { Maybe } from '@/types';
 
 interface ImageActionsOverlayProps {
   onCapture: () => void;
@@ -22,7 +22,7 @@ export default function ImageActionsOverlay({ onCapture, onUpload }: ImageAction
       alignItems="center"
     >
       <VStack spacing={4} justifyContent="space-between" h="full" p="4" px="8">
-        <Image src={WalterLogo} maxW="158px" />
+        <Logo />
         <VStack w="full" h="full" justifyContent="end" position="relative">
           <CameraBorder borderColor="green" borderRadius="32px" borderWidth="2px" edgeSize="70px" />
           <HStack w="full" p="4">

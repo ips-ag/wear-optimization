@@ -1,21 +1,32 @@
-import { Box, Flex, IconButton, Link } from '@chakra-ui/react';
-import { FaHome } from 'react-icons/fa';
+import { Maybe } from '@/types';
+import { Box, Flex, HStack, IconButton, Link, Text } from '@chakra-ui/react';
+import { IoIosArrowBack } from 'react-icons/io';
 
-export default function Navbar() {
+interface NavbarProps {
+  backPath: string;
+  title?: Maybe<string>;
+}
+export default function Navbar({ backPath, title }: NavbarProps) {
   return (
-    <Box px={4} shadow={'md'} w={'full'}>
-      <Flex h={14} alignItems={'center'} justifyContent={'space-between'}>
-        <IconButton
-          as={Link}
-          href="/"
-          icon={<FaHome />}
-          variant={'solid'}
-          bg={'white'}
-          _hover={{ bg: 'white' }}
-          p={0}
-          fontSize={'xl'}
-          aria-label="Home"
-        />
+    <Box w={'full'} h="min">
+      <Flex alignItems={'center'} justifyContent={'space-between'}>
+        <HStack>
+          <IconButton
+            as={Link}
+            href={backPath}
+            icon={<IoIosArrowBack />}
+            variant={'solid'}
+            _hover={{ bg: 'white' }}
+            rounded="full"
+            p={0}
+            fontSize={'lg'}
+            aria-label="back"
+            bg="none"
+          />
+          <Text fontSize={'lg'} fontWeight="700">
+            {title}
+          </Text>
+        </HStack>
       </Flex>
     </Box>
   );
