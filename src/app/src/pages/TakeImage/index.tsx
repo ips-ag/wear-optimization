@@ -24,7 +24,7 @@ export default function TakeImagePage() {
     onSuccess: data => {
       setDetectResult(data);
       console.log('data', data);
-      navigate('/detect/result');
+      navigate('/result');
     },
   });
 
