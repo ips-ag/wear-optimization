@@ -1,5 +1,4 @@
-import feedbackApi from '@/api/feedback';
-import { FeedbackRequest, FeedbackResponseModel, WearCode } from '@/types';
+import { FeedbackRequest, WearCode } from '@/types';
 import {
   Box,
   Button,
@@ -8,15 +7,15 @@ import {
   FormLabel,
   Textarea,
   VStack,
-  useDisclosure,
-  useToast,
+  useDisclosure
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { RiSendPlaneFill } from 'react-icons/ri';
 import { z } from 'zod';
+import { useFeedback } from '../../hooks/useFeedback';
 import SelectWearCodeDrawer from './SelectWearCodeDrawer';
+import WearCodeCard from './WearCodeCard';
 
 const FeedbackSchema = z
   .object({
@@ -41,33 +40,16 @@ export default function FeedbackForm({ imageName }: Props) {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, isValid },
   } = useForm<FeedbackFormType>({
     resolver: zodResolver(FeedbackSchema),
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
+  const userWearCode = watch('userWearCode');
+  const isSetWearCode = Boolean(userWearCode);
+  const { mutate, isPending } = useFeedback();
 
-  const { mutate, isPending } = useMutation<FeedbackResponseModel, Error, FeedbackRequest>({
-    mutationFn: feedbackApi,
-    onSuccess: () => {
-      toast({
-        title: 'Feedback submitted',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
-    },
-    onError: error => {
-      toast({
-        title: 'Failed to submit feedback',
-        description: error.message,
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    },
-  });
   const onSubmitFeedback = (data: FeedbackFormType) => {
     const feedbackData: FeedbackRequest = {
       imageName,
@@ -91,8 +73,9 @@ export default function FeedbackForm({ imageName }: Props) {
             <FormLabel color="green" htmlFor="userWearCode">
               Wear pattern
             </FormLabel>
+            {isSetWearCode && <WearCodeCard wearCodeName={WearCode[Number(userWearCode)]} />}
             <Button colorScheme="green" variant="outline" onClick={onOpen}>
-              {'Select wear pattern'}
+              {isSetWearCode ? 'Change wear pattern' : 'Select wear pattern'}
             </Button>
             <FormErrorMessage>{errors.userWearCode?.message}</FormErrorMessage>
           </FormControl>

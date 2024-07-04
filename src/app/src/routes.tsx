@@ -8,11 +8,11 @@ import FeedbackPage from './pages/Main/Feedback';
 export const ROUTES = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <TakeImagePage />,
   },
   {
     path: '/detect',
-    element: <TakeImagePage />,
+    element: <Home />,
   },
   {
     path: '/result',

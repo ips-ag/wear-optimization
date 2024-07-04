@@ -1,7 +1,7 @@
-import TestImage from '@/assets/images/turningGroovingCraterWear.png';
+import { ImageFallback } from '@/components';
 import Navbar from '@/components/Navbar';
 import { getWearCodeName } from '@/helpers';
-import { resultSelector } from '@/store';
+import { resultSelector, selectedImage } from '@/store';
 import {
   Box,
   Center,
@@ -18,19 +18,43 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
+import { useEffect, useState } from 'react';
 import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import { useFeedback } from '../hooks/useFeedback';
 
 export default function ResultPage() {
-  const detectResult = useAtom(resultSelector)[0];
-  console.log(detectResult);
+  const detectResult = useAtomValue(resultSelector);
+  const imageFile = useAtomValue(selectedImage);
+  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
+  const { mutate } = useFeedback();
+  useEffect(() => {
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const image = e.target?.result;
+        setImageSrc(image as string);
+        console.log('image', image);
+      };
+      reader.readAsDataURL(imageFile);
+    }
+  }, [imageFile]);
+
+  const handleAccept = () => {
+    if (detectResult?.imageName) {
+      mutate({
+        imageName: detectResult?.imageName || '',
+        detectedWearAccepted: true,
+      });
+    }
+  };
 
   return (
     <VStack w="full" h="full" spacing="4" px="4">
-      <Navbar backPath="/detect" title={getWearCodeName(detectResult?.wearCode?.toString())} />
-      <Image src={TestImage} alt="result image" w="full" />
-      <VStack w="full" spacing="2" px="3" mt="4" align="start">
+      <Navbar backPath="/" title={getWearCodeName(detectResult?.wearCode?.toString())} />
+      <Image src={imageSrc} alt="result image" w="full" objectFit="cover" fallback={<ImageFallback />} />
+      <VStack w="full" spacing="2" mt="4" align="start">
         <Text color="green" fontSize="lg">
           Description
         </Text>
@@ -51,6 +75,7 @@ export default function ResultPage() {
           <Popover placement="top">
             <PopoverTrigger>
               <IconButton
+                onClick={handleAccept}
                 rounded="full"
                 w="3rem"
                 h="3rem"

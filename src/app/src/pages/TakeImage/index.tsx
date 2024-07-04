@@ -1,14 +1,15 @@
 import detectApi from '@/api/detect';
+import { Loading } from '@/components';
+import { detectResultAtom, selectedImage } from '@/store';
 import { DetectResponseModel, Maybe } from '@/types';
+import { dataUrlToFile } from '@/utils';
 import { Box } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
+import { useSetAtom } from 'jotai';
 import { useCallback, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import ImageActionsOverlay from './ImageActionsOverlay';
-import { dataUrlToFile } from '@/utils';
-import { useAtom } from 'jotai';
-import { detectResultAtom } from '@/store';
-import { useNavigate } from 'react-router-dom';
 
 const videoConstraints = {
   facingMode: 'environment',
@@ -16,14 +17,14 @@ const videoConstraints = {
 
 export default function TakeImagePage() {
   const [, setImageSrc] = useState<Maybe<string>>(null);
+  const setSelectedImage = useSetAtom(selectedImage);
   const webcamRef = useRef<Webcam>(null);
   const navigate = useNavigate();
-  const [, setDetectResult] = useAtom(detectResultAtom);
-  const { mutate } = useMutation<DetectResponseModel, Error, File>({
+  const setResult = useSetAtom(detectResultAtom);
+  const { mutate, isPending } = useMutation<DetectResponseModel, Error, File>({
     mutationFn: detectApi,
     onSuccess: data => {
-      setDetectResult(data);
-      console.log('data', data);
+      setResult(data);
       navigate('/result');
     },
   });
@@ -35,11 +36,13 @@ export default function TakeImagePage() {
     const file = dataUrlToFile(imageSrc, 'capture.png');
     if (file) {
       mutate(file);
+      setSelectedImage(file);
     }
-  }, [mutate]);
+  }, [mutate, setSelectedImage]);
 
   const handleUpload = (file: Maybe<File>) => {
     if (!file) return;
+    setSelectedImage(file);
 
     mutate(file);
   };
@@ -56,6 +59,7 @@ export default function TakeImagePage() {
         videoConstraints={videoConstraints}
       />
       <ImageActionsOverlay onCapture={handleCapture} onUpload={handleUpload} />
+      {isPending && <Loading />}
     </Box>
   );
 }
