@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +13,8 @@ export default defineConfig({
       manifest: {
         name: 'Walter Wear Optimization',
         short_name: 'Wear Optimization',
-        description: 'Walter Wear Optimization application is used for detection and recommendation on cutting tool edge wear.',
+        description:
+          'Walter Wear Optimization application is used for detection and recommendation on cutting tool edge wear.',
         theme_color: '#ffffff',
         icons: [
           {
@@ -45,6 +46,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@assets': path.resolve(__dirname, './src/assets'),
     },
   },
 });
