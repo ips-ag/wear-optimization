@@ -20,7 +20,7 @@ export default function WearCodeCard({ wearCodeName, onSelect }: Props) {
     <HStack w="full" h="max" onClick={() => onSelect?.(wearCodeName)} cursor="pointer">
       <Image boxSize="100px" src={getImagePath(wearCodeName)} objectFit="contain" />
       <VStack spacing={0}>
-        <Text color="green" fontSize="lg">
+        <Text color="brand.green.primary" fontSize="lg">
           {wearCodeNameMap[code]}
         </Text>
         <Text fontSize="lg">{wearCodeNameMap[code]}</Text>

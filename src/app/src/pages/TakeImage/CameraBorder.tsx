@@ -15,8 +15,9 @@ export default function CameraBorder({ edgeSize, borderColor, borderRadius, bord
         left="0"
         w={edgeSize}
         h={edgeSize}
-        borderLeft={`${borderWidth} solid ${borderColor}`}
-        borderTop={`${borderWidth} solid ${borderColor}`}
+        borderLeft={`${borderWidth} solid`}
+        borderTop={`${borderWidth} solid`}
+        borderColor={borderColor}
         borderRadius={`${borderRadius} 0 0 0`}
         pointerEvents="none"
       />
@@ -26,8 +27,9 @@ export default function CameraBorder({ edgeSize, borderColor, borderRadius, bord
         right="0"
         w={edgeSize}
         h={edgeSize}
-        borderRight={`${borderWidth} solid ${borderColor}`}
-        borderTop={`${borderWidth} solid ${borderColor}`}
+        borderRight={`${borderWidth} solid`}
+        borderTop={`${borderWidth} solid`}
+        borderColor={borderColor}
         borderRadius={`0 ${borderRadius} 0 0`}
         pointerEvents="none"
       />
@@ -37,8 +39,9 @@ export default function CameraBorder({ edgeSize, borderColor, borderRadius, bord
         left="0"
         w={edgeSize}
         h={edgeSize}
-        borderLeft={`${borderWidth} solid ${borderColor}`}
-        borderBottom={`${borderWidth} solid ${borderColor}`}
+        borderLeft={`${borderWidth} solid`}
+        borderBottom={`${borderWidth} solid`}
+        borderColor={borderColor}
         borderRadius={`0 0 0 ${borderRadius}`}
         pointerEvents="none"
       />
@@ -48,8 +51,9 @@ export default function CameraBorder({ edgeSize, borderColor, borderRadius, bord
         right="0"
         w={edgeSize}
         h={edgeSize}
-        borderRight={`${borderWidth} solid ${borderColor}`}
-        borderBottom={`${borderWidth} solid ${borderColor}`}
+        borderRight={`${borderWidth} solid`}
+        borderBottom={`${borderWidth} solid`}
+        borderColor={borderColor}
         borderRadius={`0 0 ${borderRadius} 0`}
         pointerEvents="none"
       />

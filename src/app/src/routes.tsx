@@ -5,6 +5,7 @@ import ResultPage from './pages/Main/Result';
 import TakeImagePage from './pages/TakeImage';
 import FeedbackPage from './pages/Main/Feedback';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ROUTES = createBrowserRouter([
   {
     path: '/',

@@ -24,7 +24,7 @@ export default function ImageActionsOverlay({ onCapture, onUpload }: ImageAction
       <VStack spacing={4} justifyContent="space-between" h="full" p="4" px="8">
         <Logo />
         <VStack w="full" h="full" justifyContent="end" position="relative">
-          <CameraBorder borderColor="green" borderRadius="32px" borderWidth="2px" edgeSize="70px" />
+          <CameraBorder borderColor="brand.grey.300" borderRadius="32px" borderWidth="2px" edgeSize="70px" />
           <HStack w="full" p="4">
             <GalleryButton onUpload={onUpload} />
             <CaptureButton onClick={onCapture} />

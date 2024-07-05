@@ -6,7 +6,6 @@ interface MainLayoutProps {
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
-
   return (
     <VStack w="full" h="full" spacing={0}>
       <Logo />

@@ -7,7 +7,7 @@ import {
   FormLabel,
   Textarea,
   VStack,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -70,17 +70,17 @@ export default function FeedbackForm({ imageName }: Props) {
       <form onSubmit={handleSubmit(onSubmitFeedback)}>
         <VStack w="full" h="full " spacing={4} align="start">
           <FormControl isInvalid={!!errors.userWearCode}>
-            <FormLabel color="green" htmlFor="userWearCode">
+            <FormLabel color="brand.green.primary" htmlFor="userWearCode">
               Wear pattern
             </FormLabel>
             {isSetWearCode && <WearCodeCard wearCodeName={WearCode[Number(userWearCode)]} />}
-            <Button colorScheme="green" variant="outline" onClick={onOpen}>
+            <Button color="brand.green.primary" borderColor="brand.green.primary" variant="outline" onClick={onOpen}>
               {isSetWearCode ? 'Change wear pattern' : 'Select wear pattern'}
             </Button>
             <FormErrorMessage>{errors.userWearCode?.message}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors.userComment?.message}>
-            <FormLabel color="green" htmlFor="userComment">
+            <FormLabel color="brand.green.primary" htmlFor="userComment">
               Comment
             </FormLabel>
             <Textarea {...register('userComment')} id="userComment" />
@@ -88,7 +88,7 @@ export default function FeedbackForm({ imageName }: Props) {
           </FormControl>
           <Button
             leftIcon={<RiSendPlaneFill />}
-            colorScheme="green"
+            colorScheme="brand.green.primary"
             disabled={!isValid}
             type="submit"
             isLoading={isPending}

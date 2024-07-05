@@ -55,11 +55,11 @@ export default function ResultPage() {
       <Navbar backPath="/" title={getWearCodeName(detectResult?.wearCode?.toString())} />
       <Image src={imageSrc} alt="result image" w="full" objectFit="cover" fallback={<ImageFallback />} />
       <VStack w="full" spacing="2" mt="4" align="start">
-        <Text color="green" fontSize="lg">
+        <Text color="brand.green.primary" fontSize="lg">
           Description
         </Text>
         <Text>{detectResult?.wearCause}</Text>
-        <Text color="green" fontSize="lg">
+        <Text color="brand.green.primary" fontSize="lg">
           Actions
         </Text>
         <OrderedList>
@@ -71,7 +71,7 @@ export default function ResultPage() {
         </OrderedList>
       </VStack>
       <Center w="full" mt="auto">
-        <HStack bg="#E6F0E6" h="3.75rem" w="8rem" borderRadius="2rem 2rem 0px 0px" justifyContent="center">
+        <HStack bg="brand.green.light" h="3.75rem" w="8rem" borderRadius="2rem 2rem 0px 0px" justifyContent="center">
           <Popover placement="top">
             <PopoverTrigger>
               <IconButton
@@ -79,7 +79,7 @@ export default function ResultPage() {
                 rounded="full"
                 w="3rem"
                 h="3rem"
-                bg="green"
+                bg="brand.green.primary"
                 fontSize="2xl"
                 color="white"
                 aria-label="accept"
@@ -90,13 +90,13 @@ export default function ResultPage() {
             <PopoverContent>
               <PopoverArrow />
               <PopoverBody>
-                <Box bg="#E6F0E6">
+                <Box bg="brand.green.light">
                   <HStack>
                     <VStack>
                       <Text>Thank you!</Text>
                       <Text>Your feedback has been sent.</Text>
                     </VStack>
-                    <Box bg="green 40%"></Box>
+                    <Box bg="brand.green.40"></Box>
                   </HStack>
                 </Box>
               </PopoverBody>
@@ -109,12 +109,12 @@ export default function ResultPage() {
             rounded="full"
             w="3rem"
             h="3rem"
-            bg="#D9D9D9"
-            color="#666666"
+            bg="brand.grey.4"
+            color="brand.grey.1"
             fontSize="2xl"
             aria-label="accept"
             icon={<BiSolidDislike />}
-            _hover={{ bg: '#D9D9D9' }}
+            _hover={{ bg: 'brand.grey.4' }}
           />
         </HStack>
       </Center>
