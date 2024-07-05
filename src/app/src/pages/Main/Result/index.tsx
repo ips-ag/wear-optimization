@@ -16,7 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   Text,
-  VStack
+  VStack,
 } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
@@ -24,21 +24,13 @@ import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import { useFeedback } from '../hooks/useFeedback';
 import AccurateTooltip from './components/AccurateTooltip';
+import AccurateText from './components/AccurateText';
 
 export default function ResultPage() {
   const detectResult = useAtomValue(resultSelector);
   const imageFile = useAtomValue(selectedImage);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const { mutate } = useFeedback();
-
-  const accurateConfidence = Number(((detectResult?.wearConfidence ?? 0) * 100).toFixed(0));
-  // >80% green, >50% yellow, otherwise red text color
-  const accurateConfidenceColor =
-    accurateConfidence > 80
-      ? 'brand.green.primary'
-      : accurateConfidence > 50
-        ? 'brand.yellow.primary'
-        : 'brand.red.primary';
 
   useEffect(() => {
     if (imageFile) {
@@ -67,10 +59,7 @@ export default function ResultPage() {
       <VStack w="full" spacing="2" align="start" px="4">
         <HStack>
           <HStack>
-            <HStack spacing={1} color={accurateConfidenceColor}>
-              <Text fontWeight={700} fontSize="lg">{`${accurateConfidence}%`}</Text>
-              <Text>{'accurate'}</Text>
-            </HStack>
+            <AccurateText wearConfident={detectResult?.wearConfidence} />
             <AccurateTooltip />
           </HStack>
         </HStack>
