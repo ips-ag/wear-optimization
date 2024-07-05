@@ -16,26 +16,36 @@ import {
   PopoverContent,
   PopoverTrigger,
   Text,
-  VStack,
+  VStack
 } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import { useFeedback } from '../hooks/useFeedback';
+import AccurateTooltip from './components/AccurateTooltip';
 
 export default function ResultPage() {
   const detectResult = useAtomValue(resultSelector);
   const imageFile = useAtomValue(selectedImage);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const { mutate } = useFeedback();
+
+  const accurateConfidence = Number(((detectResult?.wearConfidence ?? 0) * 100).toFixed(0));
+  // >80% green, >50% yellow, otherwise red text color
+  const accurateConfidenceColor =
+    accurateConfidence > 80
+      ? 'brand.green.primary'
+      : accurateConfidence > 50
+        ? 'brand.yellow.primary'
+        : 'brand.red.primary';
+
   useEffect(() => {
     if (imageFile) {
       const reader = new FileReader();
       reader.onload = function (e) {
         const image = e.target?.result;
         setImageSrc(image as string);
-        console.log('image', image);
       };
       reader.readAsDataURL(imageFile);
     }
@@ -51,11 +61,20 @@ export default function ResultPage() {
   };
 
   return (
-    <VStack w="full" h="full" spacing="4" px="4">
+    <VStack w="full" h="full" spacing="1">
       <Navbar backPath="/" title={getWearCodeName(detectResult?.wearCode?.toString())} />
-      <Image src={imageSrc} alt="result image" w="full" objectFit="cover" fallback={<ImageFallback />} />
-      <VStack w="full" spacing="2" mt="4" align="start">
-        <Text color="brand.green.primary" fontSize="lg">
+      <Image src={imageSrc} alt="result image" w="full" objectFit="cover" fallback={<ImageFallback />} pt="3" />
+      <VStack w="full" spacing="2" align="start" px="4">
+        <HStack>
+          <HStack>
+            <HStack spacing={1} color={accurateConfidenceColor}>
+              <Text fontWeight={700} fontSize="lg">{`${accurateConfidence}%`}</Text>
+              <Text>{'accurate'}</Text>
+            </HStack>
+            <AccurateTooltip />
+          </HStack>
+        </HStack>
+        <Text color="brand.green.primary" fontSize="lg" mt="4">
           Description
         </Text>
         <Text>{detectResult?.wearCause}</Text>

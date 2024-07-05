@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Main from './pages/Main';
 import Home from './pages/Home';
-import ResultPage from './pages/Main/Result';
 import TakeImagePage from './pages/TakeImage';
 import FeedbackPage from './pages/Main/Feedback';
+import ResultPage from './pages/Main/Result';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ROUTES = createBrowserRouter([

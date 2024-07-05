@@ -15,7 +15,7 @@ export const theme = extendTheme({
         35: 'rgba(0, 105, 170, 0.35)',
       },
       yellow: {
-        primary: 'EBB300',
+        primary: '#EBB300',
         55: 'rgba(235, 179, 0, 0.55)',
         30: 'rgba(235, 179, 0, 0.3)',
       },
