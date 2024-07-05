@@ -1,20 +1,25 @@
-import { ImageFallback } from '@/components';
 import Navbar from '@/components/Navbar';
-import { getWearCodeName } from '@/helpers';
+import { getWearCodeName, getWearImagePath } from '@/helpers';
 import { resultSelector, selectedImage } from '@/store';
-import { Divider, HStack, Image, ListItem, OrderedList, Text, VStack } from '@chakra-ui/react';
+import { Divider, ListItem, OrderedList, Text, VStack } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFeedback } from '../hooks/useFeedback';
-import AccurateText from './components/AccurateText';
-import AccurateTooltip from './components/AccurateTooltip';
 import FeedbackThumb from './components/FeedbackThumb';
+import ImageSlider from './components/ImageSlider';
 
 export default function ResultPage() {
   const detectResult = useAtomValue(resultSelector);
   const imageFile = useAtomValue(selectedImage);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
+  const staticImages = useMemo(() => {
+    const real = getWearImagePath('photo', detectResult?.wearCode?.toString());
+    const drawing = getWearImagePath('drawing', detectResult?.wearCode?.toString());
+
+    return [real || '', drawing || ''];
+  }, [detectResult?.wearCode]);
+
   const { mutate } = useFeedback();
   const navigate = useNavigate();
 
@@ -45,15 +50,7 @@ export default function ResultPage() {
   return (
     <VStack w="full" h="full" spacing="1">
       <Navbar backPath="/" title={getWearCodeName(detectResult?.wearCode?.toString())} />
-      <Image src={imageSrc} alt="result image" w="full" objectFit="cover" fallback={<ImageFallback />} pt="3" />
-      <VStack w="full" spacing="2" align="start" px="4">
-        <HStack>
-          <HStack>
-            <AccurateText wearConfident={detectResult?.wearConfidence} />
-            <AccurateTooltip />
-          </HStack>
-        </HStack>
-      </VStack>
+      <ImageSlider wearConfident={detectResult?.wearConfidence} images={[imageSrc || '', ...staticImages]} />
       <VStack w="full" spacing="2" align="start" px="4">
         <Text color="brand.green.primary" fontSize="lg" mt="4">
           Description
