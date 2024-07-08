@@ -13,12 +13,13 @@ export default function ResultPage() {
   const detectResult = useAtomValue(resultSelector);
   const imageFile = useAtomValue(selectedImage);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-  const staticImages = useMemo(() => {
-    const real = getWearImagePath('photo', detectResult?.wearCode?.toString());
-    const drawing = getWearImagePath('drawing', detectResult?.wearCode?.toString());
+  const sliderImages = [
+    imageSrc || '',
+    getWearImagePath('photo', detectResult?.wearCode?.toString()),
+    getWearImagePath('drawing', detectResult?.wearCode?.toString()),
+  ].filter(item => !!item) as string[];
 
-    return [real || '', drawing || ''];
-  }, [detectResult?.wearCode]);
+  console.log('sliderImages', sliderImages);
 
   const { mutate } = useFeedback();
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ export default function ResultPage() {
   return (
     <VStack w="full" h="full" spacing="1">
       <Navbar backPath="/" title={getWearCodeName(detectResult?.wearCode?.toString())} />
-      <ImageSlider wearConfident={detectResult?.wearConfidence} images={[imageSrc || '', ...staticImages]} />
+      <ImageSlider wearConfident={detectResult?.wearConfidence} images={sliderImages} />
       <VStack w="full" spacing="2" align="start" px="4">
         <Text color="brand.green.primary" fontSize="lg" mt="4">
           Description

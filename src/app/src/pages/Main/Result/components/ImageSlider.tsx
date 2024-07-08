@@ -3,10 +3,11 @@ import Slider, { Settings } from 'react-slick';
 
 import { Maybe } from '@/types';
 import { useRef, useState } from 'react';
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
 import AccurateText from './AccurateText';
 import AccurateTooltip from './AccurateTooltip';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 interface Props {
   images: string[];
@@ -18,6 +19,7 @@ const settings: Settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
+  arrows: false,
 };
 
 export default function ImageSlider({ images, wearConfident }: Props) {
@@ -26,13 +28,15 @@ export default function ImageSlider({ images, wearConfident }: Props) {
 
   return (
     <Box w="full">
-      <Slider {...settings} ref={sliderRef} beforeChange={(_, next) => setSlideIndex(next)}>
-        {images
-          .filter(item => !!item)
-          .map((image, index) => (
-            <Image key={index} src={image} alt={`image-${index}`} w="full" objectFit="contain" />
-          ))}
-      </Slider>
+      <div>
+        <Slider {...settings} ref={sliderRef} beforeChange={(_, next) => setSlideIndex(next)}>
+          {images
+            .filter(item => !!item)
+            .map((image, index) => (
+              <Image key={index} src={image} alt={`image-${index}`} w="full" objectFit="contain" />
+            ))}
+        </Slider>
+      </div>
       <HStack justifyContent="space-between" px="4" align="center">
         <HStack>
           <AccurateText wearConfident={wearConfident} />
@@ -45,6 +49,7 @@ export default function ImageSlider({ images, wearConfident }: Props) {
               onClick={() => sliderRef.current?.slickGoTo(index)}
               size={index === slideIndex ? '12px' : '10px'}
               bg={index === slideIndex ? 'brand.green.primary' : 'brand.grey.100'}
+              cursor="pointer"
             />
           ))}
         </HStack>
