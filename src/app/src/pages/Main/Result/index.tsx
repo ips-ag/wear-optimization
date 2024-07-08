@@ -3,7 +3,7 @@ import { getWearCodeName, getWearImagePath } from '@/helpers';
 import { resultSelector, selectedImage } from '@/store';
 import { Divider, ListItem, OrderedList, Text, VStack } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFeedback } from '../hooks/useFeedback';
 import FeedbackThumb from './components/FeedbackThumb';
