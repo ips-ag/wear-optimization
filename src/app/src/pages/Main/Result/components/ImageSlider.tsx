@@ -26,17 +26,17 @@ export default function ImageSlider({ images, wearConfident }: Props) {
   const [slideIndex, setSlideIndex] = useState(0);
   const sliderRef = useRef<Slider | null>(null);
 
+  console.log('images', images);
+
   return (
-    <Box w="full">
-      <div>
-        <Slider {...settings} ref={sliderRef} beforeChange={(_, next) => setSlideIndex(next)}>
-          {images
-            .filter(item => !!item)
-            .map((image, index) => (
-              <Image key={index} src={image} alt={`image-${index}`} w="full" objectFit="contain" />
-            ))}
-        </Slider>
-      </div>
+    <Box w="full" display="inline-block">
+      <Slider {...settings} ref={sliderRef} beforeChange={(_, next) => setSlideIndex(next)}>
+        {images
+          .filter(item => !!item)
+          .map((image, index) => (
+            <Image key={index} src={image} alt={`image-${index}`} w="full" objectFit="contain" />
+          ))}
+      </Slider>
       <HStack justifyContent="space-between" px="4" align="center">
         <HStack>
           <AccurateText wearConfident={wearConfident} />

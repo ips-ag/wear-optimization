@@ -13,11 +13,7 @@ export default function ResultPage() {
   const detectResult = useAtomValue(resultSelector);
   const imageFile = useAtomValue(selectedImage);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-  const sliderImages = [
-    imageSrc || '',
-    getWearImagePath('photo', detectResult?.wearCode?.toString()),
-    getWearImagePath('drawing', detectResult?.wearCode?.toString()),
-  ].filter(item => !!item) as string[];
+  const [sliderImages, setSliderImages] = useState<string[]>([]);
 
   console.log('sliderImages', sliderImages);
 
@@ -34,6 +30,13 @@ export default function ResultPage() {
       reader.readAsDataURL(imageFile);
     }
   }, [imageFile]);
+
+  useEffect(() => {
+    const wearPhoto = getWearImagePath('photo', detectResult?.wearCode?.toString());
+    const wearDrawing = getWearImagePath('drawing', detectResult?.wearCode?.toString());
+    const images = [imageSrc, wearPhoto, wearDrawing].filter(item => !!item) as string[];
+    setSliderImages(images);
+  }, [imageSrc, detectResult?.wearCode]);
 
   const handleAccept = () => {
     if (detectResult?.imageName) {
