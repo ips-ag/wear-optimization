@@ -15,8 +15,6 @@ export default function ResultPage() {
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [sliderImages, setSliderImages] = useState<string[]>([]);
 
-  console.log('sliderImages', sliderImages);
-
   const { mutate } = useFeedback();
   const navigate = useNavigate();
 

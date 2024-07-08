@@ -26,8 +26,6 @@ export default function ImageSlider({ images, wearConfident }: Props) {
   const [slideIndex, setSlideIndex] = useState(0);
   const sliderRef = useRef<Slider | null>(null);
 
-  console.log('images', images);
-
   return (
     <Box w="full" display="inline-block">
       <Slider {...settings} ref={sliderRef} beforeChange={(_, next) => setSlideIndex(next)}>
