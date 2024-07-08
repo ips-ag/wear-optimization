@@ -5,6 +5,13 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name].[ext]',
+      },
+    },
+  },
   plugins: [
     react(),
     VitePWA({
