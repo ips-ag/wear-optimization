@@ -16,8 +16,9 @@ import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 interface Props {
   onAccept: () => void;
   onReject: () => void;
+  disabled?: boolean;
 }
-export default function FeedbackThumb({ onAccept, onReject }: Props) {
+export default function FeedbackThumb({ onAccept, onReject, disabled }: Props) {
   return (
     <Center w="full" mt="auto">
       <HStack bg="brand.green.light" h="3.75rem" w="8rem" borderRadius="2rem 2rem 0px 0px" justifyContent="center">
@@ -33,7 +34,8 @@ export default function FeedbackThumb({ onAccept, onReject }: Props) {
               color="white"
               aria-label="accept"
               icon={<BiSolidLike />}
-              _hover={{ bg: 'green' }}
+              _hover={{ bg: 'brand.green.primary' }}
+              isDisabled={disabled}
             />
           </PopoverTrigger>
           <PopoverContent>
@@ -63,6 +65,7 @@ export default function FeedbackThumb({ onAccept, onReject }: Props) {
           aria-label="accept"
           icon={<BiSolidDislike />}
           _hover={{ bg: 'brand.grey.4' }}
+          isDisabled={disabled}
         />
       </HStack>
     </Center>

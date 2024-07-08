@@ -1,83 +1,65 @@
 import detectApi from '@/api/detect';
-import CameraCapture from '@/components/CameraCapture';
-import UploadButton from '@/components/UploadButton';
-import MainLayout from '@/laytouts/MainLayout';
+import { Loading } from '@/components';
+import { detectResultAtom, selectedImage } from '@/store';
 import { DetectResponseModel, Maybe } from '@/types';
 import { dataUrlToFile } from '@/utils';
-import { Box, Button, Center, CircularProgress, HStack, Image, Text, VStack, useDisclosure } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
-import { MdOutlinePhotoCamera } from 'react-icons/md';
-import DetectResult from './components/DetectResult';
-import FeedbackForm from './components/FeedbackForm';
+import { useSetAtom } from 'jotai';
+import { useCallback, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Webcam from 'react-webcam';
+import ImageActionsOverlay from './components/ImageActionsOverlay';
 
-export default function Home() {
-  const [detectResult, setDetectResult] = useState<Maybe<DetectResponseModel>>(null);
-  const [imageUri, setImageUri] = useState(undefined as string | undefined);
-  const { isOpen: isOpenCamera, onClose: onCloseCamera, onOpen: onOpenCamera } = useDisclosure();
-  console.log('imageUri', imageUri);
+const videoConstraints = {
+  facingMode: 'environment',
+};
 
+export default function HomePage() {
+  const [, setImageSrc] = useState<Maybe<string>>(null);
+  const setSelectedImage = useSetAtom(selectedImage);
+  const webcamRef = useRef<Webcam>(null);
+  const navigate = useNavigate();
+  const setResult = useSetAtom(detectResultAtom);
   const { mutate, isPending } = useMutation<DetectResponseModel, Error, File>({
     mutationFn: detectApi,
     onSuccess: data => {
-      setDetectResult(data);
+      setResult(data);
+      navigate('/result');
     },
   });
 
-  const handleCapture = (imageSrc: Maybe<string>) => {
-    onCloseCamera();
+  const handleCapture = useCallback(() => {
+    const imageSrc = webcamRef.current?.getScreenshot?.();
     if (!imageSrc) return;
-    setImageUri(imageSrc);
+    setImageSrc(imageSrc);
     const file = dataUrlToFile(imageSrc, 'capture.png');
-    console.log('file', file);
     if (file) {
       mutate(file);
+      setSelectedImage(file);
     }
-  };
+  }, [mutate, setSelectedImage]);
 
   const handleUpload = (file: Maybe<File>) => {
     if (!file) return;
+    setSelectedImage(file);
 
-    setDetectResult(null);
-    setImageUri(URL.createObjectURL(file));
     mutate(file);
   };
 
   return (
-    <MainLayout>
-      <Center w={'full'} p={4}>
-        <VStack w={'full'} spacing={3}>
-          <Text fontSize={'xl'}>Wear Optimization</Text>
-
-          {imageUri && (
-            <Box maxW={'md'}>
-              <Image w={'auto'} src={imageUri} rounded={'md'} boxShadow="base" />
-            </Box>
-          )}
-          {isPending && <CircularProgress isIndeterminate color="green.300" />}
-          {!isPending && (
-            <HStack>
-              <Button
-                leftIcon={<MdOutlinePhotoCamera />}
-                isLoading={isPending}
-                onClick={onOpenCamera}
-                loadingText="Uploading"
-              >
-                Open Camera
-              </Button>
-              <UploadButton accept=".jpg,.png" onUpload={handleUpload} isLoading={isPending} />
-            </HStack>
-          )}
-
-          {detectResult?.result && (
-            <VStack>
-              <DetectResult result={detectResult.result} />
-              <FeedbackForm imageName={detectResult.result.imageName} />
-            </VStack>
-          )}
-        </VStack>
-        <CameraCapture isOpen={isOpenCamera} onClose={onCloseCamera} onCapture={handleCapture} />
-      </Center>
-    </MainLayout>
+    <Box w="full" h="full" position={'relative'}>
+      <Webcam
+        width={'100%'}
+        height={'100%'}
+        audio={false}
+        ref={webcamRef}
+        screenshotFormat="image/png"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        videoConstraints={videoConstraints}
+      />
+      <ImageActionsOverlay onCapture={handleCapture} onUpload={handleUpload} />
+      {isPending && <Loading />}
+    </Box>
   );
 }

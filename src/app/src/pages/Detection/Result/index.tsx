@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar';
 import { getWearCodeName, getWearImagePath } from '@/helpers';
-import { resultSelector, selectedImage } from '@/store';
+import { isDisableFeedbackSelector, resultSelector, selectedImage } from '@/store';
 import { Divider, ListItem, OrderedList, Text, VStack } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,7 @@ import ImageSlider from './components/ImageSlider';
 export default function ResultPage() {
   const detectResult = useAtomValue(resultSelector);
   const imageFile = useAtomValue(selectedImage);
+  const isDisableFeedback = useAtomValue(isDisableFeedbackSelector);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [sliderImages, setSliderImages] = useState<string[]>([]);
 
@@ -77,7 +78,7 @@ export default function ResultPage() {
           buttons below to help us improve!
         </Text>
       </VStack>
-      <FeedbackThumb onAccept={handleAccept} onReject={handleReject} />
+      <FeedbackThumb onAccept={handleAccept} onReject={handleReject} disabled={isDisableFeedback} />
     </VStack>
   );
 }

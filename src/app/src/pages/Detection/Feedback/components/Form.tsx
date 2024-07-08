@@ -34,14 +34,15 @@ type FeedbackFormType = z.infer<typeof FeedbackSchema>;
 
 interface Props {
   imageName: string;
+  disabled?: boolean;
 }
-export default function FeedbackForm({ imageName }: Props) {
+export default function FeedbackForm({ imageName, disabled }: Props) {
   const {
     register,
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FeedbackFormType>({
     resolver: zodResolver(FeedbackSchema),
   });
@@ -88,10 +89,12 @@ export default function FeedbackForm({ imageName }: Props) {
           </FormControl>
           <Button
             leftIcon={<RiSendPlaneFill />}
-            colorScheme="brand.green.primary"
-            disabled={!isValid}
+            bg="brand.green.primary"
+            color="white"
             type="submit"
             isLoading={isPending}
+            isDisabled={disabled || isPending}
+            _hover={{ bg: 'brand.green.70' }}
           >
             Submit feedback
           </Button>

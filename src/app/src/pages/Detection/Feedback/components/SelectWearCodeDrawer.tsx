@@ -17,11 +17,12 @@ interface Props {
   onSelect: (wearCode: string) => void;
 }
 
+// 45px to rem =
 export default function SelectWearCodeDrawer({ onClose, isOpen, onSelect }: Props) {
   return (
     <Drawer onClose={onClose} isOpen={isOpen} size="full">
       <DrawerOverlay />
-      <DrawerContent>
+      <DrawerContent pb={12}>
         <DrawerCloseButton />
         <DrawerHeader>Select wear patterns</DrawerHeader>
         <DrawerBody>
@@ -30,8 +31,8 @@ export default function SelectWearCodeDrawer({ onClose, isOpen, onSelect }: Prop
               .filter(item => isNaN(Number(item)) && item !== 'none')
               .map((key: string) => (
                 <>
-                  <WearCodeCard wearCodeName={key} onSelect={onSelect} />
-                  <Divider />
+                  <WearCodeCard key={key} wearCodeName={key} onSelect={onSelect} />
+                  <Divider key={key} />
                 </>
               ))}
           </VStack>

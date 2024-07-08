@@ -1,23 +1,18 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Main from './pages/Main';
-import Home from './pages/Home';
-import TakeImagePage from './pages/TakeImage';
-import FeedbackPage from './pages/Main/Feedback';
-import ResultPage from './pages/Main/Result';
+import Detect from './pages/Detection';
+import FeedbackPage from './pages/Detection/Feedback';
+import ResultPage from './pages/Detection/Result';
+import HomePage from './pages/Home';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ROUTES = createBrowserRouter([
   {
     path: '/',
-    element: <TakeImagePage />,
-  },
-  {
-    path: '/detect',
-    element: <Home />,
+    element: <HomePage />,
   },
   {
     path: '/result',
-    element: <Main />,
+    element: <Detect />,
     children: [
       {
         path: '/result',

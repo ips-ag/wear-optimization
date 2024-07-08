@@ -1,4 +1,4 @@
-import { Box, Circle, HStack, Image } from '@chakra-ui/react';
+import { AspectRatio, Box, Circle, HStack, Image } from '@chakra-ui/react';
 import Slider, { Settings } from 'react-slick';
 
 import { Maybe } from '@/types';
@@ -32,7 +32,9 @@ export default function ImageSlider({ images, wearConfident }: Props) {
         {images
           .filter(item => !!item)
           .map((image, index) => (
-            <Image key={index} src={image} alt={`image-${index}`} w="full" objectFit="contain" />
+            <AspectRatio key={index} w="full" ratio={16 / 9}>
+              <Image src={image} alt={`image-${index}`} w="full" objectFit="cover" />
+            </AspectRatio>
           ))}
       </Slider>
       <HStack justifyContent="space-between" px="4" align="center">

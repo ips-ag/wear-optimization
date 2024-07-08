@@ -1,5 +1,5 @@
 import Logo from '@/components/Logo';
-import { VStack } from '@chakra-ui/react';
+import { Center, VStack } from '@chakra-ui/react';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -7,9 +7,11 @@ interface MainLayoutProps {
 
 export default function MainLayout({ children }: MainLayoutProps) {
   return (
-    <VStack w="full" h="full" spacing={0}>
-      <Logo />
-      {children}
-    </VStack>
+    <Center h="full" w="full">
+      <VStack h="full" w={['full', 'container.base', 'container.sm', 'container.md']}>
+        <Logo />
+        {children}
+      </VStack>
+    </Center>
   );
 }
