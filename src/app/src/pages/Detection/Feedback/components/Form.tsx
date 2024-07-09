@@ -16,6 +16,8 @@ import { z } from 'zod';
 import { useFeedback } from '../../hooks/useFeedback';
 import SelectWearCodeDrawer from './SelectWearCodeDrawer';
 import WearCodeCard from './WearCodeCard';
+import FeedbackConfirmPopover from '../../components/FeedbackConfirmPopover';
+import { useEffect } from 'react';
 
 const FeedbackSchema = z
   .object({
@@ -46,10 +48,21 @@ export default function FeedbackForm({ imageName, disabled }: Props) {
   } = useForm<FeedbackFormType>({
     resolver: zodResolver(FeedbackSchema),
   });
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpenDrawer, onOpen: onOpenDrawer, onClose: onCloseDrawer } = useDisclosure();
+  const {
+    isOpen: isOpenFeedbackConfirm,
+    onOpen: onOpenFeedbackConfirm,
+    onClose: onCloseFeedbackConfirm,
+  } = useDisclosure();
   const userWearCode = watch('userWearCode');
   const isSetWearCode = Boolean(userWearCode);
-  const { mutate, isPending } = useFeedback();
+  const { mutate, isPending, isSuccess } = useFeedback();
+
+  useEffect(() => {
+    if (isSuccess) {
+      onOpenFeedbackConfirm();
+    }
+  }, [isSuccess, onOpenFeedbackConfirm]);
 
   const onSubmitFeedback = (data: FeedbackFormType) => {
     const feedbackData: FeedbackRequest = {
@@ -61,10 +74,10 @@ export default function FeedbackForm({ imageName, disabled }: Props) {
     mutate(feedbackData);
   };
 
-  function handleSelectWearCode(wearCode: string): void {
+  const handleSelectWearCode = (wearCode: string): void => {
     setValue('userWearCode', String(WearCode[wearCode as keyof typeof WearCode]), { shouldValidate: true });
-    onClose();
-  }
+    onCloseDrawer();
+  };
 
   return (
     <Box w="full" h="full">
@@ -75,7 +88,12 @@ export default function FeedbackForm({ imageName, disabled }: Props) {
               Wear pattern
             </FormLabel>
             {isSetWearCode && <WearCodeCard wearCodeName={WearCode[Number(userWearCode)]} />}
-            <Button color="brand.green.primary" borderColor="brand.green.primary" variant="outline" onClick={onOpen}>
+            <Button
+              color="brand.green.primary"
+              borderColor="brand.green.primary"
+              variant="outline"
+              onClick={onOpenDrawer}
+            >
               {isSetWearCode ? 'Change wear pattern' : 'Select wear pattern'}
             </Button>
             <FormErrorMessage>{errors.userWearCode?.message}</FormErrorMessage>
@@ -87,20 +105,22 @@ export default function FeedbackForm({ imageName, disabled }: Props) {
             <Textarea {...register('userComment')} id="userComment" />
             <FormErrorMessage>{errors.userComment?.message}</FormErrorMessage>
           </FormControl>
-          <Button
-            leftIcon={<RiSendPlaneFill />}
-            bg="brand.green.primary"
-            color="white"
-            type="submit"
-            isLoading={isPending}
-            isDisabled={disabled || isPending}
-            _hover={{ bg: 'brand.green.70' }}
-          >
-            Submit feedback
-          </Button>
+          <FeedbackConfirmPopover isOpen={isOpenFeedbackConfirm} onClose={onCloseFeedbackConfirm}>
+            <Button
+              leftIcon={<RiSendPlaneFill />}
+              bg="brand.green.primary"
+              color="white"
+              type="submit"
+              isLoading={isPending}
+              isDisabled={disabled || isPending}
+              _hover={{ bg: 'brand.green.70' }}
+            >
+              Submit feedback
+            </Button>
+          </FeedbackConfirmPopover>
         </VStack>
       </form>
-      <SelectWearCodeDrawer onSelect={handleSelectWearCode} isOpen={isOpen} onClose={onClose} />
+      <SelectWearCodeDrawer onSelect={handleSelectWearCode} isOpen={isOpenDrawer} onClose={onCloseDrawer} />
     </Box>
   );
 }

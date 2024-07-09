@@ -1,16 +1,4 @@
-import {
-  Box,
-  Center,
-  HStack,
-  IconButton,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Center, forwardRef, HStack, IconButton } from '@chakra-ui/react';
 import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 
 interface Props {
@@ -18,42 +6,24 @@ interface Props {
   onReject: () => void;
   disabled?: boolean;
 }
-export default function FeedbackThumb({ onAccept, onReject, disabled }: Props) {
+const FeedbackThumb = forwardRef<Props, 'div'>((props, ref) => {
+  const { onAccept, onReject, disabled } = props;
   return (
-    <Center w="full" mt="auto">
+    <Center w="full" mt="auto" ref={ref}>
       <HStack bg="brand.green.light" h="3.75rem" w="8rem" borderRadius="2rem 2rem 0px 0px" justifyContent="center">
-        <Popover placement="top">
-          <PopoverTrigger>
-            <IconButton
-              onClick={onAccept}
-              rounded="full"
-              w="3rem"
-              h="3rem"
-              bg="brand.green.primary"
-              fontSize="2xl"
-              color="white"
-              aria-label="accept"
-              icon={<BiSolidLike />}
-              _hover={{ bg: 'brand.green.primary' }}
-              isDisabled={disabled}
-            />
-          </PopoverTrigger>
-          <PopoverContent>
-            <PopoverArrow />
-            <PopoverBody>
-              <Box bg="brand.green.light">
-                <HStack>
-                  <VStack>
-                    <Text>Thank you!</Text>
-                    <Text>Your feedback has been sent.</Text>
-                  </VStack>
-                  <Box bg="brand.green.40"></Box>
-                </HStack>
-              </Box>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
-
+        <IconButton
+          onClick={onAccept}
+          rounded="full"
+          w="3rem"
+          h="3rem"
+          bg="brand.green.primary"
+          fontSize="2xl"
+          color="white"
+          aria-label="accept"
+          icon={<BiSolidLike />}
+          _hover={{ bg: 'brand.green.primary' }}
+          isDisabled={disabled}
+        />
         <IconButton
           onClick={onReject}
           rounded="full"
@@ -70,4 +40,6 @@ export default function FeedbackThumb({ onAccept, onReject, disabled }: Props) {
       </HStack>
     </Center>
   );
-}
+});
+
+export default FeedbackThumb;

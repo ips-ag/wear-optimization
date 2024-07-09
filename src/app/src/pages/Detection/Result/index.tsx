@@ -1,13 +1,14 @@
 import Navbar from '@/components/Navbar';
 import { getWearCodeName, getWearImagePath } from '@/helpers';
 import { isDisableFeedbackSelector, resultSelector, selectedImage } from '@/store';
-import { Divider, ListItem, OrderedList, Text, VStack } from '@chakra-ui/react';
+import { Divider, ListItem, OrderedList, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFeedback } from '../hooks/useFeedback';
 import FeedbackThumb from './components/FeedbackThumb';
 import ImageSlider from './components/ImageSlider';
+import FeedbackConfirmPopover from '../components/FeedbackConfirmPopover';
 
 export default function ResultPage() {
   const detectResult = useAtomValue(resultSelector);
@@ -15,8 +16,9 @@ export default function ResultPage() {
   const isDisableFeedback = useAtomValue(isDisableFeedbackSelector);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [sliderImages, setSliderImages] = useState<string[]>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mutate } = useFeedback();
+  const { mutate, isSuccess, isPending } = useFeedback();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +31,12 @@ export default function ResultPage() {
       reader.readAsDataURL(imageFile);
     }
   }, [imageFile]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      onOpen();
+    }
+  }, [isSuccess, onOpen]);
 
   useEffect(() => {
     const wearPhoto = getWearImagePath('photo', detectResult?.wearCode?.toString());
@@ -78,7 +86,9 @@ export default function ResultPage() {
           buttons below to help us improve!
         </Text>
       </VStack>
-      <FeedbackThumb onAccept={handleAccept} onReject={handleReject} disabled={isDisableFeedback} />
+      <FeedbackConfirmPopover isOpen={isOpen} onClose={onClose} isAccept>
+        <FeedbackThumb onAccept={handleAccept} onReject={handleReject} disabled={isPending || isDisableFeedback} />
+      </FeedbackConfirmPopover>
     </VStack>
   );
 }

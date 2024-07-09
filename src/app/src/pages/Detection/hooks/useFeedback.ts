@@ -9,7 +9,7 @@ export const useFeedback = () => {
   const toast = useToast();
   const [feedback, setFeedback] = useAtom(feedbackAtom);
 
-  const { mutate, isPending } = useMutation<FeedbackResponseModel, Error, FeedbackRequest>({
+  const { mutate, isPending, isSuccess } = useMutation<FeedbackResponseModel, Error, FeedbackRequest>({
     mutationFn: feedbackApi,
     onSuccess: (_, request) => {
       setFeedback({ ...feedback, imageName: request.imageName });
@@ -25,5 +25,5 @@ export const useFeedback = () => {
     },
   });
 
-  return { mutate, isPending };
+  return { mutate, isPending, isSuccess };
 };
