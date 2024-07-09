@@ -7,7 +7,7 @@ interface ImageUploaderProps {
   onUpload: (file: Maybe<File>) => void;
 }
 export function ImageUploader({
-  accept = 'image/png, image/jpeg, image/heic',
+  accept = 'image/png, image/jpeg, image/heic, image/heif',
   onUpload,
   inputRef,
 }: ImageUploaderProps) {
