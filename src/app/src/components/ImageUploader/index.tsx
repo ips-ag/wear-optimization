@@ -6,7 +6,11 @@ interface ImageUploaderProps {
   inputRef: React.RefObject<HTMLInputElement>;
   onUpload: (file: Maybe<File>) => void;
 }
-export function ImageUploader({ accept = 'image/png, image/jpeg', onUpload, inputRef }: ImageUploaderProps) {
+export function ImageUploader({
+  accept = 'image/png, image/jpeg, image/heic, image/heif',
+  onUpload,
+  inputRef,
+}: ImageUploaderProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     onUpload(event.target.files?.[0]);
   };
