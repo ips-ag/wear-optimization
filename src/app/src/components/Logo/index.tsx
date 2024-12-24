@@ -1,12 +1,11 @@
-import { Box, Center, Image } from '@chakra-ui/react';
-import WalterLogo from '../../assets/images/walter-logo.png';
+import { Text, useBreakpointValue } from '@chakra-ui/react';
 
 export default function Logo() {
+  const fontSize = useBreakpointValue({ base: '2xl', sm: '3xl', md: '4xl' }) ?? '2xl';
+
   return (
-    <Box w={'full'}>
-      <Center w="full" h="max" p="3">
-        <Image src={WalterLogo} maxW="158px" />
-      </Center>
-    </Box>
+    <Text fontSize={fontSize} fontWeight="700" color="#4CAF50" lineHeight="1">
+      IPS-Grow
+    </Text>
   );
 }
