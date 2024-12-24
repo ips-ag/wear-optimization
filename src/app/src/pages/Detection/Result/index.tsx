@@ -41,7 +41,12 @@ export default function ResultPage() {
   useEffect(() => {
     const wearPhoto = getWearImagePath('photo', detectResult?.wearCode?.toString());
     const wearDrawing = getWearImagePath('drawing', detectResult?.wearCode?.toString());
-    const images = [imageSrc, wearPhoto, wearDrawing].filter(item => !!item) as string[];
+
+    if (!wearPhoto) {
+      console.warn(`Photo not found for wear code: ${detectResult?.wearCode}`);
+    }
+
+    const images = [imageSrc, wearPhoto, wearDrawing].filter(Boolean) as string[];
     setSliderImages(images);
   }, [imageSrc, detectResult?.wearCode]);
 
