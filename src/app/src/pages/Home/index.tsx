@@ -1,65 +1,47 @@
-import detectApi from '@/api/detect';
-import { Loading } from '@/components';
-import { detectResultAtom, selectedImage } from '@/store';
-import { DetectResponseModel, Maybe } from '@/types';
-import { dataUrlToFile } from '@/utils';
-import { Box } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
-import { useSetAtom } from 'jotai';
-import { useCallback, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Webcam from 'react-webcam';
-import ImageActionsOverlay from './components/ImageActionsOverlay';
-
-const videoConstraints = {
-  facingMode: 'environment',
-};
+import { Box, SimpleGrid, VStack } from '@chakra-ui/react';
+import { BiCamera, BiHistory, BiInfoCircle } from 'react-icons/bi';
+import { MdOutlineHandyman } from 'react-icons/md';
+import Navbar from '@/components/Navbar';
+import CaptureButton from '@/components/CaptureButton';
+import BottomNavigation from '@/components/BottomNavigation';
+import FeatureCard from './components/FeatureCard';
+import RecentAnalysis from './components/RecentAnalysis';
+import HowItWorks from './components/HowItWorks';
+import WelcomeHero from './components/WelcomeHero';
 
 export default function HomePage() {
-  const [, setImageSrc] = useState<Maybe<string>>(null);
-  const setSelectedImage = useSetAtom(selectedImage);
-  const webcamRef = useRef<Webcam>(null);
-  const navigate = useNavigate();
-  const setResult = useSetAtom(detectResultAtom);
-  const { mutate, isPending } = useMutation<DetectResponseModel, Error, File>({
-    mutationFn: detectApi,
-    onSuccess: data => {
-      setResult(data);
-      navigate('/result');
-    },
-  });
-
-  const handleCapture = useCallback(() => {
-    const imageSrc = webcamRef.current?.getScreenshot?.();
-    if (!imageSrc) return;
-    setImageSrc(imageSrc);
-    const file = dataUrlToFile(imageSrc, 'capture.png');
-    if (file) {
-      mutate(file);
-      setSelectedImage(file);
-    }
-  }, [mutate, setSelectedImage]);
-
-  const handleUpload = (file: Maybe<File>) => {
-    if (!file) return;
-    setSelectedImage(file);
-
-    mutate(file);
-  };
-
   return (
-    <Box w="full" h="full" position={'relative'}>
-      <Webcam
-        width={'100%'}
-        height={'100%'}
-        audio={false}
-        ref={webcamRef}
-        screenshotFormat="image/png"
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        videoConstraints={videoConstraints}
-      />
-      <ImageActionsOverlay onCapture={handleCapture} onUpload={handleUpload} />
-      {isPending && <Loading />}
+    <Box h="100vh">
+      <Navbar showLogo />
+
+      <VStack w="full" spacing={4} p={4}>
+        <WelcomeHero />
+
+        <SimpleGrid columns={2} spacing={4} w="full">
+          <FeatureCard
+            icon={BiCamera}
+            title="Quick Scan"
+            description="Capture or upload images for instant wear pattern analysis"
+          />
+          <FeatureCard
+            icon={BiInfoCircle}
+            title="Smart Detection"
+            description="AI-powered detection of wear patterns and causes"
+          />
+          <FeatureCard
+            icon={MdOutlineHandyman}
+            title="Solutions"
+            description="Get recommended actions to address wear issues"
+          />
+          <FeatureCard icon={BiHistory} title="History" description="Track and review your previous analyses" />
+        </SimpleGrid>
+
+        <RecentAnalysis />
+        <HowItWorks />
+      </VStack>
+
+      <CaptureButton />
+      <BottomNavigation />
     </Box>
   );
 }

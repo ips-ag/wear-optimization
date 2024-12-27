@@ -1,4 +1,4 @@
-import { Center, forwardRef, HStack, IconButton } from '@chakra-ui/react';
+import { HStack, IconButton, Tooltip } from '@chakra-ui/react';
 import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 
 interface Props {
@@ -6,40 +6,57 @@ interface Props {
   onReject: () => void;
   disabled?: boolean;
 }
-const FeedbackThumb = forwardRef<Props, 'div'>((props, ref) => {
-  const { onAccept, onReject, disabled } = props;
+
+export default function FeedbackThumb({ onAccept, onReject, disabled }: Props) {
   return (
-    <Center w="full" mt="auto" ref={ref}>
-      <HStack bg="brand.green.light" h="3.75rem" w="8rem" borderRadius="2rem 2rem 0px 0px" justifyContent="center">
+    <HStack spacing={4}>
+      <Tooltip label="Yes, it's correct" hasArrow>
         <IconButton
           onClick={onAccept}
           rounded="full"
-          w="3rem"
-          h="3rem"
+          size="lg"
+          w="4rem"
+          h="4rem"
           bg="brand.green.primary"
           fontSize="2xl"
           color="white"
           aria-label="accept"
-          icon={<BiSolidLike />}
-          _hover={{ bg: 'brand.green.primary' }}
+          icon={<BiSolidLike size={24} />}
+          _hover={{
+            bg: 'brand.green.70',
+            transform: 'scale(1.05)',
+          }}
+          _active={{
+            transform: 'scale(0.95)',
+          }}
+          transition="all 0.2s"
           isDisabled={disabled}
         />
+      </Tooltip>
+
+      <Tooltip label="No, needs correction" hasArrow>
         <IconButton
           onClick={onReject}
           rounded="full"
-          w="3rem"
-          h="3rem"
-          bg="brand.grey.4"
-          color="brand.grey.1"
+          size="lg"
+          w="4rem"
+          h="4rem"
+          bg="gray.100"
+          color="gray.600"
           fontSize="2xl"
-          aria-label="accept"
-          icon={<BiSolidDislike />}
-          _hover={{ bg: 'brand.grey.4' }}
+          aria-label="reject"
+          icon={<BiSolidDislike size={24} />}
+          _hover={{
+            bg: 'gray.200',
+            transform: 'scale(1.05)',
+          }}
+          _active={{
+            transform: 'scale(0.95)',
+          }}
+          transition="all 0.2s"
           isDisabled={disabled}
         />
-      </HStack>
-    </Center>
+      </Tooltip>
+    </HStack>
   );
-});
-
-export default FeedbackThumb;
+}
