@@ -2,7 +2,7 @@ import Logo from '@/components/Logo';
 import { Maybe } from '@/types';
 import { Box, HStack, Spacer, Text, VStack } from '@chakra-ui/react';
 import CameraBorder from './CameraBorder';
-import CaptureButton from './CaptureButton';
+import UploadButton from './CaptureButton';
 import GalleryButton from './GalleryButton';
 
 interface ImageActionsOverlayProps {
@@ -27,7 +27,7 @@ export default function ImageActionsOverlay({ onCapture, onUpload }: ImageAction
           <CameraBorder borderColor="brand.grey.300" borderRadius="32px" borderWidth="2px" edgeSize="70px" />
           <HStack w="full" p="4">
             <GalleryButton onUpload={onUpload} />
-            <CaptureButton onClick={onCapture} />
+            <UploadButton onClick={onCapture} />
             <Spacer />
           </HStack>
         </VStack>

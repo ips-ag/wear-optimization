@@ -98,7 +98,7 @@ export default function ResultPage() {
 
   return (
     <Box w="full" h="full" bg="gray.50">
-      <Navbar backPath="/" title={getWearCodeName(result?.wearCode?.toString())} showBack />
+      <Navbar backPath="/" title={getWearCodeName(result?.wearCode)} showBack />
 
       {/* Image Slider Section */}
       <Box bg="white" mb={4}>

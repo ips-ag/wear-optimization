@@ -8,7 +8,7 @@ interface FeatureCardProps {
 
 export default function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <Box p={4} bg="white" rounded="xl" shadow="sm">
+    <Box p={4} bg="white" rounded="xl" shadow="sm" data-testid={`feature-${title.toLowerCase().replace(/\s+/g, '-')}`}>
       <VStack align="start" spacing={3}>
         <Icon as={icon} fontSize="2xl" color="brand.green.primary" />
         <Text fontSize="lg" fontWeight="600" color="gray.800">

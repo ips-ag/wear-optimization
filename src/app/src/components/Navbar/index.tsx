@@ -1,8 +1,8 @@
 import { Maybe } from '@/types';
-import { Box, Container, Flex, HStack, IconButton, Text, useColorMode } from '@chakra-ui/react';
-import { BiMoon, BiSun } from 'react-icons/bi';
+import { Box, Container, Flex, HStack, IconButton, Text } from '@chakra-ui/react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import InstallButton from '../InstallButton';
 import Logo from '../Logo';
 
 interface NavbarProps {
@@ -13,8 +13,6 @@ interface NavbarProps {
 }
 
 export default function Navbar({ showBack = false, backPath = '/', title, showLogo = false }: NavbarProps) {
-  const { colorMode, toggleColorMode } = useColorMode();
-
   return (
     <Box position="fixed" top={0} left={0} right={0} bg="white" borderBottom="1px" borderColor="gray.100" zIndex={1000}>
       <Container maxW="container.lg" px={4}>
@@ -37,14 +35,7 @@ export default function Navbar({ showBack = false, backPath = '/', title, showLo
               </Text>
             )}
           </HStack>
-
-          <IconButton
-            onClick={toggleColorMode}
-            icon={colorMode === 'light' ? <BiMoon /> : <BiSun />}
-            variant="ghost"
-            aria-label="Toggle color mode"
-            rounded="full"
-          />
+          <InstallButton />
         </Flex>
       </Container>
     </Box>

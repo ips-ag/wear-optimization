@@ -11,10 +11,10 @@ import WelcomeHero from './components/WelcomeHero';
 
 export default function HomePage() {
   return (
-    <Box h="100vh">
+    <Box>
       <Navbar showLogo />
 
-      <VStack w="full" spacing={4} p={4}>
+      <VStack w="full" spacing={4} mb={4}>
         <WelcomeHero />
 
         <SimpleGrid columns={2} spacing={4} w="full">

@@ -10,7 +10,7 @@ interface Props {
 
 export default function FloatingFeedbackButton({ onAccept, onReject, disabled }: Props) {
   return (
-    <Box position="fixed" bottom="24px" right="20px" zIndex={1000}>
+    <Box position="fixed" bottom="70px" right="20px" zIndex={1000}>
       <Popover placement="top-end">
         <PopoverTrigger>
           <IconButton

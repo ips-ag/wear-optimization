@@ -17,3 +17,10 @@ export interface AnalysisHistoryStore {
   items: AnalysisHistoryItem[];
   lastSync?: number;
 }
+
+export interface SyncQueueItem {
+  id?: number;
+  type: 'analysis';
+  data: string; // base64 image
+  timestamp: number;
+}

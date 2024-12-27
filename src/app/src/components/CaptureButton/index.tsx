@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function CaptureButton() {
   return (
-    <Box position="fixed" bottom="80px" right="20px" zIndex={1000}>
+    <Box position="fixed" bottom="70px" right="20px" zIndex={1000}>
       <IconButton
         as={Link}
         to="/capture"
