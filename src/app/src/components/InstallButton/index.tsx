@@ -16,24 +16,7 @@ declare global {
 export default function InstallButton() {
   const [installable, setInstallable] = useState(false);
 
-  // Debug mount
   useEffect(() => {
-    console.log('InstallButton mounted');
-    return () => console.log('InstallButton unmounted');
-  }, []);
-
-  // Debug PWA criteria
-  useEffect(() => {
-    // Check PWA criteria
-    console.log('Checking PWA installation criteria:');
-    const hasServiceWorker = 'serviceWorker' in navigator;
-    const hasManifest = !!document.querySelector('link[rel="manifest"]');
-    const isInstallable = hasServiceWorker && hasManifest;
-
-    console.log('- Service Worker:', hasServiceWorker);
-    console.log('- Manifest:', hasManifest);
-    console.log('- Is Installable:', isInstallable);
-
     const handleBeforeInstall = (e: Event) => {
       console.log('Install prompt event received');
       e.preventDefault(); // Prevent automatic prompt
@@ -47,8 +30,6 @@ export default function InstallButton() {
       setInstallable(true);
     }
 
-    // Debug beforeinstallprompt
-    console.log('Adding beforeinstallprompt listener');
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
 
     window.addEventListener('appinstalled', () => {
@@ -61,11 +42,6 @@ export default function InstallButton() {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
     };
   }, []);
-
-  // Debug installable state changes
-  useEffect(() => {
-    console.log('Installable state changed:', installable);
-  }, [installable]);
 
   const handleInstall = useCallback(async () => {
     if (!window.deferredPrompt) return;

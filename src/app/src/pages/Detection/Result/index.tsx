@@ -3,7 +3,7 @@ import { getWearCodeName, getWearImagePath } from '@/helpers';
 import { historyService } from '@/services/history';
 import { resultSelector, selectedImage } from '@/store';
 import { Box, HStack, Icon, ListItem, OrderedList, Text, useDisclosure, VStack } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 import { BiInfoCircle } from 'react-icons/bi';
@@ -25,11 +25,16 @@ export default function ResultPage() {
   const { isSuccess, isPending } = useFeedback();
   const navigate = useNavigate();
 
-  const { data: historyItem } = useQuery({
+  const { data: historyItem, isLoading } = useQuery({
     queryKey: ['analysis', id],
     queryFn: () => (id ? historyService.getAnalysisById(id) : null),
     enabled: !!id,
+    staleTime: Infinity,
+    gcTime: Infinity,
+    networkMode: 'always',
   });
+
+  const queryClient = useQueryClient();
 
   const result = historyItem?.result || detectResult;
 
@@ -60,8 +65,8 @@ export default function ResultPage() {
       console.warn(`Photo not found for wear code: ${result?.wearCode}`);
     }
 
-    const images = [imageSrc, wearPhoto, wearDrawing].filter(Boolean) as string[];
-    setSliderImages(images);
+    const uniqueImages = new Set([imageSrc, wearPhoto, wearDrawing].filter(Boolean));
+    setSliderImages([...uniqueImages] as string[]);
   }, [imageSrc, result?.wearCode]);
 
   const [currentId, setCurrentId] = useState<string | undefined>(undefined);
@@ -86,6 +91,7 @@ export default function ResultPage() {
   const handleAccept = async () => {
     if (analysisId) {
       await historyService.updateFeedback(analysisId, true);
+      queryClient.invalidateQueries({ queryKey: ['feedback', analysisId] });
       onOpen();
     }
   };
@@ -95,6 +101,32 @@ export default function ResultPage() {
       navigate(`/feedback/${analysisId}`);
     }
   };
+
+  if (isLoading) {
+    return (
+      <Box w="full" h="full" bg="gray.50">
+        <Navbar backPath="/" title="Loading..." showBack />
+        <VStack w="full" spacing={4} px={4} pt={8}>
+          <Text>Loading analysis data...</Text>
+        </VStack>
+      </Box>
+    );
+  }
+
+  if (!result && id) {
+    console.log('Failed to load result for id:', id);
+    return (
+      <Box w="full" h="full" bg="gray.50">
+        <Navbar backPath="/" title="Error" showBack />
+        <VStack w="full" spacing={4} px={4} pt={8}>
+          <Text>Failed to load analysis data. Please check your connection and try again.</Text>
+          <Text color="gray.500" fontSize="sm">
+            Error: Analysis not found in database
+          </Text>
+        </VStack>
+      </Box>
+    );
+  }
 
   return (
     <Box w="full" h="full" bg="gray.50">
@@ -133,7 +165,7 @@ export default function ResultPage() {
 
           <Box p={4}>
             <OrderedList spacing={3}>
-              {result?.suggestedActions.map((action, index) => (
+              {result?.suggestedActions.map((action: string, index: number) => (
                 <ListItem key={index}>
                   <Text color="gray.700" lineHeight="tall">
                     {action}
@@ -145,12 +177,12 @@ export default function ResultPage() {
         </Box>
       </VStack>
 
-      {/* Feedback Button */}
-      <FeedbackConfirmPopover isOpen={isOpen} onClose={onClose} isAccept>
+      <FeedbackConfirmPopover isOpen={isOpen} onClose={onClose}>
         <FloatingFeedbackButton
           onAccept={handleAccept}
           onReject={handleReject}
           disabled={!analysisId || isPending || hasFeedback}
+          hasFeedback={hasFeedback}
         />
       </FeedbackConfirmPopover>
     </Box>

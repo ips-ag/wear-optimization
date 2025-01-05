@@ -6,9 +6,10 @@ interface Props {
   onAccept: () => void;
   onReject: () => void;
   disabled?: boolean;
+  hasFeedback?: boolean;
 }
 
-export default function FloatingFeedbackButton({ onAccept, onReject, disabled }: Props) {
+export default function FloatingFeedbackButton({ onAccept, onReject, disabled, hasFeedback }: Props) {
   return (
     <Box position="fixed" bottom="70px" right="20px" zIndex={1000}>
       <Popover placement="top-end">
@@ -29,17 +30,21 @@ export default function FloatingFeedbackButton({ onAccept, onReject, disabled }:
           />
         </PopoverTrigger>
         <PopoverContent p={4} width="auto" maxW="300px">
-          <VStack spacing={4} align="center">
-            <VStack spacing={1}>
-              <Text fontSize="lg" fontWeight="600" color="gray.800">
-                Is this analysis correct?
-              </Text>
-              <Text textAlign="center" color="gray.600" fontSize="sm">
-                Help us improve by providing your feedback
-              </Text>
+          {hasFeedback ? (
+            <Text>Thank you for your feedback!</Text>
+          ) : (
+            <VStack spacing={4} align="center">
+              <VStack spacing={1}>
+                <Text fontSize="lg" fontWeight="600" color="gray.800">
+                  Is this analysis correct?
+                </Text>
+                <Text textAlign="center" color="gray.600" fontSize="sm">
+                  Help us improve by providing your feedback
+                </Text>
+              </VStack>
+              <FeedbackThumb onAccept={onAccept} onReject={onReject} disabled={disabled} />
             </VStack>
-            <FeedbackThumb onAccept={onAccept} onReject={onReject} disabled={disabled} />
-          </VStack>
+          )}
         </PopoverContent>
       </Popover>
     </Box>
