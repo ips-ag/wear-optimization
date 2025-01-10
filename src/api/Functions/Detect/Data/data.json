@@ -1,0 +1,658 @@
+{
+  "flankFaceWear": {
+    "id": "flankFaceWear",
+    "displayText": "Flank face wear",
+    "reason": "Abrasion on the flank face",
+    "detailReason": "Flank face wear is caused by abrasion between the workpiece and the flank face."
+  },
+  "craterWear": {
+    "id": "craterWear",
+    "displayText": "Crater wear",
+    "reason": "Erosion or hollowing on the rake face",
+    "detailReason": "Crater wear is caused by erosion and abrasion on the rake face"
+  },
+  "buildUp": {
+    "id": "buildUp",
+    "displayText": "Build-up on the cutting edge",
+    "reason": "Adhesion of material along the cutting edge on the rake face",
+    "detailReason": "Micro galling causes parts of the workpiece material to stick to the cutting edge, resulting in a build-up on the cutting edge."
+  },
+  "fractures": {
+    "id": "fractures",
+    "displayText": "Fractures",
+    "reason": "Fractures along the cutting edge",
+    "detailReason": "Fractures are caused by vibrations, chip impacts, thermal cracks and as a result of the wear resistance of the cutting tool material being too high."
+  },
+  "plasticDeformation": {
+    "id": "plasticDeformation",
+    "displayText": "Plastic deformation",
+    "reason": "Deformation on the cutting edge (particularly on the corner radius)",
+    "detailReason": "Plastic deformation is caused by excessive heat development combined with excessive mechanical stress.\n"
+  },
+  "notchWear": {
+    "id": "notchWear",
+    "displayText": "Notch wear",
+    "reason": "Notching around the maximum cutting depth",
+    "detailReason": "Notch wear often occurs during the machining of workpieces with a hard surface (forged or cast)."
+  },
+  "thermalCracking": {
+    "id": "thermalCracking",
+    "displayText": "Thermal cracking",
+    "reason": "Even cracks in the tool which are perpendicular to the cutting edge.",
+    "detailReason": "Thermal cracks are caused by fluctuations in temperature (thermal shock)"
+  },
+  "galling": {
+    "id": "galling",
+    "displayText": "Galling",
+    "reason": "Galling on the rake faces or flank faces",
+    "detailReason": "Galling occurs due to unsuitable combinations of:  tool surface types, workpiece material properties and coolant properties. "
+  },
+  "mouldEdgeWear": {
+    "id": "mouldEdgeWear",
+    "displayText": "Mould edge wear",
+    "reason": "Wear on the mold edges",
+    "detailReason": "Mold edge wear is caused by abrasion between the workpiece and the mold edges."
+  },
+  "reasonGalTf": {
+    "id": "reasonGalTf",
+    "reason": "Galling - primarily on the mold edges but also in the flanks"
+  },
+  "galling_tf": {
+    "id": "galling_tf",
+    "displayText": "Galling",
+    "reason": "Galling on the mold edges",
+    "detailReason": "Galling occurs due to unsuitable combinations of:  tool surface types, workpiece material properties and coolant properties. "
+  },
+  "plasticDeformation_drillingRound": {
+    "id": "plasticDeformation_drillingRound",
+    "displayText": "Plastic deformation",
+    "reason": "Deformation on the cutting edge (especially on the corner edge)",
+    "detailReason": "Plastic deformation is caused by excessive heat development combined with excessive mechanical stress.\n"
+  },
+  "detailFracTT": {
+    "id": "detailFracTT",
+    "detailReason": "Galling occurs due to unsuitable combinations of:  tool surface types, workpiece material properties and coolant properties. "
+  },
+  "fractures_tt": {
+    "id": "fractures_tt",
+    "displayText": "Fractures",
+    "reason": "Fractures along the cutting edge",
+    "detailReason": "Fractures on taps are often caused by problems with chip control"
+  },
+  "flankFaceWear_turning": {
+    "id": "flankFaceWear_turning",
+    "displayText": "Flank face wear",
+    "reason": "Abrasion on the flank face",
+    "detailReason": "Flank face wear is caused by abrasion between the workpiece and the tool at the flank face of the indexable insert"
+  },
+  "fractures_turning": {
+    "id": "fractures_turning",
+    "displayText": "Fractures",
+    "reason": "Fractures along the cutting edge",
+    "detailReason": "Fractures are caused by vibration, interrupted cuts, chip impacts and thermal shocks in combination with cutting tool material substrates that are too hard "
+  },
+  "millingIndexFlankFaceWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use more wear-resistant cutting tool material",
+      "Increase feed rate"
+    ]
+  },
+  "millingIndexBuildUp": {
+    "solutionSteps": [
+      "Increase cutting speed",
+      "Increase rake angle",
+      "Use sharper indexable insert",
+      "Reduce protective chamfer on the cutting edge",
+      "Increase coolant pressure"
+    ]
+  },
+  "millingIndexFractures": {
+    "solutionSteps": [
+      "Use larger corner radius / chamfer",
+      "Use tougher cutting tool material",
+      "Reduce feed rate",
+      "Increase coolant pressure"
+    ]
+  },
+  "millingIndexPlasticDeformation": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Reduce feed rate",
+      "Use more wear-resistant cutting tool material",
+      "Increase coolant pressure"
+    ]
+  },
+  "millingIndexNotchWear": {
+    "solutionSteps": ["Vary cutting depth"]
+  },
+  "millingIndexThermalCracking": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use tougher cutting tool material",
+      "Turn off coolant supply"
+    ]
+  },
+  "millingRoundFlankFaceWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use more wear-resistant cutting tool material",
+      "Increase feed rate",
+      "Increase coolant pressure"
+    ]
+  },
+  "millingRoundCraterWear": {
+    "solutionSteps": [
+      "Reduce the cutting speed",
+      "Use a harder cutting tool material",
+      "Reduce the feed rate",
+      "Increase the coolant pressure"
+    ]
+  },
+  "millingRoundBuildUp": {
+    "solutionSteps": [
+      "Increase the cutting speed",
+      "Increase the rake angle",
+      "Use a tool with a sharper cutting edge",
+      "Reduce the feed rate",
+      "Increase the coolant pressure"
+    ]
+  },
+  "millingRoundFractures": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use a stronger cutting edge",
+      "Use tougher cutting tool material",
+      "Increase feed rate",
+      "Increase coolant pressure"
+    ]
+  },
+  "millingRoundPlasticDeformation": {
+    "solutionSteps": [
+      "Reduce the feed rate",
+      "Use more wear-resistant cutting tool material",
+      "Use a less sharp tool",
+      "Increase the coolant pressure"
+    ]
+  },
+  "millingRoundThermalCracking": {
+    "solutionSteps": [
+      "Reduce the cutting speed",
+      "Reduce the feed rate",
+      "Reduce the coolant pressure"
+    ]
+  },
+  "drillingIndexFlankFaceWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use more wear-resistant cutting tool material",
+      "Increase feed rate"
+    ]
+  },
+  "drillingIndexCraterWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use more wear-resistant cutting tool material",
+      "Reduce feed rate",
+      "Use coating with a high alumina content",
+      "Use coolant"
+    ]
+  },
+  "drillingIndexBuildUp": {
+    "solutionSteps": [
+      "Increase cutting speed",
+      "Increase rake angle",
+      "Use sharper indexable insert",
+      "Reduce protective chamfer on the cutting edge",
+      "Reduce feed rate",
+      "Increase coolant pressure"
+    ]
+  },
+  "drillingIndexFractures": {
+    "solutionSteps": [
+      "Use larger corner radius / chamfer",
+      "Use tougher cutting tool material",
+      "Reduce feed rate",
+      "Increase coolant pressure"
+    ]
+  },
+  "drillingIndexPlasticDeformation": {
+    "solutionSteps": [
+      "Reduce feed rate",
+      "Use more wear-resistant cutting tool material",
+      "Increase coolant pressure"
+    ]
+  },
+  "drillingIndexThermalCracking": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use tougher cutting tool material",
+      "Turn off coolant supply"
+    ]
+  },
+  "drillingRoundFlankFaceWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Increase feed rate",
+      "Increase coolant pressure"
+    ]
+  },
+  "drillingRoundCraterWear": {
+    "solutionSteps": [
+      "Increase cutting speed",
+      "Increase feed rate",
+      "Increase coolant pressure"
+    ]
+  },
+  "drillingRoundBuildUp": {
+    "solutionSteps": [
+      "Increase cutting speed",
+      "Increase feed rate",
+      "Increase coolant pressure"
+    ]
+  },
+  "drillingRoundFractures": {
+    "solutionSteps": [
+      "Replace and recondition tool more frequently",
+      "Check for secure tool holding",
+      "Check tool concentricity"
+    ]
+  },
+  "drillingRoundPlasticDeformation": {
+    "solutionSteps": ["Reduce feed rate", "Increase coolant pressure"]
+  },
+  "roughBoringFlankFaceWear": {
+    "solutionSteps": [
+      "Use more wear-resistant cutting tool material",
+      "Increase feed rate",
+      "Reduce cutting speed",
+      "Increase coolant pressure",
+      "Check alignment"
+    ]
+  },
+  "roughBoringCraterWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use geometry with a greater rake angle",
+      "Use sharper indexable insert",
+      "Use more wear-resistant cutting tool material",
+      "Reduce feed rate",
+      "Increase coolant pressure"
+    ]
+  },
+  "roughBoringBuildUp": {
+    "solutionSteps": [
+      "Increase cutting speed",
+      "Use sharper geometry with a greater rake angle",
+      "Use cutting tool material with a treated (smoother) surface",
+      "Increase coolant pressure"
+    ]
+  },
+  "roughBoringFractures": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use tougher cutting tool material",
+      "Use more stable geometry",
+      "Shorten projection length",
+      "Use more stable toolholder",
+      "Reduce feed rate"
+    ]
+  },
+  "roughBoringPlasticDeformation": {
+    "solutionSteps": [
+      "Use more wear-resistant cutting tool material",
+      "Reduce feed rate",
+      "Reduce cutting speed",
+      "Increase coolant pressure",
+      "Reduce cutting depth"
+    ]
+  },
+  "roughBoringNotchWear": {
+    "solutionSteps": [
+      "Select different cutting depths",
+      "Reduce cutting speed",
+      "Use tougher cutting tool material (PVD-coated)",
+      "Use more open geometry",
+      "Increase coolant pressure",
+      "Use tool with leading cutting edge",
+      "Select smaller corner radius"
+    ]
+  },
+  "roughBoringThermalCracking": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Reduce feed rate",
+      "Use tougher cutting tool material",
+      "Turn off coolant supply when machining interrupted cuts",
+      "Use more stable geometry"
+    ]
+  },
+  "precisionBoringFlankFaceWear": {
+    "solutionSteps": [
+      "Use more wear-resistant cutting tool material",
+      "Increase feed rate",
+      "Reduce cutting speed",
+      "Increase coolant pressure"
+    ]
+  },
+  "precisionBoringCraterWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use geometry with a greater rake angle",
+      "Use sharper indexable insert",
+      "Use more wear-resistant cutting tool material",
+      "Reduce feed rate",
+      "Increase coolant pressure"
+    ]
+  },
+  "precisionBoringBuildUp": {
+    "solutionSteps": [
+      "Increase cutting speed",
+      "Use sharper geometry with a greater rake angle",
+      "Use cutting tool material with a treated (smoother) surface",
+      "Increase coolant pressure"
+    ]
+  },
+  "precisionBoringFractures": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use tougher cutting tool material",
+      "Use more stable geometry",
+      "Shorten projection length",
+      "Use more stable toolholder",
+      "Reduce feed rate"
+    ]
+  },
+  "precisionBoringPlasticDeformation": {
+    "solutionSteps": [
+      "Use more wear-resistant cutting tool material",
+      "Reduce feed rate",
+      "Reduce cutting speed",
+      "Increase coolant pressure",
+      "Reduce cutting depth"
+    ]
+  },
+  "precisionBoringNotchWear": {
+    "solutionSteps": [
+      "Select different cutting depths",
+      "Reduce cutting speed",
+      "Use tougher cutting tool material",
+      "Use more open geometry",
+      "Increase coolant pressure",
+      "Use tool with leading cutting edge",
+      "Select smaller corner radius"
+    ]
+  },
+  "precisionBoringThermalCracking": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Reduce feed rate",
+      "Use tougher cutting material",
+      "Turn off coolant supply when machining interrupted cuts",
+      "Use more stable geometry"
+    ]
+  },
+  "turningGroovingFlankFaceWear": {
+    "solutionSteps": [
+      "Reduce the cutting speed",
+      "Use a more wear-resistant cutting tool material",
+      "Increase the feed rate",
+      "Increase the coolant pressure/check the alignment"
+    ]
+  },
+  "turningGroovingCraterWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use more wear-resistant cutting tool material",
+      "Increase coolant pressure/check alignment",
+      "Reduce feed rate",
+      "Use geometry with greater rake angle"
+    ]
+  },
+  "turningGroovingBuildUp": {
+    "solutionSteps": [
+      "Increase/reduce the cutting speed",
+      "Use an indexable insert with a sharper cutting edge",
+      "Use a cutting tool material with a treated (smoother) surface",
+      "Increase the coolant pressure/check the alignment"
+    ]
+  },
+  "turningGroovingFractures": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use tougher cutting tool material",
+      "Reduce feed rate",
+      "Shorten projection length",
+      "Use more stable toolholder",
+      "Use more stable geometry",
+      "Check and readjust center height",
+      "Use screw clamping instead of self-clamping"
+    ]
+  },
+  "turningGroovingPlasticDeformation": {
+    "solutionSteps": [
+      "Use more wear-resistant cutting tool material",
+      "Reduce feed rate",
+      "Reduce cutting speed",
+      "Increase coolant pressure/check alignment"
+    ]
+  },
+  "turningGroovingNotchWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Reduce feed rate",
+      "Use tougher cutting tool material (PVD-coated)",
+      "Use a less sharp indexable insert",
+      "Increase coolant pressure/check alignment"
+    ]
+  },
+  "turningGroovingThermalCracking": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Reduce feed rate",
+      "Use tougher cutting tool material",
+      "Use a less sharp indexable insert",
+      "Turn off coolant supply when machining interrupted cuts"
+    ]
+  },
+  "turningGrooveTurningFlankFaceWear": {
+    "solutionSteps": [
+      "Reduce the cutting speed",
+      "Use a more wear-resistant cutting tool material",
+      "Increase the feed rate",
+      "Increase the coolant pressure/check the alignment"
+    ]
+  },
+  "turningGrooveTurningCraterWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use more wear-resistant cutting tool material",
+      "Reduce feed rate",
+      "Use geometry with greater rake angle",
+      "Increase coolant pressure/check alignment"
+    ]
+  },
+  "turningGrooveTurningBuildUp": {
+    "solutionSteps": [
+      "Increase/reduce the cutting speed",
+      "Use an indexable insert with a sharper cutting edge",
+      "Use a cutting tool material with a treated (smoother) surface",
+      "Increase the coolant pressure/check the alignment"
+    ]
+  },
+  "turningGrooveTurningFractures": {
+    "solutionSteps": [
+      "Reduce the cutting speed",
+      "Use a tougher cutting tool material",
+      "Reduce the feed rate",
+      "Check the tool stability if vibration occurs",
+      "Use a stronger geometry",
+      "Use screw clamping instead of self-clamping"
+    ]
+  },
+  "turningGrooveTurningPlasticDeformation": {
+    "solutionSteps": [
+      "Use more wear-resistant cutting tool material",
+      "Reduce feed rate",
+      "Reduce cutting depth",
+      "Reduce cutting speed",
+      "Increase coolant pressure/check alignment"
+    ]
+  },
+  "turningGrooveTurningNotchWear": {
+    "solutionSteps": [
+      "Reduce the cutting speed",
+      "Reduce the feed rate",
+      "Use a more wear-resistant cutting tool material",
+      "Use a stronger cutting edge",
+      "Vary the cutting depth",
+      "Increase the coolant pressure/check the alignment"
+    ]
+  },
+  "turningGrooveTurningThermalCracking": {
+    "solutionSteps": [
+      "Vary the cutting depth",
+      "Reduce feed rate",
+      "Use tougher cutting tool material",
+      "Use a less sharp indexable insert",
+      "Turn off coolant supply when machining interrupted cuts"
+    ]
+  },
+  "turningIsoFlankFaceWear": {
+    "solutionSteps": [
+      "Use more wear-resistant cutting tool material",
+      "Increase feed rate",
+      "Reduce cutting speed",
+      "Increase coolant pressure/check alignment"
+    ]
+  },
+  "turningIsoCraterWear": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Use geometry with a greater rake angle",
+      "Use more wear-resistant cutting tool material",
+      "Reduce feed rate",
+      "Increase coolant pressure/check alignment"
+    ]
+  },
+  "turningIsoBuildUp": {
+    "solutionSteps": [
+      "Increase cutting speed",
+      "Use sharper indexable insert",
+      "Use cutting tool material with a treated (smoother) surface",
+      "Increase coolant pressure/check alignment"
+    ]
+  },
+  "turningIsoFractures": {
+    "solutionSteps": [
+      "Reduce the cutting speed",
+      "Use a tougher cutting tool material",
+      "Use a stronger cutting edge",
+      "Check the tool stability if vibration occurs",
+      "Reduce the feed rate",
+      "Turn off coolant supply when machining interrupted cuts"
+    ]
+  },
+  "turningIsoPlasticDeformation": {
+    "solutionSteps": [
+      "Select a more wear-resistant cutting material",
+      "Reduce the feed rate",
+      "Reduce the cutting speed",
+      "Reduce the cutting depth",
+      "Increase the coolant pressure/check the alignment"
+    ]
+  },
+  "turningIsoNotchWear": {
+    "solutionSteps": [
+      "Vary the cutting depth",
+      "Reduce the cutting speed",
+      "Use a tougher cutting tool material (PVD coated)",
+      "Use a tool with a leading cutting edge (smaller approach angle)",
+      "Select a smaller corner radius",
+      "Increase the coolant pressure/check the alignment"
+    ]
+  },
+  "turningIsoThermalCracking": {
+    "solutionSteps": [
+      "Reduce cutting speed",
+      "Reduce feed rate",
+      "Use tougher cutting tool material",
+      "Turn off coolant supply when machining interrupted cuts",
+      "Use more stable geometry"
+    ]
+  },
+  "threadingTappingFlankFaceWear": {
+    "solutionSteps": [
+      "Select a more wear-resistant cutting tool material",
+      "Use a tool with a larger clearance angle",
+      "Improve the coolant supply and lubrication (e.g. increase the oil content or use tools with internal coolant)",
+      "Reduce the cutting speed",
+      "Ensure that the tool cuts easily (high rake angle and helix angle, sharp cutting edges) when machining materials that tend to form build-up"
+    ]
+  },
+  "threadingTappingCraterWear": {
+    "solutionSteps": [
+      "Select a more wear-resistant cutting tool material",
+      "Reduce the cutting speed",
+      "Improve the coolant supply and lubrication (e.g. increase the oil content or use tools with internal coolant)"
+    ]
+  },
+  "threadingTappingBuildUp": {
+    "solutionSteps": [
+      "Select a suitable coating or surface treatment",
+      "Increase the cutting speed",
+      "Improve the coolant supply and lubrication (e.g. increase the oil content or use tools with internal coolant)"
+    ]
+  },
+  "threadingTappingFractures": {
+    "solutionSteps": [
+      "Select a tougher cutting tool material",
+      "Optimize the chip formation (use bright or steam-tempered taps/reduce the rake angle/reduced helix: Grind for blind hole thread tapping)"
+    ]
+  },
+  "threadingTappingGalling": {
+    "solutionSteps": [
+      "Select a tool type with a higher clearance angle",
+      "Select a suitable coating or surface treatment",
+      "Improve the coolant supply and lubrication (e.g. increase the oil content or use tools with internal coolant)",
+      "Reduce the cutting speed in order to reduce the temperature and thereby reduce the tendency to form build-up",
+      "Ensure that the tool is free-cutting (high rake angle and helix angle, sharp cutting edges)"
+    ]
+  },
+  "threadingMillingFlankFaceWear": {
+    "solutionSteps": [
+      "Reduce cutting speed and/or increase feed rate",
+      "Use more wear-resistant cutting tool material"
+    ]
+  },
+  "threadingMillingBuildUp": {
+    "solutionSteps": [
+      "Ensure coolant supply is effective",
+      "Reduce the cutting speed",
+      "Select a suitable PVD coating"
+    ]
+  },
+  "threadingMillingFractures": {
+    "solutionSteps": [
+      "Ensure chip removal (e.g. through internal cooling)",
+      "Reduce vibration (reduce the cutting speed and/or reduce the projection length)",
+      "Reduce the cutting edge load (reduce the feed per tooth or apply radial cut distribution)",
+      "Use a tool with a tougher cutting tool material",
+      "Reduce the helix angle and/or the rake angle"
+    ]
+  },
+  "threadingFormingGalling": {
+    "solutionSteps": [
+      "Replace the coolant or increase the oil content",
+      "Use a suitable PVD coating",
+      "Possibly reduce the forming speed"
+    ]
+  },
+  "threadingFormingMouldEdgeWear": {
+    "solutionSteps": [
+      "Improve the coolant supply and lubrication (e.g. increase the oil content or use tools with internal coolant)",
+      "Vary the forming speed",
+      "Modify the polygon geometry"
+    ]
+  }
+}
