@@ -11,6 +11,7 @@ export default function FloatingCloseButton() {
       top={4}
       right={4}
       zIndex={1000}
+      data-testid="close-capture-button"
       icon={<IoClose size={24} />}
       aria-label="Close"
       onClick={() => navigate(-1)}

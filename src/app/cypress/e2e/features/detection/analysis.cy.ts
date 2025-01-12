@@ -1,9 +1,27 @@
+import { clearTestDatabase } from '../../../support/utils/db';
+
 describe('Wear Pattern Analysis', () => {
   describe('Quick Scan Flow', () => {
     beforeEach(() => {
+      // Clear database before each test
+      cy.wrap(clearTestDatabase());
+
       cy.mockAnalysisAPI('success');
       cy.visit('/');
     });
+
+    // Let's add a shared function to verify recent analysis
+    const verifyRecentAnalysis = () => {
+      // Go back to home page
+      cy.visit('/');
+
+      // Verify recent analysis section
+      cy.contains('Recent Analysis').should('be.visible');
+      cy.contains('No recent analysis yet').should('not.exist');
+
+      // Verify the analysis item
+      cy.contains('Buildup on cutting edge').should('be.visible');
+    };
 
     it('should complete full analysis flow with uploaded image', () => {
       // Verify home page elements
@@ -33,6 +51,20 @@ describe('Wear Pattern Analysis', () => {
       // Verify analysis results
       cy.url().should('include', '/result');
 
+      // Verify image slider has all 3 images
+      cy.getByTestId('image-slider').within(() => {
+        // Verify all 3 images are present
+        cy.get('.slick-slide:not(.slick-cloned) img') // Get non-cloned slides
+          .should('have.length', 3);
+
+        // Verify image sources
+        cy.get('.slick-slide:not(.slick-cloned) img').eq(0).should('have.attr', 'src').and('include', 'data:image'); // Uploaded image (base64)
+
+        cy.get('.slick-slide:not(.slick-cloned) img').eq(1).should('have.attr', 'src').and('include', '_photo'); // Wear pattern photo
+
+        cy.get('.slick-slide:not(.slick-cloned) img').eq(2).should('have.attr', 'src').and('include', '_drawing'); // Wear pattern drawing
+      });
+
       // Verify wear code and confidence
       cy.contains('Buildup on cutting edge').should('be.visible');
       cy.contains('95%').should('be.visible');
@@ -54,6 +86,9 @@ describe('Wear Pattern Analysis', () => {
       //   .within(() => {
       //     cy.contains('Buildup on cutting edge').should('be.visible');
       //   });
+
+      // Add verification for recent analysis
+      verifyRecentAnalysis();
     });
 
     it('should handle offline analysis queue', () => {
@@ -79,7 +114,13 @@ describe('Wear Pattern Analysis', () => {
 
       // Verify analysis completed
       cy.contains('Analysis complete').should('be.visible');
-      cy.get('[data-testid="history-item"]').should('be.visible');
+
+      // Click close button
+      cy.get('[data-testid="close-capture-button"]').click();
+      cy.url().should('include', '/');
+
+      // Add verification for recent analysis
+      verifyRecentAnalysis();
     });
   });
 });

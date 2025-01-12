@@ -7,7 +7,7 @@ Cypress.Commands.add('mockAnalysisAPI', (status = 'success') => {
         body: {
           result: {
             imageName: 'test-wear-pattern.png',
-            wearCode: 1,
+            wearCode: 'buildupOnCuttingEdge',
             wearConfidence: 0.95,
             wearCause:
               'Micro galling causes parts of the workpiece material to stick to the cutting edge, resulting in a build-up on the cutting edge',

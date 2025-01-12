@@ -27,7 +27,7 @@ export default function ImageSlider({ images, wearConfident }: Props) {
   const sliderRef = useRef<Slider | null>(null);
 
   return (
-    <Box w="full" display="inline-block">
+    <Box w="full" display="inline-block" data-testid="image-slider">
       <Slider {...settings} ref={sliderRef} beforeChange={(_, next) => setSlideIndex(next)}>
         {images
           .filter(item => !!item)

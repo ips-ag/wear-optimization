@@ -33,32 +33,44 @@ export default function RecentAnalysis() {
   }
 
   return (
-    <Box w="full" bg="white" p={4} shadow="sm">
+    <Box w="full" bg="white" p={4} shadow="sm" data-testid="recent-analysis">
       <HStack justify="space-between" mb={4}>
         <Text fontSize="lg" fontWeight="600" color="gray.800">
           Recent Analysis
         </Text>
-        <Text as={Link} to="/history" fontSize="sm" color="brand.green.primary">
+        <Text as={Link} to="/history" fontSize="sm" color="brand.green.primary" data-testid="view-all-history">
           View All
         </Text>
       </HStack>
 
       {!recentItems || recentItems.length === 0 ? (
-        <Text fontSize="sm" color="gray.500" textAlign="center" py={8}>
+        <Text fontSize="sm" color="gray.500" textAlign="center" py={8} data-testid="no-recent-analysis">
           No recent analysis yet.
           <br />
           Start by capturing a new image.
         </Text>
       ) : (
-        <VStack spacing={4} align="stretch">
+        <VStack spacing={4} align="stretch" data-testid="recent-analysis-list">
           {recentItems.map(item => (
-            <HStack key={item.id} spacing={4} as={Link} to={`/result/${item.id}`}>
-              <Image src={item.imageSrc} boxSize="60px" objectFit="cover" rounded="lg" />
+            <HStack
+              key={item.id}
+              spacing={4}
+              as={Link}
+              to={`/result/${item.id}`}
+              data-testid={`recent-analysis-item-${item.id}`}
+            >
+              <Image
+                src={item.imageSrc}
+                boxSize="60px"
+                objectFit="cover"
+                rounded="lg"
+                data-testid="recent-analysis-image"
+              />
               <VStack align="start" spacing={1} flex={1}>
-                <Text fontSize="md" fontWeight="500" color="gray.800">
+                <Text fontSize="md" fontWeight="500" color="gray.800" data-testid="recent-analysis-title">
                   {getWearCodeName(item.result.wearCode?.toString())}
                 </Text>
-                <Text fontSize="sm" color="gray.600">
+                <Text fontSize="sm" color="gray.600" data-testid="recent-analysis-date">
                   {format(item.timestamp, 'MMM d, yyyy')}
                 </Text>
               </VStack>
