@@ -1,34 +1,43 @@
 import { Maybe } from '@/types';
-import { Box, Center, Flex, HStack, Icon, Text } from '@chakra-ui/react';
+import { Box, Container, Flex, HStack, IconButton, Text } from '@chakra-ui/react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import InstallButton from '../InstallButton';
+import Logo from '../Logo';
 
 interface NavbarProps {
-  backPath: string;
+  showBack?: boolean;
+  backPath?: string;
   title?: Maybe<string>;
+  showLogo?: boolean;
 }
-export default function Navbar({ backPath, title }: NavbarProps) {
+
+export default function Navbar({ showBack = false, backPath = '/', title, showLogo = false }: NavbarProps) {
   return (
-    <Box w={'full'} h="min">
-      <Flex alignItems={'center'} justifyContent={'space-between'}>
-        <HStack>
-          <Center
-            as={Link}
-            to={backPath}
-            _hover={{ bg: 'white' }}
-            rounded="full"
-            p={0}
-            fontSize={'xl'}
-            aria-label="back"
-            bg="none"
-          >
-            <Icon as={IoIosArrowBack} />
-          </Center>
-          <Text align="center" fontSize={'xl'} fontWeight="700">
-            {title}
-          </Text>
-        </HStack>
-      </Flex>
+    <Box position="fixed" top={0} left={0} right={0} bg="white" borderBottom="1px" borderColor="gray.100" zIndex={1000}>
+      <Container maxW="container.lg" px={4}>
+        <Flex h="56px" alignItems="center" justifyContent="space-between">
+          <HStack spacing={3}>
+            {showBack && (
+              <IconButton
+                as={Link}
+                to={backPath}
+                icon={<IoIosArrowBack size={24} />}
+                variant="ghost"
+                aria-label="Back"
+                rounded="full"
+              />
+            )}
+            {showLogo && <Logo />}
+            {title && (
+              <Text fontSize="lg" fontWeight="600">
+                {title}
+              </Text>
+            )}
+          </HStack>
+          <InstallButton />
+        </Flex>
+      </Container>
     </Box>
   );
 }

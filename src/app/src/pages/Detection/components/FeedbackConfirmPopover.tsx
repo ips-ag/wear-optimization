@@ -3,16 +3,18 @@ import {
   Center,
   HStack,
   Icon,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
   Text,
   VStack,
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const MotionModalContent = motion(ModalContent);
 
 interface FeedbackPopoverProps {
   isAccept?: boolean;
@@ -26,46 +28,57 @@ export default function FeedbackConfirmPopover({ children, isOpen, onClose, isAc
     if (isOpen) {
       const timer = setTimeout(() => {
         onClose();
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [isOpen, onClose]);
+
   return (
-    <Popover onClose={onClose} isOpen={isOpen} placement="top">
-      <PopoverTrigger>{children}</PopoverTrigger>
-      <PopoverContent bg="brand.green.light" rounded="2xl" h="8.5rem" w="23rem">
-        <PopoverArrow bg="brand.green.light" />
-        <PopoverBody p={0} h="full">
-          <Box
-            h="full"
-            sx={{
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                right: 0,
-                left: '70%',
-                background: 'brand.green.40',
-                borderLeftRadius: '80px',
-                borderRightRadius: '2xl',
-              },
-            }}
-          >
-            <HStack w="full" h="full" justifyContent="space-evenly" spacing={5}>
-              <VStack align="start">
-                <Text fontSize="lg" fontWeight={400}>
-                  Thank you!
-                </Text>
-                <Text fontWeight={400}>Your feedback has been sent.</Text>
-              </VStack>
-              <Center h="full">
-                <Icon color="white" zIndex={1} fontSize="7xl" as={isAccept ? BiSolidLike : BiSolidDislike} />
-              </Center>
-            </HStack>
-          </Box>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+    <>
+      {children}
+      <Modal isOpen={isOpen} onClose={onClose} isCentered motionPreset="slideInBottom">
+        <ModalOverlay />
+        <AnimatePresence>
+          {isOpen && (
+            <MotionModalContent
+              bg="transparent"
+              boxShadow="none"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ModalBody p={0}>
+                <Center w="full">
+                  <Box bg="white" rounded="2xl" overflow="hidden" w="300px" position="relative" boxShadow="xl">
+                    <HStack w="full" h="120px" spacing={0} position="relative" bg="brand.green.light">
+                      <VStack flex={2} align="start" p={4} spacing={1}>
+                        <Text fontSize="xl" fontWeight="600" color="gray.800">
+                          Thank you!
+                        </Text>
+                        <Text color="gray.600">Your feedback has been sent.</Text>
+                      </VStack>
+
+                      <Center flex={1} h="full" bg="brand.green.40" position="relative">
+                        <Icon as={isAccept ? BiSolidLike : BiSolidDislike} color="white" fontSize="4xl" zIndex={1} />
+                        <Box
+                          position="absolute"
+                          left="-30px"
+                          top={0}
+                          bottom={0}
+                          width="60px"
+                          bg="brand.green.40"
+                          transform="skew(-10deg)"
+                        />
+                      </Center>
+                    </HStack>
+                  </Box>
+                </Center>
+              </ModalBody>
+            </MotionModalContent>
+          )}
+        </AnimatePresence>
+      </Modal>
+    </>
   );
 }

@@ -1,0 +1,7 @@
+{
+  "pattern": "Edge Wear",
+  "confidence": 0.95,
+  "recommendations": ["Check tire alignment", "Adjust tire pressure", "Rotate tires regularly"],
+  "timestamp": "2024-03-20T10:00:00.000Z",
+  "imageUrl": "cypress/fixtures/images/test-wear-pattern.png"
+}
