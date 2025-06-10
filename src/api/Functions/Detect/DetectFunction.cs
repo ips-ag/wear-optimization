@@ -5,6 +5,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using Api.Azure.AI.Vision;
 
 namespace Api.Functions.Detect;
 
@@ -13,14 +14,17 @@ public class DetectFunction
     private readonly ILogger<DetectFunction> _logger;
     private readonly AzureStorageClient _storageClient;
     private readonly MockAnalysisGenerator _mockGenerator;
+    private readonly AzureAiCustomVisionClient _customVisionClient;
 
     public DetectFunction(
         AzureStorageClient storageClient,
-        ILogger<DetectFunction> logger)
+        ILogger<DetectFunction> logger,
+        AzureAiCustomVisionClient customVisionClient)
     {
         _storageClient = storageClient;
         _logger = logger;
         _mockGenerator = new MockAnalysisGenerator(logger);
+        _customVisionClient = customVisionClient;
     }
 
     [Function("Detect")]
@@ -36,7 +40,9 @@ public class DetectFunction
             var result = await ReadContentAsync(req, cancel);
             imageName = await _storageClient.UploadAsync(result.Content, result.Extension, cancel);
 
-            var analysisResult = _mockGenerator.GenerateAnalysis(imageName);
+            
+            //var analysisResult = _mockGenerator.GenerateAnalysis(imageName);
+            var analysisResult = await _customVisionClient.ClassifyImageAsync(imageName, result.Content, cancel);
             await _storageClient.CreateAnalysisResultAsync(analysisResult, cancel);
 
             response = req.CreateResponse(HttpStatusCode.OK);

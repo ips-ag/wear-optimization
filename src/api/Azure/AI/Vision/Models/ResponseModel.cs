@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Api.Azure.AI.Vision.Models;
 
@@ -16,6 +16,12 @@ public class ResponseModel
     [JsonPropertyName("kind")]
     public string? Kind { get; set; }
 
+    [JsonPropertyName("error")]
+    public ErrorModel? Error { get; set; }
+}
+
+public class ErrorResponseModel
+{
     [JsonPropertyName("error")]
     public ErrorModel? Error { get; set; }
 }
