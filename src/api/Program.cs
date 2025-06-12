@@ -6,6 +6,7 @@ using Api.Azure.AI.Vision.Converters;
 using Api.Azure.Storage;
 using Api.Azure.Storage.Configuration;
 using Api.Azure.Storage.Converters;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,6 +35,12 @@ var host = new HostBuilder()
                     client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", settings.Key);
                 });
             services.AddSingleton<DetectConverter>();
+
+
+            //Azure AI CustomVision
+            services.AddOptions<AzureAiCustomVisionSettings>().BindConfiguration("Azure:Ai:CustomVision");
+            services.AddSingleton<AzureAiCustomVisionClient>();
+
             // Azure Storage
             services.AddOptions<AzureStorageSettings>().BindConfiguration("Azure:Storage");
             services.AddSingleton<AzureStorageClient>();

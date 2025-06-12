@@ -1,5 +1,6 @@
-﻿using Api.Azure.AI.Vision.Models;
+using Api.Azure.AI.Vision.Models;
 using Api.Functions.Detect.Models;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.Models;
 using ErrorModel = Api.Functions.Detect.Models.ErrorModel;
 
 namespace Api.Azure.AI.Vision.Converters;
@@ -21,6 +22,17 @@ public class DetectConverter
         return response;
     }
 
+    public DetectResponseModel Convert(string imageName, ImagePrediction model)
+    {
+        var response = new DetectResponseModel { ImageName = imageName };
+        if (model.Predictions.Any())
+        {
+            var predictionModel = model.Predictions.OrderByDescending(p => p.Probability).FirstOrDefault();
+            response.Result = Convert(imageName, predictionModel!);
+        }
+        
+        return response;
+    }
     private ResultModel Convert(string imageName, TagModel model)
     {
         var wearCode = Convert(model.Name);
@@ -31,6 +43,21 @@ public class DetectConverter
             ImageName = imageName,
             WearCode = wearCode,
             WearConfidence = model.Confidence,
+            WearCause = cause,
+            SuggestedActions = actions
+        };
+    }
+
+    private ResultModel Convert(string imageName, PredictionModel model)
+    {
+        var wearCode = Convert(model.TagName);
+        string cause = GetCause(wearCode);
+        var actions = GetSuggestedActions(wearCode);
+        return new ResultModel
+        {
+            ImageName = imageName,
+            WearCode = wearCode,
+            WearConfidence = model.Probability,
             WearCause = cause,
             SuggestedActions = actions
         };
