@@ -4,7 +4,6 @@ import FeedbackPage from './pages/Detection/Feedback';
 import ResultPage from './pages/Detection/Result';
 import HomePage from './pages/Home';
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const ROUTES = createBrowserRouter([
   {
     path: '/',

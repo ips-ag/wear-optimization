@@ -10,7 +10,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { RiSendPlaneFill } from 'react-icons/ri';
 import { z } from 'zod';
 import { useFeedback } from '../../hooks/useFeedback';
@@ -43,7 +43,7 @@ export default function FeedbackForm({ imageName, disabled }: Props) {
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     formState: { errors },
   } = useForm<FeedbackFormType>({
     resolver: zodResolver(FeedbackSchema),
@@ -54,7 +54,7 @@ export default function FeedbackForm({ imageName, disabled }: Props) {
     onOpen: onOpenFeedbackConfirm,
     onClose: onCloseFeedbackConfirm,
   } = useDisclosure();
-  const userWearCode = watch('userWearCode');
+  const userWearCode = useWatch({ control, name: 'userWearCode' });
   const isSetWearCode = Boolean(userWearCode);
   const { mutate, isPending, isSuccess } = useFeedback();
 
