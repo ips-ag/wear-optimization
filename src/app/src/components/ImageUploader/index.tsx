@@ -3,7 +3,7 @@ import { Box } from '@chakra-ui/react';
 
 interface ImageUploaderProps {
   accept?: string;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   onUpload: (file: Maybe<File>) => void;
 }
 export function ImageUploader({
