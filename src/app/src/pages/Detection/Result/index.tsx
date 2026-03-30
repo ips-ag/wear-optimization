@@ -3,7 +3,7 @@ import { getWearCodeName, getWearImagePath } from '@/helpers';
 import { isDisableFeedbackSelector, resultSelector, selectedImage } from '@/store';
 import { Divider, ListItem, OrderedList, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFeedback } from '../hooks/useFeedback';
 import FeedbackThumb from './components/FeedbackThumb';
@@ -15,7 +15,6 @@ export default function ResultPage() {
   const imageFile = useAtomValue(selectedImage);
   const isDisableFeedback = useAtomValue(isDisableFeedbackSelector);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-  const [sliderImages, setSliderImages] = useState<string[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { mutate, isSuccess, isPending } = useFeedback();
@@ -38,11 +37,10 @@ export default function ResultPage() {
     }
   }, [isSuccess, onOpen]);
 
-  useEffect(() => {
+  const sliderImages = useMemo(() => {
     const wearPhoto = getWearImagePath('photo', detectResult?.wearCode?.toString());
     const wearDrawing = getWearImagePath('drawing', detectResult?.wearCode?.toString());
-    const images = [imageSrc, wearPhoto, wearDrawing].filter(item => !!item) as string[];
-    setSliderImages(images);
+    return [imageSrc, wearPhoto, wearDrawing].filter(item => !!item) as string[];
   }, [imageSrc, detectResult?.wearCode]);
 
   const handleAccept = () => {
