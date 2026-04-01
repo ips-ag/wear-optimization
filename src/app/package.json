@@ -46,7 +46,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "slick-carousel": "^1.8.1",
-    "typescript": "^5.8.3",
+    "typescript": "^6.0.2",
     "vite": "^8.0.0",
     "vite-plugin-pwa": "^1.2.0"
   },
