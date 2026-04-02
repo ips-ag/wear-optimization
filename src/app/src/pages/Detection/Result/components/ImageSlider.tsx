@@ -1,5 +1,9 @@
 import { AspectRatio, Box, Circle, HStack, Image } from '@chakra-ui/react';
-import Slider, { Settings } from 'react-slick';
+import SliderLib from 'react-slick';
+import type { Settings } from 'react-slick';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Slider = ((SliderLib as any).default ?? SliderLib) as typeof SliderLib;
 
 import { Maybe } from '@/types';
 import { useRef, useState } from 'react';
