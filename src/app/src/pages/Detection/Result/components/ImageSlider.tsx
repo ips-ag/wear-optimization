@@ -28,7 +28,7 @@ const settings: Settings = {
 
 export default function ImageSlider({ images, wearConfident }: Props) {
   const [slideIndex, setSlideIndex] = useState(0);
-  const sliderRef = useRef<Slider | null>(null);
+  const sliderRef = useRef<InstanceType<typeof SliderLib> | null>(null);
 
   return (
     <Box w="full" display="inline-block">
