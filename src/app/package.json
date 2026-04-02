@@ -55,7 +55,11 @@
   },
   "overrides": {
     "vite-plugin-pwa": {
-      "vite": "^8.0.0"
+      "vite": "^8.0.0",
+      "serialize-javascript": "^7.0.5"
+    },
+    "jotai-devtools": {
+      "jsondiffpatch": "^0.7.2"
     }
   }
 }
