@@ -21,7 +21,7 @@ import { useEffect } from 'react';
 
 const FeedbackSchema = z
   .object({
-    detectedWearAccepted: z.boolean().default(false),
+    detectedWearAccepted: z.boolean(),
     userWearCode: z.string(),
     userComment: z.string().refine(value => value.length <= 500, {
       message: 'Comment must be less than 500 characters',
@@ -47,6 +47,9 @@ export default function FeedbackForm({ imageName, disabled }: Props) {
     formState: { errors },
   } = useForm<FeedbackFormType>({
     resolver: zodResolver(FeedbackSchema),
+    defaultValues: {
+      detectedWearAccepted: false,
+    },
   });
   const { isOpen: isOpenDrawer, onOpen: onOpenDrawer, onClose: onCloseDrawer } = useDisclosure();
   const {
