@@ -13,18 +13,19 @@ export default function Navbar({ backPath, title }: NavbarProps) {
       <Flex alignItems={'center'} justifyContent={'space-between'}>
         <HStack>
           <Center
-            as={Link}
-            to={backPath}
             _hover={{ bg: 'white' }}
             rounded="full"
             p={0}
             fontSize={'xl'}
             aria-label="back"
             bg="none"
+            asChild
           >
-            <Icon as={IoIosArrowBack} />
+            <Link to={backPath}>
+              <Icon as={IoIosArrowBack} />
+            </Link>
           </Center>
-          <Text align="center" fontSize={'xl'} fontWeight="700">
+          <Text textAlign="center" fontSize={'xl'} fontWeight="700">
             {title}
           </Text>
         </HStack>

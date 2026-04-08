@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar';
 import { getWearCodeName, getWearImagePath } from '@/helpers';
 import { isDisableFeedbackSelector, resultSelector, selectedImage } from '@/store';
-import { Divider, ListItem, OrderedList, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { List, Separator, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ export default function ResultPage() {
   const imageFile = useAtomValue(selectedImage);
   const isDisableFeedback = useAtomValue(isDisableFeedbackSelector);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open: isOpen, onOpen, onClose } = useDisclosure();
 
   const { mutate, isSuccess, isPending } = useFeedback();
   const navigate = useNavigate();
@@ -57,10 +57,10 @@ export default function ResultPage() {
   };
 
   return (
-    <VStack w="full" h="full" spacing="1">
+    <VStack w="full" h="full" gap="1">
       <Navbar backPath="/" title={getWearCodeName(detectResult?.wearCode?.toString())} />
       <ImageSlider wearConfident={detectResult?.wearConfidence} images={sliderImages} />
-      <VStack w="full" spacing="2" align="start" px="4">
+      <VStack w="full" gap="2" align="start" px="4">
         <Text color="brand.green.primary" fontSize="lg" mt="4">
           Description
         </Text>
@@ -68,16 +68,16 @@ export default function ResultPage() {
         <Text color="brand.green.primary" fontSize="lg">
           Actions
         </Text>
-        <OrderedList>
+        <List.Root as="ol">
           {detectResult?.suggestedActions.map((action, index) => (
-            <ListItem key={index}>
+            <List.Item key={index}>
               <Text key={index}>{action}</Text>
-            </ListItem>
+            </List.Item>
           ))}
-        </OrderedList>
+        </List.Root>
       </VStack>
-      <Divider my={4} />
-      <VStack w="full" spacing="2" align="start" px="4" color="brand.grey.1">
+      <Separator my={4} />
+      <VStack w="full" gap="2" align="start" px="4" color="brand.grey.1">
         <Text fontSize="lg">Feedback</Text>
         <Text>
           Is the information relevant and correct, or have we misidentified the wear pattern? Please use the feedback

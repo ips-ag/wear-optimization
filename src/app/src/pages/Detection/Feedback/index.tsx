@@ -10,10 +10,10 @@ export default function FeedbackPage() {
   const isDisableFeedback = useAtomValue(isDisableFeedbackSelector);
 
   return (
-    <VStack w="full" h="full" spacing="4" px="4">
+    <VStack w="full" h="full" gap="4" px="4">
       <Navbar backPath="/result" title={getWearCodeName(detectResult?.wearCode?.toString())} />
 
-      <VStack w="full" spacing="3">
+      <VStack w="full" gap="3">
         <Text>
           Have we misidentified the wear pattern? Please help us improve recognition by selecting the correct pattern or
           leaving additional comments.

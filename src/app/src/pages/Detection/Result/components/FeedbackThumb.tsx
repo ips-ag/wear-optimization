@@ -1,4 +1,5 @@
-import { Center, forwardRef, HStack, IconButton } from '@chakra-ui/react';
+import { Center, HStack, IconButton } from '@chakra-ui/react';
+import { forwardRef } from 'react';
 import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 
 interface Props {
@@ -6,7 +7,7 @@ interface Props {
   onReject: () => void;
   disabled?: boolean;
 }
-const FeedbackThumb = forwardRef<Props, 'div'>((props, ref) => {
+const FeedbackThumb = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const { onAccept, onReject, disabled } = props;
   return (
     <Center w="full" mt="auto" ref={ref}>
@@ -20,10 +21,11 @@ const FeedbackThumb = forwardRef<Props, 'div'>((props, ref) => {
           fontSize="2xl"
           color="white"
           aria-label="accept"
-          icon={<BiSolidLike />}
           _hover={{ bg: 'brand.green.primary' }}
-          isDisabled={disabled}
-        />
+          disabled={disabled}
+        >
+          <BiSolidLike />
+        </IconButton>
         <IconButton
           onClick={onReject}
           rounded="full"
@@ -32,11 +34,12 @@ const FeedbackThumb = forwardRef<Props, 'div'>((props, ref) => {
           bg="brand.grey.4"
           color="brand.grey.1"
           fontSize="2xl"
-          aria-label="accept"
-          icon={<BiSolidDislike />}
+          aria-label="reject"
           _hover={{ bg: 'brand.grey.4' }}
-          isDisabled={disabled}
-        />
+          disabled={disabled}
+        >
+          <BiSolidDislike />
+        </IconButton>
       </HStack>
     </Center>
   );
