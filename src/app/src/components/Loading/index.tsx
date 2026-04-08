@@ -30,7 +30,7 @@ export function Loading() {
       <Box w="full" h="full" position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)">
         <Logo />
         <Center h="calc(100% - 10rem)">
-          <VStack spacing={0} px={12}>
+          <VStack gap={0} px={12}>
             <SimpleGrid columns={2} row={2} gap={2} w="3rem" h="3rem">
               <AnimatedDot color="brand.blue.primary" delay={0} />
               <AnimatedDot color="brand.yellow.primary" delay={0.1} />

@@ -18,10 +18,10 @@ export default function UploadButton({ onUpload, accept, ...props }: UploadButto
     <>
       <Button
         {...props}
-        leftIcon={<MdOutlineDriveFolderUpload />}
         loadingText="Uploading"
         onClick={() => inputUploadRef?.current?.click?.()}
       >
+        <MdOutlineDriveFolderUpload />
         Upload
       </Button>
       <Box display={'none'}>

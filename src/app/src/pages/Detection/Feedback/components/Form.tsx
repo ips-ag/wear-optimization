@@ -2,9 +2,7 @@ import { FeedbackRequest, WearCode } from '@/types';
 import {
   Box,
   Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
+  Field,
   Textarea,
   VStack,
   useDisclosure,
@@ -51,9 +49,9 @@ export default function FeedbackForm({ imageName, disabled }: Props) {
       detectedWearAccepted: false,
     },
   });
-  const { isOpen: isOpenDrawer, onOpen: onOpenDrawer, onClose: onCloseDrawer } = useDisclosure();
+  const { open: isOpenDrawer, onOpen: onOpenDrawer, onClose: onCloseDrawer } = useDisclosure();
   const {
-    isOpen: isOpenFeedbackConfirm,
+    open: isOpenFeedbackConfirm,
     onOpen: onOpenFeedbackConfirm,
     onClose: onCloseFeedbackConfirm,
   } = useDisclosure();
@@ -85,11 +83,11 @@ export default function FeedbackForm({ imageName, disabled }: Props) {
   return (
     <Box w="full" h="full">
       <form onSubmit={handleSubmit(onSubmitFeedback)}>
-        <VStack w="full" h="full " spacing={4} align="start">
-          <FormControl isInvalid={!!errors.userWearCode}>
-            <FormLabel color="brand.green.primary" htmlFor="userWearCode">
+        <VStack w="full" h="full " gap={4} align="start">
+          <Field.Root invalid={!!errors.userWearCode}>
+            <Field.Label color="brand.green.primary" htmlFor="userWearCode">
               Wear pattern
-            </FormLabel>
+            </Field.Label>
             {isSetWearCode && <WearCodeCard wearCodeName={WearCode[Number(userWearCode)]} />}
             <Button
               color="brand.green.primary"
@@ -99,25 +97,25 @@ export default function FeedbackForm({ imageName, disabled }: Props) {
             >
               {isSetWearCode ? 'Change wear pattern' : 'Select wear pattern'}
             </Button>
-            <FormErrorMessage>{errors.userWearCode?.message}</FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.userComment?.message}>
-            <FormLabel color="brand.green.primary" htmlFor="userComment">
+            <Field.ErrorText>{errors.userWearCode?.message}</Field.ErrorText>
+          </Field.Root>
+          <Field.Root invalid={!!errors.userComment?.message}>
+            <Field.Label color="brand.green.primary" htmlFor="userComment">
               Comment
-            </FormLabel>
+            </Field.Label>
             <Textarea {...register('userComment')} id="userComment" />
-            <FormErrorMessage>{errors.userComment?.message}</FormErrorMessage>
-          </FormControl>
+            <Field.ErrorText>{errors.userComment?.message}</Field.ErrorText>
+          </Field.Root>
           <FeedbackConfirmPopover isOpen={isOpenFeedbackConfirm} onClose={onCloseFeedbackConfirm}>
             <Button
-              leftIcon={<RiSendPlaneFill />}
               bg="brand.green.primary"
               color="white"
               type="submit"
-              isLoading={isPending}
-              isDisabled={disabled || isPending}
+              loading={isPending}
+              disabled={disabled || isPending}
               _hover={{ bg: 'brand.green.70' }}
             >
+              <RiSendPlaneFill />
               Submit feedback
             </Button>
           </FeedbackConfirmPopover>

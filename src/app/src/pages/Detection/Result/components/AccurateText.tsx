@@ -14,7 +14,7 @@ export default function AccurateText({ wearConfident }: Props) {
         : 'brand.red.primary';
 
   return (
-    <HStack spacing={1} color={accurateConfidenceColor}>
+    <HStack gap={1} color={accurateConfidenceColor}>
       <Text fontWeight={700} fontSize="lg">{`${accurateConfidence}%`}</Text>
       <Text>{'accurate'}</Text>
     </HStack>

@@ -1,12 +1,11 @@
 import feedbackApi from '@/api/feedback';
 import { feedbackAtom } from '@/store';
 import { FeedbackRequest, FeedbackResponseModel } from '@/types';
-import { useToast } from '@chakra-ui/react';
+import { toaster } from '@/components/ui/toaster';
 import { useMutation } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 
 export const useFeedback = () => {
-  const toast = useToast();
   const [feedback, setFeedback] = useAtom(feedbackAtom);
 
   const { mutate, isPending, isSuccess } = useMutation<FeedbackResponseModel, Error, FeedbackRequest>({
@@ -15,12 +14,12 @@ export const useFeedback = () => {
       setFeedback({ ...feedback, imageName: request.imageName });
     },
     onError: error => {
-      toast({
+      toaster.create({
         title: 'Failed to submit feedback',
         description: error.message,
-        status: 'error',
+        type: 'error',
         duration: 5000,
-        isClosable: true,
+        meta: { closable: true },
       });
     },
   });

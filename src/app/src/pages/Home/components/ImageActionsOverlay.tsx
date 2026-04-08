@@ -21,7 +21,7 @@ export default function ImageActionsOverlay({ onCapture, onUpload }: ImageAction
       justifyContent="center"
       alignItems="center"
     >
-      <VStack spacing={4} justifyContent="space-between" h="full" p="4" px="8">
+      <VStack gap={4} justifyContent="space-between" h="full" p="4" px="8">
         <Logo />
         <VStack w="full" h="full" justifyContent="end" position="relative">
           <CameraBorder borderColor="brand.grey.300" borderRadius="32px" borderWidth="2px" edgeSize="70px" />
@@ -31,9 +31,9 @@ export default function ImageActionsOverlay({ onCapture, onUpload }: ImageAction
             <Spacer />
           </HStack>
         </VStack>
-        <VStack spacing={4} color="black">
+        <VStack gap={4} color="black">
           <Text fontWeight={700}>Wear Optimization AI</Text>
-          <Text align="center">Take photo of a tool, or load it from the picture library.</Text>
+          <Text textAlign="center">Take photo of a tool, or load it from the picture library.</Text>
         </VStack>
       </VStack>
     </Box>
