@@ -1,12 +1,5 @@
 import { FeedbackRequest, WearCode } from '@/types';
-import {
-  Box,
-  Button,
-  Field,
-  Textarea,
-  VStack,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Button, Field, Textarea, VStack, useDisclosure } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useWatch } from 'react-hook-form';
 import { RiSendPlaneFill } from 'react-icons/ri';

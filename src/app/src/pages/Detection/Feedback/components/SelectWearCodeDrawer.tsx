@@ -1,10 +1,5 @@
 import { WearCode } from '@/types';
-import {
-  Drawer,
-  Portal,
-  Separator,
-  VStack,
-} from '@chakra-ui/react';
+import { Drawer, Portal, Separator, VStack } from '@chakra-ui/react';
 import WearCodeCard from './WearCodeCard';
 
 interface Props {
@@ -16,7 +11,7 @@ interface Props {
 // 45px to rem =
 export default function SelectWearCodeDrawer({ onClose, isOpen, onSelect }: Props) {
   return (
-    <Drawer.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()} size="full">
+    <Drawer.Root open={isOpen} onOpenChange={e => !e.open && onClose()} size="full">
       <Portal>
         <Drawer.Backdrop />
         <Drawer.Positioner>
