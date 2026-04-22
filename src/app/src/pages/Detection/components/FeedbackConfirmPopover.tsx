@@ -1,12 +1,4 @@
-import {
-  Box,
-  Center,
-  HStack,
-  Icon,
-  Popover,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Center, HStack, Icon, Popover, Text, VStack } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 
@@ -27,7 +19,7 @@ export default function FeedbackConfirmPopover({ children, isOpen, onClose, isAc
     }
   }, [isOpen, onClose]);
   return (
-    <Popover.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()} positioning={{ placement: 'top' }}>
+    <Popover.Root open={isOpen} onOpenChange={e => !e.open && onClose()} positioning={{ placement: 'top' }}>
       <Popover.Trigger asChild>{children}</Popover.Trigger>
       <Popover.Positioner>
         <Popover.Content

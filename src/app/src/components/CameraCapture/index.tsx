@@ -1,13 +1,5 @@
 import { Maybe } from '@/types';
-import {
-  Box,
-  Button,
-  Dialog,
-  HStack,
-  Image,
-  Portal,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Button, Dialog, HStack, Image, Portal, VStack } from '@chakra-ui/react';
 import { useCallback, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 
@@ -31,7 +23,7 @@ export default function CaptureImage({ onCapture, isOpen, onClose }: CaptureImag
   }, [webcamRef]);
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()} size="xl">
+    <Dialog.Root open={isOpen} onOpenChange={e => !e.open && onClose()} size="xl">
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
