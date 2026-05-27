@@ -18,7 +18,7 @@
     "axios": "^1.16.0",
     "framer-motion": "^12.38.0",
     "jotai": "^2.19.1",
-    "jotai-devtools": "^0.13.1",
+    "jotai-devtools": "^0.14.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.5",
     "react-hook-form": "^7.75.0",
