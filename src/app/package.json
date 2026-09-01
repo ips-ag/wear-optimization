@@ -11,7 +11,7 @@
     "generate-pwa-assets": "pwa-assets-generator --preset minimal public/logo.png"
   },
   "dependencies": {
-    "@chakra-ui/react": "^3.36.1",
+    "@chakra-ui/react": "^3.37.0",
     "@emotion/react": "^11.14.0",
     "@hookform/resolvers": "^5.9.1",
     "@tanstack/react-query": "^5.101.4",
