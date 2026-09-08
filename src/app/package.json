@@ -64,7 +64,7 @@
       "serialize-javascript": "^7.0.5"
     },
     "jotai-devtools": {
-      "jsondiffpatch": "^0.7.2"
+      "jsondiffpatch": "^0.7.6"
     }
   }
 }
